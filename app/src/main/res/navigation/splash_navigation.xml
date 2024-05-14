@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_navigation"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.kessekolah.ui.splashScreen.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.example.kessekolah.ui.onBoarding.OnBoardingFragment"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_onBoardingFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_onBoardingFragment_to_pilihWilayahFragment"-->
+<!--            app:destination="@id/pilihWilayahActivity" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.kessekolah.ui.sign.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_pilihWilayahFragment"-->
+<!--            app:destination="@id/pilihWilayahActivity" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_loginWithPhoneFragment"-->
+<!--            app:destination="@id/loginWithPhoneFragment" />-->
+    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/loginWithPhoneFragment"-->
+<!--        android:name="com.example.kessekolah.ui.sign.login.LoginWithPhoneFragment"-->
+<!--        android:label="fragment_login"-->
+<!--        tools:layout="@layout/fragment_login_with_phone" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginWithPhoneFragment_to_homeActivity"-->
+<!--            app:destination="@id/homeActivity" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginWithPhoneFragment_to_signUpFragment"-->
+<!--            app:destination="@id/signUpFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginWithPhoneFragment_to_pilihWilayahFragment"-->
+<!--            app:destination="@id/pilihWilayahActivity" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginWithPhoneFragment_to_loginFragment"-->
+<!--            app:destination="@id/loginFragment" />-->
+<!--    </fragment>-->
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.kessekolah.ui.sign.register.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.kessekolah.ui.beranda.HomeActivity"
+        android:label="activity_home"
+        tools:layout="@layout/activity_home" />
+</navigation>

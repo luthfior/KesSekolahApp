@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    tools:context=".ui.sign.register.SignUpFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTitleSignUp"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/pendaftaran_akun"
+        android:fontFamily="@font/nunito_semibold"
+        android:textColor="@color/primary600"
+        android:textSize="24sp"
+        android:textFontWeight="600"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvCaptionSignUp"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/description_signup_page"
+        android:fontFamily="@font/nunito_light"
+        android:textColor="@color/signup_description"
+        android:textSize="16sp"
+        android:textFontWeight="400"
+        android:letterSpacing="0.048"
+        app:layout_constraintEnd_toEndOf="@id/tvTitleSignUp"
+        app:layout_constraintStart_toStartOf="@id/tvTitleSignUp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleSignUp" />
+
+
+    <LinearLayout
+        android:id="@+id/layoutPhoneSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="@id/tvCaptionSignUp"
+        app:layout_constraintStart_toStartOf="@id/tvCaptionSignUp"
+        app:layout_constraintTop_toBottomOf="@id/tvCaptionSignUp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutCodePhone"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:boxBackgroundMode="none"
+            app:hintAnimationEnabled="false"
+            app:layout_constraintEnd_toEndOf="@id/layoutPhoneSection"
+            app:layout_constraintStart_toStartOf="@id/layoutPhoneSection"
+            app:layout_constraintTop_toBottomOf="@id/layoutPhoneSection">
+
+            <com.example.kessekolah.ui.customView.CustomInputEditText
+                android:id="@+id/textCodePhone"
+                android:background="@drawable/input_code_phone_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:inputType="number"
+                android:hint="@string/plus_enam_dua"
+                app:hintTextColor="@color/font400"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutPhoneNumber"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundMode="none"
+            app:hintAnimationEnabled="false"
+            app:hintTextColor="@color/transparent"
+            app:layout_constraintEnd_toEndOf="@id/layoutPhoneSection"
+            app:layout_constraintStart_toStartOf="@id/layoutPhoneSection"
+            app:layout_constraintTop_toBottomOf="@id/layoutPhoneSection">
+
+            <com.example.kessekolah.ui.customView.CustomInputEditText
+                android:id="@+id/textPhoneNumber"
+                android:background="@drawable/input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:inputType="number"
+                android:hint="@string/input_number_telphone"
+                app:hintTextColor="@color/font400"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/phoneNumberError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/format_phone_used"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutPhoneSection"
+        app:layout_constraintBottom_toTopOf="@id/layoutUsername"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/phoneNumberEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/format_phone_emtpy"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutPhoneSection"
+        app:layout_constraintBottom_toTopOf="@id/layoutUsername"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/phoneNumberWrong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/format_phone_wrong"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutPhoneSection"
+        app:layout_constraintBottom_toTopOf="@id/layoutUsername"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutUsername"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxBackgroundMode="none"
+        app:hintAnimationEnabled="false"
+        app:hintTextColor="@color/transparent"
+        app:startIconDrawable="@drawable/profile_icon"
+        app:layout_constraintEnd_toEndOf="@id/layoutPhoneSection"
+        app:layout_constraintStart_toStartOf="@id/layoutPhoneSection"
+        app:layout_constraintTop_toBottomOf="@id/layoutPhoneSection">
+
+        <com.example.kessekolah.ui.customView.CustomInputEditText
+            android:id="@+id/textUsername"
+            android:background="@drawable/input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/username"
+            app:hintTextColor="@color/font400"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/username_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/username_invalid"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutUsername"
+        app:layout_constraintBottom_toTopOf="@id/layoutPassword"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/username_with_space"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/username_space"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutUsername"
+        app:layout_constraintBottom_toTopOf="@id/layoutPassword"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/username_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/username_empty"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutUsername"
+        app:layout_constraintBottom_toTopOf="@id/layoutPassword"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutPassword"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxBackgroundMode="none"
+        app:hintAnimationEnabled="false"
+        app:hintTextColor="@color/transparent"
+        app:endIconMode="password_toggle"
+        app:startIconDrawable="@drawable/ic_password_icon"
+        app:layout_constraintEnd_toEndOf="@id/layoutUsername"
+        app:layout_constraintStart_toStartOf="@id/layoutUsername"
+        app:layout_constraintTop_toBottomOf="@id/layoutUsername">
+
+        <com.example.kessekolah.ui.customView.CustomInputEditText
+            android:id="@+id/textPassword"
+            android:background="@drawable/input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="@string/kata_sandi"
+            app:hintTextColor="@color/font400"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/password_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/password_wrong"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutPassword"
+        app:layout_constraintBottom_toTopOf="@id/layoutConfirmPassword"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutConfirmPassword"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:boxBackgroundMode="none"
+        app:hintAnimationEnabled="false"
+        app:hintTextColor="@color/transparent"
+        app:endIconMode="password_toggle"
+        app:startIconDrawable="@drawable/ic_password_icon"
+        app:layout_constraintEnd_toEndOf="@id/layoutPassword"
+        app:layout_constraintStart_toStartOf="@id/layoutPassword"
+        app:layout_constraintTop_toBottomOf="@id/layoutPassword">
+
+        <com.example.kessekolah.ui.customView.CustomInputEditText
+            android:id="@+id/textConfirmPassword"
+            android:background="@drawable/input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="@string/confirm_password"
+            app:hintTextColor="@color/font400"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSignUp"
+        style="@style/Theme.IniDesakuBeta.Button."
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:enabled="false"
+        android:text="@string/daftar"
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutConfirmPassword"
+        app:layout_constraintBottom_toTopOf="@id/tvHaveAccount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/confirm_password_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/password_confirm_wrong"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutConfirmPassword"
+        app:layout_constraintBottom_toTopOf="@id/btnSignUp"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvHaveAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/sudah_mempunya_akun"
+        android:fontFamily="@font/nunito_medium"
+        android:textSize="16sp"
+        android:textFontWeight="500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnLoginPage"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginPage"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/masuk"
+        android:fontFamily="@font/nunito_bold"
+        android:textSize="16sp"
+        android:textFontWeight="700"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="@id/tvHaveAccount"
+        app:layout_constraintStart_toEndOf="@id/tvHaveAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintTop_toTopOf="@id/tvHaveAccount" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTamu"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:text="@string/masuk_sebagai_tamu"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHaveAccount" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
