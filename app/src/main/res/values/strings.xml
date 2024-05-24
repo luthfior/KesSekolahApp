@@ -383,4 +383,9 @@
     </string-array>
     <string name="title_activity_bantuan">BantuanActivity</string>
     <string name="title_activity_complete_profile">CompleteProfileActivity</string>
+
+
+    <!--KesSekolahApp-->
+    <string name="term_conditions_text">dengan menggunakan layanan KesSekolah kamu</string>
+    <string name="kebijakan_privasi_text">Kebijakan Privasi</string>
 </resources>

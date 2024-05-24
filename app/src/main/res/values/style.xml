@@ -4,136 +4,131 @@
     <style name="Theme.IniDesakuBeta.Text.Headline4" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextBold.Headline6" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_black</item>
+        <item name="android:fontFamily">@font/fredoka_bold</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.Text.Headline5" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.Text.Subtitle2" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextBold.Subtitle2" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.Text.Subtitle1" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextBold.Subtitle1" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.Text.Caption" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_light</item>
+        <item name="android:fontFamily">@font/fredoka_light</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.Text.CaptionButton" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.Text.Medium.12sp" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Regular12.400" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:fontWeight">400</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Regular14.600" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:fontWeight">600</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Regular14.400" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:fontWeight">400</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Medium22.500" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Regular16.400" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">400</item>
     </style>
-
-
-
-
-
 
     <style name="Theme.IniDesakuBeta.IconButtonText.Bold16.700" parent="Widget.Material3.Button.IconButton">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/fredoka_bold</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.ButtonText.Medium12.500" parent="Widget.Material3.Button.TextButton">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.CheckBoxText.Medium12.500" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.Button." parent="Widget.Material3.Button">
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">600</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextButton.Regular14.600" parent="Widget.Material3.Button.TextButton">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:fontWeight">400</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.OutlineButton." parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">600</item>
     </style>
 
@@ -146,25 +141,25 @@
     <style name="Theme.IniDesakuBeta.TextView.Medium11.500" parent="">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Medium16.500" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.SemiBold16.600" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/fredoka_semibold</item>
         <item name="android:fontWeight">600</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.ChipButton." parent="Widget.Material3.Chip.Suggestion">
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontWeight">600</item>
     </style>
@@ -180,33 +175,33 @@
 
     <style name="Theme.IniDesakuBeta.TextView.SemiBold14.600" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/fredoka_semibold</item>
         <item name="android:fontWeight">600</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Medium14.500" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Medium12.500" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.ButtomBarActive.Medium11.500" parent="">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:fontFamily">@font/fredoka_medium</item>
         <item name="android:fontWeight">500</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.InputLayout" parent="ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense">
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontWeight">400</item>
         <item name="android:textAllCaps">false</item>
@@ -214,7 +209,7 @@
     </style>
 
     <style name="Theme.IniDesakuBeta.Outline.Exposed" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontWeight">400</item>
         <item name="android:textAllCaps">false</item>
@@ -223,14 +218,14 @@
 
     <style name="Theme.IniDesakuBeta.TextView.Regular10.600" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">10sp</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:fontWeight">600</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Bold22.700" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/fredoka_bold</item>
         <item name="android:fontWeight">700</item>
     </style>
 
@@ -242,32 +237,32 @@
 
     <style name="Theme.IniDesakuBeta.TextView.Regular11.400" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">11sp</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:fontWeight">400</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.SemiBold12.600" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12sp</item>
-        <item name="android:fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/fredoka_semibold</item>
         <item name="android:fontWeight">600</item>
     </style>
 
 
     <style name="Theme.IniDesakuBeta.TextView.Regular10.400" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">10sp</item>
-        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:fontWeight">400</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.SemiBold20.600" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/fredoka_semibold</item>
         <item name="android:fontWeight">600</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.SemiBold11.600" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">11sp</item>
-        <item name="android:fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/fredoka_semibold</item>
         <item name="android:fontWeight">600</item>
     </style>
 
@@ -278,14 +273,14 @@
 
     <style name="Theme.IniDesakuBeta.TextView.Bold14.700" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/fredoka_bold</item>
         <item name="android:fontWeight">700</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 
     <style name="Theme.IniDesakuBeta.TextView.Bold16.700" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/fredoka_bold</item>
         <item name="android:fontWeight">700</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>

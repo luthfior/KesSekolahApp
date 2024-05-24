@@ -26,4 +26,12 @@
     <color name="red">#eb3434</color>
     <color name="blue">#2E95FF</color>
     <color name="rule_bantuan">#8A94A6</color>
+
+    <!--KessekolahApp-->
+    <color name="light2">#F6F7FC</color>
+    <color name="light3">#E5E5E5</color>
+    <color name="light4">#707070</color>
+    <color name="accent1">#181818</color>
+    <color name="primary3">#FF6500</color>
+    <color name="secondary_colors">#FDCE06</color>
 </resources>

@@ -38,27 +38,12 @@ class OnBoardingFragment : Fragment() {
         setStatusBarBackgroundColorWhite()
 
         pref = LoginPreference(requireContext())
-
-        binding.viewPager.adapter = OnBoardingFragmentAdapter(requireActivity(), requireContext())
-        TabLayoutMediator(binding.pageIndicator, binding.viewPager) { _, _ ->}.attach()
-        binding.viewPager.offscreenPageLimit = 1
     }
 
     private fun buttonClick() {
-        binding.btnMasuk.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
         }
-
-        binding.btnDaftar.setOnClickListener {
-            findNavController().navigate(R.id.action_onBoardingFragment_to_signUpFragment)
-        }
-//        binding.btnTamu.setOnClickListener {
-////            val token = generateToken(15)
-////            val data = LoginData(token, "Tamu", "Tamu", " ", " ")
-////            pref = LoginPreference(requireContext())
-////            pref.saveData(data)
-//            findNavController().navigate(R.id.action_onBoardingFragment_to_pilihWilayahFragment)
-//        }
     }
 
     private fun generateToken(length: Int): String {

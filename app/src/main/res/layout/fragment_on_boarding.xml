@@ -4,32 +4,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/secondary_colors"
     tools:context=".ui.onBoarding.OnBoardingFragment">
 
     <LinearLayout
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:layout_above="@id/layout_info"
         android:orientation="vertical"
         android:gravity="center">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/pageIndicator"
+        <ImageView
+            android:id="@+id/onBoardingLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
-            android:background="@android:color/transparent"
-            app:tabBackground="@drawable/onboarding_viewpager_selector_white"/>
+            android:background="@drawable/logo_app" />
+
+        <TextView
+            android:id="@+id/onBoardingAppName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:gravity="center"
+            android:text="KesSekolah"
+            android:textColor="@color/primary3"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:lineHeight="30sp"/>
+
+        <TextView
+            android:id="@+id/onBoardingDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:gravity="center"
+            android:text="Edukasi Kesehatan Untuk Sekolah"
+            android:textColor="@color/primary3"
+            android:textFontWeight="800"
+            android:textSize="14sp"
+            android:lineHeight="17sp"/>
+
+        <ImageView
+            android:id="@+id/onBoardingImageContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-50dp"
+            android:background="@drawable/image_onboarding" />
 
     </LinearLayout>
 
@@ -41,40 +63,22 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="24dp"
+        android:padding="29dp"
         android:weightSum="16">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnMasuk"
-            app:cornerRadius="8dp"
+            android:id="@+id/btnNext"
             style="@style/Theme.IniDesakuBeta.Button."
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="@string/masuk"
-            android:textAllCaps="false" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDaftar"
-            style="@style/Theme.IniDesakuBeta.OutlineButton."
-            app:elevation="2dp"
-            app:cornerRadius="8dp"
-            app:strokeColor="?attr/colorPrimary"
-            android:outlineProvider="bounds"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/daftar"
-            android:textAllCaps="false" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTamu"
-            style="@style/Theme.IniDesakuBeta.TextButton.Regular14.600"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/masuk_sebagai_tamu"
-            android:textAllCaps="false" />
+            android:layout_height="55dp"
+            android:layout_marginBottom="80dp"
+            android:backgroundTint="@color/primary3"
+            android:text="Yuk Belajar!"
+            android:textColor="@color/accent1"
+            android:textAllCaps="false"
+            app:cornerRadius="5dp"
+            android:layout_marginHorizontal="35dp"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 
