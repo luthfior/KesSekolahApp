@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    tools:context=".ui.sign.register.CompleteProfileActivity">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvCompleteProfileTitle"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/complete_profile_title"
+        android:fontFamily="@font/fredoka_semibold"
+        android:textColor="@color/primary600"
+        android:textSize="24sp"
+        android:textFontWeight="600"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvCompleteProfileTitleDesc"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/complete_profile_desc"
+        android:fontFamily="@font/fredoka_light"
+        android:textColor="@color/signup_description"
+        android:textSize="16sp"
+        android:textFontWeight="400"
+        app:layout_constraintEnd_toEndOf="@id/tvCompleteProfileTitle"
+        app:layout_constraintStart_toStartOf="@id/tvCompleteProfileTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvCompleteProfileTitle" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutName"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:hint="@string/name"
+        app:hintTextColor="@color/font400"
+        app:layout_constraintEnd_toEndOf="@id/tvCompleteProfileTitleDesc"
+        app:layout_constraintStart_toStartOf="@id/tvCompleteProfileTitleDesc"
+        app:layout_constraintTop_toBottomOf="@id/tvCompleteProfileTitleDesc">
+
+        <com.example.kessekolah.ui.customView.CustomInputEditText
+            android:id="@+id/textName"
+            android:background="@drawable/input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/nameError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_regular"
+        android:text="@string/name_invalid"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutName"
+        app:layout_constraintBottom_toTopOf="@id/layoutEmail"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEmail"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="@string/email"
+        app:hintTextColor="@color/font400"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutName">
+
+        <com.example.kessekolah.ui.customView.CustomInputEditText
+            android:id="@+id/textEmail"
+            android:background="@drawable/input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emailError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_regular"
+        android:text="@string/email_wrong"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutEmail"
+        app:layout_constraintBottom_toTopOf="@id/layoutCodeReferal"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emailEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_regular"
+        android:text="@string/email_empty"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutEmail"
+        app:layout_constraintBottom_toTopOf="@id/layoutCodeReferal"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emailUsed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_regular"
+        android:text="@string/email_used"
+        android:textColor="@color/danger500"
+        android:textFontWeight="400"
+        android:textSize="11sp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutEmail"
+        app:layout_constraintBottom_toTopOf="@id/layoutCodeReferal"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutCodeReferal"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="@string/complete_profile_referal_code"
+        app:hintTextColor="@color/font400"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutEmail">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textCodeReferal"
+            android:background="@drawable/input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNext"
+        style="@style/Widget.Material3.Button.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        android:text="@string/selanjutnya"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/fredoka_medium"
+        android:textFontWeight="600"
+        android:textSize="14sp"
+        android:enabled="false"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/layoutCodeReferal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
