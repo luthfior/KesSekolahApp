@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/homeFragmentLayout"
+    tools:context=".ui.beranda.fragment.HomeFragment">
+
+
+    <TextView
+        android:id="@+id/textBeranda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Beranda"
+        android:textSize="50sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/textBeranda"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogout"
+        style="@style/Theme.IniDesakuBeta.Button."
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="Logout"
+        android:textAllCaps="false"
+        app:cornerRadius="5dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/primary3"
+        app:strokeColor="@color/light3"
+        app:strokeWidth="1dp"
+        android:textColor="@color/light4"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

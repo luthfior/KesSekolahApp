@@ -1,12 +1,16 @@
 package com.example.kessekolah
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.kessekolah.R
 import com.example.kessekolah.databinding.ActivityMainBinding
+import com.example.kessekolah.ui.beranda.HomeActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         setStatusBarColor(R.color.transparent)
     }
 
@@ -25,13 +28,9 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window = window
 
-            // Ambil warna dari atribut tema
             val color = ContextCompat.getColor(this, colorAttr)
-
-            // Set warna status bar
             window.statusBarColor = color
 
-            // Atur ikon status bar menjadi terang atau gelap
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val view = window.decorView
                 view.systemUiVisibility =

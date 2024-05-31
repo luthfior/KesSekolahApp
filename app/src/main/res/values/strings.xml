@@ -127,10 +127,9 @@
     <string name="google">Google</string>
     <string name="belum_mempunyai_akun">Belum mempunyai akun?</string>
     <string name="password_confirm_wrong">*Kata sandi berbeda dengan sebelumnya</string>
-    <string name="username_invalid">*Username yang Anda masukkan sudah dipakai</string>
+    <string name="username_invalid">*Username telah digunakan orang lain</string>
     <string name="name_invalid">*Nama yang Anda masukkan tidak boleh kosong</string>
     <string name="email_invalid">*Format mail yang Anda masukkan tidak sesuai</string>
-    <string name="email_empty">*Email yang Anda masukkan tidak boleh kosong</string>
     <string name="email_used">*Email sudah digunakan orang lain</string>
     <string name="description_signup_page">Selamat datang! Silahkan mengisi formulir berikut untuk membuat akun.</string>
     <string name="otp_wrong">*Kode OTP yang Anda masukkan tidak valid</string>
@@ -157,7 +156,7 @@
     <string name="image_preview">Pratinjau Gambar</string>
     <string name="reupload_camera">Foto Ulang</string>
     <string name="apply_upload">Gunakan Foto</string>
-    <string name="password_wrong">Kata sandi yang Anda masukan kurang dari 6 karakter</string>
+    <string name="password_wrong">*Kata Sandi kurang dari 6 karakter</string>
     <string name="email_wrong">Email yang Anda masukan tidak valid</string>
     <string name="sedang_tayang">Sedang Tayang</string>
     <string name="populer_sekarang">Populer sekarang</string>
@@ -327,15 +326,15 @@
     <string name="rekomendasi_produk">Rekomendasi Produk</string>
     <string name="caption_pembayaran_barang_berhasil">Pemesanan berhasil diterima dan akan segera dikirimkan ke alamat rumah Anda</string>
     <string name="format_phone_wrong">*Nomor yang Anda masukkan tidak sesuai</string>
-    <string name="username_empty">*Username yang Anda masukkan tidak boleh kosong</string>
+    <string name="username_empty">*Username tidak boleh kosong</string>
     <string name="format_phone_emtpy">*Nomor yang Anda masukkan tidak boleh kosong</string>
     <string name="format_phone_used">*Nomor yang sudah digunakan orang lain</string>
     <string name="plus_enam_dua">+62</string>
-    <string name="username_space">*Username yang Anda masukkan tidak boleh mengandung spasi</string>
     <string name="nominal_pembelian">Nominal Pembelian</string>
     <string name="pemesanan">Pemesanan</string>
     <string name="shop_cart">Keranjang</string>
     <string name="perempuan">Perempuan</string>
+    <string name="username_space">*Username tidak boleh mengandung spasi</string>
 
     <string-array name="data_rekomendasi_nama_produk">
         <item>Soto Betawi</item>
@@ -388,4 +387,9 @@
     <!--KesSekolahApp-->
     <string name="term_conditions_text">dengan menggunakan layanan KesSekolah kamu</string>
     <string name="kebijakan_privasi_text">Kebijakan Privasi</string>
+    <string name="error_register">Gagal Membuat Akun</string>
+    <string name="email_format_error">*Penulisan Email tidak sesuai</string>
+    <string name="email_has_used">*Email telah digunakan/terdaftar</string>
+    <string name="email_has_space">*Email tidak boleh mengandung spasi</string>
+    <string name="email_empty">*Email tidak boleh kosong</string>
 </resources>

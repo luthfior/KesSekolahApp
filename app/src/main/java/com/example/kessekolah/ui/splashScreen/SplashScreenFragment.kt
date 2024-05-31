@@ -36,7 +36,7 @@ class SplashScreenFragment : Fragment() {
 
         Handler().postDelayed({
             lifecycleScope.launchWhenCreated {
-                if (savedData.token?.isNotEmpty() == true && savedData.username?.isNotEmpty() == true) {
+                if (savedData.token?.isNotEmpty() == true && savedData.email?.isNotEmpty() == true) {
                     redirectUserToHomeScreen(savedData)
                 } else {
                     redirectToLoginScreen()
@@ -44,6 +44,7 @@ class SplashScreenFragment : Fragment() {
                 resetFullScreen()
             }
         }, MILISECON.toLong())
+
 
     }
 

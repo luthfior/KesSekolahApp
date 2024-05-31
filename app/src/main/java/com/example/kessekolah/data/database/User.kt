@@ -12,13 +12,7 @@ data class User(
     @PrimaryKey(autoGenerate = true)
 
     @ColumnInfo(name = "id")
-    var id: Int = 0,
-
-    @ColumnInfo(name = "phoneNumber")
-    var phoneNumber: String,
-
-    @ColumnInfo(name = "username")
-    var username: String,
+    var id: Int,
 
     @ColumnInfo(name = "name")
     var name: String,
@@ -26,6 +20,15 @@ data class User(
     @ColumnInfo(name = "email")
     var email: String,
 
-    @ColumnInfo(name = "password")
-    var password: String
+    @ColumnInfo(name = "userProfilePicture")
+    var userProfilePicture: String,
+
+    @ColumnInfo(name = "role")
+    var role: String,
+
+    @ColumnInfo(name = "uid")
+    var uid: String,
+
+    @ColumnInfo(name = "createdAt")
+    var createdAt: String
 ) : Parcelable

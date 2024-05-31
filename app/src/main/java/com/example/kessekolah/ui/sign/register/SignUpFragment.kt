@@ -1,46 +1,72 @@
 package com.example.kessekolah.ui.sign.register
 
+import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.kessekolah.R
-import com.example.kessekolah.data.response.SignUpResponse
+import com.example.kessekolah.data.database.User
+import com.example.kessekolah.data.repo.AuthRepository
 import com.example.kessekolah.databinding.FragmentSignUpBinding
 import com.example.kessekolah.model.SignUpViewModel
 import com.example.kessekolah.viewModel.ViewModelFactorySign
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlin.properties.Delegates
+import com.example.kessekolah.data.response.ResponseMessage
+import com.example.kessekolah.utils.LoginPreference
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 
 
 class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var auth: FirebaseAuth
+    private val database = FirebaseDatabase.getInstance().reference
     private lateinit var signUpViewModel: SignUpViewModel
+    private val USERS_NODE = "users"
+    private val USER_ID_COUNTER_NODE = "user_id_counter"
 
-    private var phoneNumberErrorData by Delegates.notNull<Boolean>()
-    private var usernameErrorData by Delegates.notNull<Boolean>()
+    private var emailErrorData by Delegates.notNull<Boolean>()
     private var passwordErrorData by Delegates.notNull<Boolean>()
-    private var confirmPasswordErrorData by Delegates.notNull<Boolean>()
+
+    private lateinit var successDialog: Dialog
+    private lateinit var progressBar: ProgressBar
+    private lateinit var doneLogo: ImageView
+    private lateinit var successTextView: TextView
 
     init {
-        phoneNumberErrorData = true
-        usernameErrorData = true
+        emailErrorData = true
         passwordErrorData = true
-        confirmPasswordErrorData = true
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
@@ -50,103 +76,55 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.textCodePhone.isEnabled = false
-        binding.layoutCodePhone.isEnabled = false
+        val application = requireActivity().application
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val authPreference = LoginPreference(requireContext())
+        val authRepository = AuthRepository(application, authPreference, firebaseAuth)
+        val vmFactory = ViewModelFactorySign.getInstance(application, authRepository, firebaseAuth)
 
-        val vmFactory = ViewModelFactorySign.getInstance(requireActivity().application)
         signUpViewModel = ViewModelProvider(
             requireActivity(),
             vmFactory
         )[SignUpViewModel::class.java]
 
+        auth = FirebaseAuth.getInstance()
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().popBackStack()
         }
 
-//        observeData()
         textListener()
-        buttonCLick()
-//        user = arguments?.getParcelable(NEW_USER)
+        buttonClick()
 
         binding.btnLoginPage.setOnClickListener {
             findNavController().navigate(
                 R.id.action_signUpFragment_to_loginFragment
             )
         }
-
-//        binding.btnTamu.setOnClickListener {
-//            findNavController().navigate(
-//                R.id.action_signUpFragment_to_pilihWilayahActivity
-//            )
-//        }
-
     }
 
     private fun textListener() {
         with(binding) {
-            textPhoneNumber.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    phoneNumberErrorData = s.toString().trim().length >= 13  || textPhoneNumber.text.toString().trim().isEmpty() || !textPhoneNumber.text.toString().trim().startsWith("8")
-                    if (textPhoneNumber.toString().trim().isNullOrEmpty()) {
-                        binding.phoneNumberEmpty.alpha = 1F
-                    } else {
-                        binding.phoneNumberEmpty.alpha = 0F
-                    }
-                    if (textPhoneNumber.text.toString().trim().length >= 13 || !textPhoneNumber.text.toString().trim().startsWith("8")) {
-                        binding.phoneNumberWrong.alpha = 1F
-                    } else {
-                        binding.phoneNumberWrong.alpha = 0F
-                    }
-                    btnSignUp.isEnabled = !(phoneNumberErrorData || usernameErrorData || passwordErrorData || confirmPasswordErrorData)
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                }
-            })
-
-//            textPhoneNumber.setOnFocusChangeListener { view, hasFocus ->
-//                if (!hasFocus) {
-//                    val phoneNumber = textPhoneNumber.text.toString().trim()
-//                    if (!phoneNumber.startsWith("8")) {
-//                        binding.phoneNumberWrong.alpha = 1F
-//                    } else {
-//                        binding.phoneNumberWrong.alpha = 0F
-//                    }
-//                }
-//            }
-
             textUsername.addTextChangedListener(object : TextWatcher{
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
-
-                }
+                ) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    usernameErrorData = s.toString().trim().isEmpty()
-                    if (usernameErrorData) {
-                        usernameEmpty.alpha = 1F
-                    } else {
-                        usernameEmpty.alpha = 0F
+                    emailErrorData = s.toString().trim().isEmpty()
+                    binding.emailEmpty.alpha = if (emailErrorData) 1F else 0F
+                    binding.emailHasSpace.alpha = if (s?.contains(" ") == true) 1F else 0F
+                    if (!emailErrorData) {
+                        binding.emailHasUsed.alpha = 0F
+                        binding.emailFormatError.alpha = 0F
                     }
-                    if (s?.contains(" ") == true) {
-                        usernameWithSpace.alpha = 1F
-                    } else {
-                        usernameWithSpace.alpha = 0F
-                    }
-                    btnSignUp.isEnabled = !(phoneNumberErrorData || usernameErrorData || passwordErrorData || confirmPasswordErrorData)
+                    btnSignUp.isEnabled = !(emailErrorData || passwordErrorData)
                 }
 
-                override fun afterTextChanged(s: Editable?) {
-//                    btnSignUp.isEnabled = false
-                }
-
+                override fun afterTextChanged(s: Editable?) {}
             })
 
             textPassword.addTextChangedListener(object: TextWatcher{
@@ -155,90 +133,83 @@ class SignUpFragment : Fragment() {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
-
-                }
+                ) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     passwordErrorData = s.toString().length < 6 || s.toString().trim().isEmpty()
-                    if (passwordErrorData) {
-                        binding.passwordError.alpha = 1F
-                    } else {
-                        binding.passwordError.alpha = 0F
-                    }
-                    btnSignUp.isEnabled = !(phoneNumberErrorData || usernameErrorData || passwordErrorData || confirmPasswordErrorData)
+                    binding.passwordError.alpha = if (passwordErrorData) 1F else 0F
+                    btnSignUp.isEnabled = !(emailErrorData || passwordErrorData)
                 }
 
-                override fun afterTextChanged(s: Editable?) {
-//                    btnSignUp.isEnabled = false
-                }
-
-            })
-
-            textConfirmPassword.addTextChangedListener(object: TextWatcher{
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    confirmPasswordErrorData = s.toString().trim() != textPassword.text.toString().trim() || textConfirmPassword.text.toString().trim().isEmpty()
-                    if (confirmPasswordErrorData) {
-                        binding.confirmPasswordError.alpha = 1F
-                    } else {
-                        binding.confirmPasswordError.alpha = 0F
-                    }
-                    btnSignUp.isEnabled = !(phoneNumberErrorData || usernameErrorData || passwordErrorData || confirmPasswordErrorData)
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    // btnSignUp.isEnabled = !(passwordErrorData && confirmPasswordErrorData)
-                }
-
+                override fun afterTextChanged(s: Editable?) {}
             })
         }
-
     }
 
-    private fun buttonCLick() {
+    private fun buttonClick() {
         with(binding) {
-
             btnSignUp.setOnClickListener {
-                var phoneNumber = "0" + textPhoneNumber.text.toString().trim()
-                var username = textUsername.text.toString().trim()
-                var password = textPassword.text.toString().trim()
+                val email = textUsername.text.toString().trim()
+                val password = textPassword.text.toString().trim()
 
-                signUpViewModel.checkPhoneNumberExists(phoneNumber) { isPhoneNumberExists ->
-                    if (isPhoneNumberExists) {
-                        binding.phoneNumberError.alpha = 1F
-                        btnSignUp.post {
-                            btnSignUp.isEnabled = false
-                        }
+                setupSuccessDialog()
+                signUpViewModel.checkEmailExists(email) { isEmailExists ->
+                    if (isEmailExists) {
+                        binding.emailHasUsed.alpha = 1F
+                        btnSignUp.post { btnSignUp.isEnabled = false }
                     } else {
-                        signUpViewModel.checkUsernameExists(username) { isUsernameExists ->
-                            if (isUsernameExists) {
-                                binding.usernameError.alpha = 1F
-                                btnSignUp.post {
-                                    btnSignUp.isEnabled = false
+                        signUpViewModel.insertUser(email, password).observe(viewLifecycleOwner) { response ->
+                            when(response) {
+                                is ResponseMessage.Loading -> {
+                                    showLoading()
                                 }
-                            } else {
-//                                user = User(0, phoneNumber, username, email, password)
-//                                user?.let { user ->
-//                                    signUpViewModel.insertProduk(user)
-//                                }
-                                val bundle = Bundle().apply {
-                                    putString("PHONE_NUMBER", phoneNumber)
-                                    putString("USERNAME", username)
-                                    putString("PASSWORD", password)
+                                is ResponseMessage.Success -> {
+                                    database.child(USER_ID_COUNTER_NODE).child("counter").addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                            val counter =
+                                                dataSnapshot.getValue(Long::class.java) ?: 0
+                                            val newUserId = counter + 1
+                                            val currentUserUid = auth.currentUser?.uid
+                                            if (currentUserUid != null) {
+                                                val user = User(
+                                                    id = newUserId.toInt(), // Assign the new ID to the user
+                                                    name = email,
+                                                    email = email,
+                                                    userProfilePicture = "",
+                                                    role = "",
+                                                    uid = currentUserUid,
+                                                    createdAt = getCurrentDateTime()
+                                                )
+                                                database.child(USERS_NODE).child(currentUserUid)
+                                                    .setValue(user).addOnCompleteListener { task ->
+                                                        if (task.isSuccessful) {
+                                                            database.child(USER_ID_COUNTER_NODE).child("counter")
+                                                                .setValue(newUserId)
+                                                            showSuccess()
+                                                        } else {
+                                                            Toast.makeText(
+                                                                requireContext(),
+                                                                "Failed to create account",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                        }
+                                                    }
+                                            }
+                                        }
+
+                                        override fun onCancelled(databaseError: DatabaseError) {
+                                            // Handle error
+                                        }
+                                    })
                                 }
-//                                requireActivity().runOnUiThread {
-//                                    findNavController().navigate(R.id.action_signUpFragment_to_otpActivity, bundle)
-//                                    requireActivity().finish()
-//                                }
+                                is ResponseMessage.Error -> {
+                                    Log.d("OnErrorRegister: ", "response: ${response.message}")
+                                    when (response.message) {
+                                        "The email address is badly formatted" -> binding.emailFormatError.alpha = 1F
+                                        "The email address is already in use by another account." -> binding.emailHasUsed.alpha = 1F
+                                        else -> Toast.makeText(requireContext(), R.string.error_register, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                             }
                         }
                     }
@@ -248,29 +219,51 @@ class SignUpFragment : Fragment() {
             btnLoginPage.setOnClickListener {
                 findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
             }
-
-//            btnTamu.setOnClickListener {
-//                findNavController().navigate(R.id.action_loginFragment_to_pilihWilayahFragment)
-//            }
         }
     }
 
-//    private fun succesHandler(data: SignUpResponse) {
-//
-//        Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
-//        findNavController().navigate(R.id.action_signUpFragment_to_otpActivity)
-//        requireActivity().finish()
-//
-//        binding.apply {
-//            textPhoneNumber.text = null
-//            textUsername.text = null
-//            textPassword.text = null
-//            textConfirmPassword.text = null
-//        }
-//    }
+    private fun setupSuccessDialog() {
+        successDialog = Dialog(requireContext())
+        successDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        successDialog.setContentView(R.layout.loading_effect_layout)
 
-    companion object {
-        const val NEW_USER = "new_user"
+        progressBar = successDialog.findViewById(R.id.progressBar)
+        doneLogo = successDialog.findViewById(R.id.done_logo)
+        successTextView = successDialog.findViewById(R.id.successTextView)
+
+        successDialog.setCancelable(false)
+        successDialog.show()
+
+        // Atur dimensi dan posisi dialog
+        val window = successDialog.window
+        if (window != null) {
+            window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            window.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.pop_out_message))
+        }
     }
 
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+        doneLogo.visibility = View.GONE
+        successTextView.visibility = View.GONE
+        successDialog.show()
+    }
+
+    private fun showSuccess() {
+        progressBar.visibility = View.GONE
+        doneLogo.visibility = View.VISIBLE
+        successTextView.visibility = View.VISIBLE
+        lifecycleScope.launch {
+            delay(3000)
+            successDialog.dismiss()
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        }
+    }
+
+
+    private fun getCurrentDateTime(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val date = Date()
+        return dateFormat.format(date)
+    }
 }

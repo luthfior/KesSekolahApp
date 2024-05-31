@@ -1,6 +1,7 @@
 package com.example.kessekolah.utils
 
 import android.content.Context
+import com.example.kessekolah.data.database.User
 import com.example.kessekolah.data.remote.LoginData
 
 class LoginPreference(context: Context) {
@@ -10,21 +11,20 @@ class LoginPreference(context: Context) {
     fun saveData(data: LoginData) {
         val editor = preference.edit()
         editor.putString("token", data.token)
-        editor.putString("username", data.username)
-        editor.putString("nama", data.nama)
+        editor.putString("name", data.email)
         editor.putString("email", data.email)
-        editor.putString("phoneNumber", data.phoneNumber)
         editor.apply()
     }
 
     fun getData(): LoginData {
         val token = preference.getString("token", "")
-        val username = preference.getString("username", "")
-        val nama = preference.getString("nama", "")
+        val name = preference.getString("name", "")
         val email = preference.getString("email", "")
-        val phoneNumber = preference.getString("phoneNumber", "")
+        val role = preference.getString("role", "")
+        val profilePicture = preference.getString("profilePicture", "")
+        val isLogin = preference.getBoolean("isLogin", true)
 
-        return LoginData(token, username, nama, email, phoneNumber)
+        return LoginData(token, name, email, role, profilePicture, isLogin)
     }
 
     fun removeData() {
@@ -33,7 +33,9 @@ class LoginPreference(context: Context) {
         editor.remove("username")
         editor.remove("nama")
         editor.remove("email")
-        editor.remove("phoneNumber")
+        editor.remove("role")
+        editor.remove("profilePicture")
+        editor.remove("isLogin")
         editor.apply()
     }
 
