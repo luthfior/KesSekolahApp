@@ -42,43 +42,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1042229703750:android:626dc67a9cf8fa6c238647",
-        "android_client_info": {
-          "package_name": "com.example.kessekolahapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1042229703750-uh94hu025jrqhlmanuhc91hb6ng5a4jb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.kessekolahapp",
-            "certificate_hash": "0ac178eb2b01477f41053eace0cec5f30f810aaf"
-          }
-        },
-        {
-          "client_id": "1042229703750-0q2p36b51fu1otjcbqvmae9b6bheadcn.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBGb6_4JLIiEEqBbaIS-QHh1FbA7PZfSzE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1042229703750-0q2p36b51fu1otjcbqvmae9b6bheadcn.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"

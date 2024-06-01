@@ -72,12 +72,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="24dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutLogin"
+                android:id="@+id/layoutUsername"
                 style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,20 +94,70 @@
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/usernameError"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/fredoka_regular"
-                android:text="@string/username_empty"
-                android:textColor="@color/danger500"
-                android:textFontWeight="400"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp"
-                android:alpha="0"
-                android:paddingHorizontal="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:paddingTop="4dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/email_has_used"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fredoka_regular"
+                    android:text="@string/email_has_used"
+                    android:textColor="@color/danger500"
+                    android:textFontWeight="400"
+                    android:textSize="14sp"
+                    android:paddingLeft="30dp"
+                    android:alpha="0"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/email_format_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fredoka_regular"
+                    android:text="@string/email_format_error"
+                    android:textColor="@color/danger500"
+                    android:textFontWeight="400"
+                    android:textSize="14sp"
+                    android:paddingLeft="30dp"
+                    android:alpha="0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/email_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fredoka_regular"
+                    android:text="@string/email_empty"
+                    android:textColor="@color/danger500"
+                    android:textFontWeight="400"
+                    android:textSize="14sp"
+                    android:paddingLeft="30dp"
+                    android:alpha="0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/email_has_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fredoka_regular"
+                    android:text="@string/email_has_space"
+                    android:textColor="@color/danger500"
+                    android:textFontWeight="400"
+                    android:textSize="14sp"
+                    android:paddingLeft="30dp"
+                    android:alpha="0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutPassword"
@@ -140,12 +189,10 @@
                 android:fontFamily="@font/fredoka_regular"
                 android:text="@string/password_wrong"
                 android:textColor="@color/danger500"
-                android:textFontWeight="400"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="0dp"
+                android:textSize="14sp"
                 android:alpha="0"
-                android:paddingHorizontal="24dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layoutPassword" />
@@ -161,13 +208,14 @@
                 android:textColor="@color/light4"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:layout_marginEnd="0dp" />
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="20dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="-8dp"
+                android:layout_marginTop="-15dp"
                 android:gravity="center">
 
                 <TextView
@@ -208,7 +256,7 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDaftar"
+                android:id="@+id/btnSignUp"
                 style="@style/Theme.IniDesakuBeta.Button."
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

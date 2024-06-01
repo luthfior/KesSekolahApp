@@ -5,9 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class LoginData(
-    var token: String?,
-    var username: String?,
-    var nama: String?,
-    var email: String?,
-    var phoneNumber: String?
+    val token: String?,
+    val name: String?,
+    val email: String?,
+    val role: String?,
+    val profilePicture: String?,
+    val isLogin: Boolean
 ):Parcelable
