@@ -336,6 +336,7 @@
     <string name="pemesanan">Pemesanan</string>
     <string name="shop_cart">Keranjang</string>
     <string name="perempuan">Perempuan</string>
+    <string name="title_dasboard">Perempuan</string>
 
     <string-array name="data_rekomendasi_nama_produk">
         <item>Soto Betawi</item>
@@ -388,4 +389,20 @@
     <!--KesSekolahApp-->
     <string name="term_conditions_text">dengan menggunakan layanan KesSekolah kamu</string>
     <string name="kebijakan_privasi_text">Kebijakan Privasi</string>
+    <string name="title_home">Home</string>
+    <string name="title_notif">Notifikasi</string>
+    <string name="title_book_mark">Terimpan</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_dashboard">dasboard</string>
+    <string name="title_notifications">notif</string>
+    <string name="dummy_button_features">Button Name</string>
+    <string name="dummt_name">Vina Oktiarina</string>
+    <string name="dummy_email">7725233534@gmail.com</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_password">Ganti Kata Sandi</string>
+    <string name="pusat_bantuan">Pusat Bantuan</string>
+    <string name="tentang_sekolah">Tentang Sekolah</string>
+    <string name="version_app">Versi 1.0.0</string>
+    <string name="dummy_role">Guru</string>
+    <string name="log_out">Keluar</string>
 </resources>

@@ -33,5 +33,37 @@
     <color name="light4">#707070</color>
     <color name="accent1">#181818</color>
     <color name="primary3">#FF6500</color>
+    <color name="primaryVarian3">#FB8D45</color>
     <color name="secondary_colors">#FDCE06</color>
+
+    <!--    Light (Primary) -->
+    <color name="color_primary_light">#FF6500</color>
+    <color name="color_primary_variant_light">#FB8D45</color>
+    <color name="color_on_primary_light">#FDCE06</color>
+
+    <!--    Light (Brand Color) -->
+    <color name="color_secondary_light">#FDCE06</color>
+    <color name="color_secondary_variant_light">#FDCE06</color>
+    <color name="color_on_secondary_light">#FDCE06</color>
+
+    <!--    Dark (Primary) -->
+    <color name="color_primary_dark">#121212</color>
+    <color name="color_primary_variant_dark">#070A10</color>
+    <color name="color_on_primary_dark">#FB8D45</color>
+
+    <!--    Dark (Brand Color) -->
+    <color name="color_secondary_dark">#FB8D45</color>
+    <color name="color_secondary_variant_dark">#FDCE06</color>
+    <color name="color_on_secondary_dark">#332940</color>
+
+    <!--    Background colors -->
+    <color name="background_dark">#121212</color>
+    <color name="background_light">#FFFFFF</color>
+
+    <!--    Text colors -->
+    <color name="white_2">#FAFAFA</color>
+    <color name="black_2">#1A1A1A</color>
+
+    <!--   Icon Tint color -->
+    <color name="purple_500">#FF6500</color>
 </resources>
