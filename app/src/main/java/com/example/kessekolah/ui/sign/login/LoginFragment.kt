@@ -13,20 +13,36 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.kessekolah.R
 import com.example.kessekolah.data.remote.LoginData
+import com.example.kessekolah.data.repo.AuthRepository
+import com.example.kessekolah.data.response.ResponseMessage
 import com.example.kessekolah.databinding.FragmentLoginBinding
 import com.example.kessekolah.model.LoginViewModel
 import com.example.kessekolah.viewModel.ViewModelFactorySign
 import com.example.kessekolah.utils.LoginPreference
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlin.properties.Delegates
+
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
+
+
+    private lateinit var auth: FirebaseAuth
+    private val database = FirebaseDatabase.getInstance().getReference("users")
+
     private val binding get() = _binding!!
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var pref: LoginPreference
-
+    private lateinit var getUserEmail: String
+    private lateinit var getUserName: String
+    private lateinit var getUserRole: String
+    private lateinit var getUserProfilePicture: String
     private var usernameErrorData by Delegates.notNull<Boolean>()
     private var passwordErrorData by Delegates.notNull<Boolean>()
 
@@ -46,25 +62,19 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val vmFactory = ViewModelFactorySign.getInstance(requireActivity().application)
+        val application = requireActivity().application
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val authPreference = LoginPreference(requireContext())
+        val authRepository = AuthRepository(application, authPreference, firebaseAuth)
+        val vmFactory = ViewModelFactorySign.getInstance(application, authRepository, firebaseAuth)
+
         loginViewModel = ViewModelProvider(
             requireActivity(),
             vmFactory
         )[LoginViewModel::class.java]
 
+        auth = FirebaseAuth.getInstance()
         pref = LoginPreference(requireContext())
-
-//        binding.btnTamu.setOnClickListener {
-//            findNavController().navigate(
-//                R.id.action_loginFragment_to_pilihWilayahFragment
-//            )
-//        }
-//
-//        binding.btnLoginPhone.setOnClickListener {
-//            findNavController().navigate(
-//                R.id.action_loginFragment_to_loginWithPhoneFragment
-//            )
-//        }
 
         binding.btnDaftar.setOnClickListener {
             findNavController().navigate(
@@ -136,54 +146,81 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun generateToken(length: Int): String {
-        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
-        return (1..length)
-            .map { allowedChars.random() }
-            .joinToString("")
-    }
-
     private fun buttonCLick() {
         binding.btnLogin.setOnClickListener {
-            val username = binding.textUsername.text.toString().trim()
+            val email = binding.textUsername.text.toString().trim()
             val password = binding.textPassword.text.toString().trim()
 
-            loginViewModel.loginUser(username, username, password) { isLoginSuccess ->
-                if (isLoginSuccess) {
-                    val token = generateToken(15)
-                    val userLiveData = loginViewModel.getUserByUsernameAndEmail(username, username)
-                    userLiveData.observe(viewLifecycleOwner) { user ->
-                        val data = LoginData(token, user?.username, user?.name, user?.email, user?.phoneNumber)
-                        if (user != null) {
-                            val bundle = Bundle().apply {
-                                putString("TOKEN", token)
-                                putString("USERNAME", username)
-                                putString("NAMA", user?.name)
-                                putString("EMAIL", username)
-                            }
-                            pref.saveData(data)
-                            findNavController().navigate(
-                                R.id.action_loginFragment_to_homeActivity,
-                                bundle
-                            )
-                            requireActivity().finish()
+            loginViewModel.userLogin(email, password).observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is ResponseMessage.Loading -> {}
+                    is ResponseMessage.Success -> {
+                        if (response.data?.user != null) {
+                            Toast.makeText(requireContext(), "User ditemukan", Toast.LENGTH_SHORT).show()
+
+                            val currentUserUid = response.data?.user?.uid.toString()
+                            database.child(currentUserUid).addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    if (snapshot.exists()) {
+                                        val userData = snapshot.value as Map<String, Any>
+                                        getUserEmail = userData["email"].toString()
+                                        getUserName = userData["name"].toString()
+                                        getUserRole = userData["role"].toString()
+                                        getUserProfilePicture = userData["userProfilePicture"].toString()
+
+                                        // Membuat objek LoginData
+                                        val loginData = LoginData(
+                                            response.data?.user?.uid.toString(),
+                                            getUserName,
+                                            getUserEmail,
+                                            getUserRole,
+                                            getUserProfilePicture,
+                                            true
+                                        )
+
+                                        saveUserData(loginData)
+
+                                        findNavController().navigate(
+                                            R.id.action_loginFragment_to_homeActivity
+                                        )
+
+                                        requireActivity().finish()
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.d("LoginFragment", "Gagal membaca data dari database")
+                                }
+                            })
                         } else {
-                            Log.d("LoginFragment", "Gadapet data dari database")
+                            Log.d("LoginFragment", "User tidak ditemukan")
+                            Toast.makeText(requireContext(), "User tidak ditemukan", Toast.LENGTH_SHORT).show()
                         }
                     }
-
-                } else {
-                    Toast.makeText(requireContext(), "Login gagal. Akun tidak ditemukan, silahkan Buat Akun terlebih dahulu", Toast.LENGTH_SHORT).show()
+                    is ResponseMessage.Error -> {
+                        Log.d(
+                            "OnErrorLogin: ",
+                            "response: ${response.message.toString()}"
+                        )
+                        when (response.message) {
+                            "There is no user record corresponding to this identifier. The user may have been deleted" ->
+                                Toast.makeText(requireContext(), "Akun Tidak ditemukan", Toast.LENGTH_SHORT).show()
+                            "The password is invalid or the user does not have a password" ->
+                                Toast.makeText(requireContext(), "Email atau password salah", Toast.LENGTH_SHORT).show()
+                            "The email address is badly formatted" ->
+                                Toast.makeText(requireContext(), "Email atau password salah", Toast.LENGTH_SHORT).show()
+                            else ->
+                                Toast.makeText(requireContext(), "Akun tidak terdaftar", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
     }
 
-//    private fun replaceFragment(fragment: Fragment) {
-//        val fragmentManager = childFragmentManager
-//        val fragmentTransaction = fragmentManager.beginTransaction()
-//        fragmentTransaction.replace(R.id.frame_layout, fragment)
-//        fragmentTransaction.commit()
-//    }
+
+    private fun saveUserData(user: LoginData) {
+        loginViewModel.saveUser(user)
+    }
 
 }
