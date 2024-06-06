@@ -405,4 +405,12 @@
     <string name="version_app">Versi 1.0.0</string>
     <string name="dummy_role">Guru</string>
     <string name="log_out">Keluar</string>
+    <string name="add_materi">Tambah Materi</string>
+    <string name="judul_materi">Judul Materi</string>
+    <string name="masukan_judul_materi">Masukan Judul Materi</string>
+    <string name="masukan_tahun">Masukan Tahun</string>
+    <string name="email_has_used">email sudah digunakan</string>
+    <string name="email_format_error">format email salah\n</string>
+    <string name="email_has_space">email has space</string>
+    <string name="error_register">error register</string>
 </resources>

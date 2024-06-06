@@ -2,10 +2,13 @@ package com.example.kessekolah.ui.core.beranda
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kessekolah.R
 import com.example.kessekolah.databinding.FragmentHome2Binding
@@ -53,7 +56,23 @@ class HomeFragment : Fragment() {
         with(binding) {
             rvButtonCore.layoutManager = GridLayoutManager(requireContext(), 3)
             rvButtonCore.adapter = listAdapter
+
+            listAdapter.setOnItemClickCallback(object : ButtonCoreFeaturesAdapter.OnItemClickCallback{
+                override fun onItemClicked(data: String) {
+                    Log.i("BUTTON CLICK out when", data)
+                    Toast.makeText(requireContext(), data,
+                        Toast.LENGTH_LONG).show()
+                    when (data) {
+                        "Materi" -> {
+                            findNavController().navigate(R.id.action_homeFragment2_to_listMateriFragment)
+                            Log.i("BUTTON CLICK", data)
+                        }
+                    }
+                }
+
+            })
         }
+
 
     }
 

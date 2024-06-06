@@ -1,7 +1,10 @@
 package com.example.kessekolah.ui.core
 
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -22,6 +25,17 @@ class HomeActivity : AppCompatActivity() {
         navController = navHostController.navController
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.homeFragment2,
+                R.id.notifFragment,
+                R.id.bookMarkFragment,
+                R.id.profileFragment -> binding.bottomNavigation.visibility = View.VISIBLE
+
+                else -> binding.bottomNavigation.visibility = View.GONE
+            }
+        }
 
 
     }

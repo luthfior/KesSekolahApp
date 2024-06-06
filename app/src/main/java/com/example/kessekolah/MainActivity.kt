@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.kessekolah.R
 import com.example.kessekolah.databinding.ActivityMainBinding
-import com.example.kessekolah.ui.beranda.HomeActivity
 
 class MainActivity : AppCompatActivity() {
 

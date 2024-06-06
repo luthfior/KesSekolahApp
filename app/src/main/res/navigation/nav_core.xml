@@ -24,5 +24,23 @@
         android:id="@+id/homeFragment2"
         android:name="com.example.kessekolah.ui.core.beranda.HomeFragment"
         android:label="fragment_home2"
-        tools:layout="@layout/fragment_home2" />
+        tools:layout="@layout/fragment_home2" >
+        <action
+            android:id="@+id/action_homeFragment2_to_listMateriFragment"
+            app:destination="@id/listMateriFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listMateriFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.ListMateriFragment"
+        android:label="fragment_list_materi"
+        tools:layout="@layout/fragment_list_materi" >
+        <action
+            android:id="@+id/action_listMateriFragment_to_addMateriFragment"
+            app:destination="@id/addMateriFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMateriFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.AddMateriFragment"
+        android:label="fragment_add_materi"
+        tools:layout="@layout/fragment_add_materi" />
 </navigation>

@@ -130,4 +130,7 @@ dependencies {
 
     //Google auth dependency
     implementation("com.google.android.gms:play-services-auth:20.5.0")
+
+    //file picker
+    implementation("com.github.atwa:filepicker:1.0.7")
 }

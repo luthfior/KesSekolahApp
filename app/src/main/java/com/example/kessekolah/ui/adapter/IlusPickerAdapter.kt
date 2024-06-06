@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kessekolah.databinding.ItemBannerMateriPickerBinding
 import com.example.kessekolah.databinding.ItemButtonHomeFeaturesBinding
 import com.example.kessekolah.model.ButtonCoreFeatures
 import com.google.android.material.button.MaterialButton
 
-class ButtonCoreFeaturesAdapter(private val list: List<ButtonCoreFeatures>) :
-    RecyclerView.Adapter<ButtonCoreFeaturesAdapter.ViewHolder>() {
+class IlusPickerAdapter(private val list: List<Int>) :
+    RecyclerView.Adapter<IlusPickerAdapter.ViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -18,21 +19,24 @@ class ButtonCoreFeaturesAdapter(private val list: List<ButtonCoreFeatures>) :
     }
 
 
-    inner class ViewHolder(val view: ItemButtonHomeFeaturesBinding) :
+    inner class ViewHolder(val view: ItemBannerMateriPickerBinding) :
         RecyclerView.ViewHolder(view.root) {
         private val binding = view
-        fun bind(data: ButtonCoreFeatures) {
+        fun bind(number: Int) {
             binding.apply {
-                val nameIcon = data.icon
-                val context = btnCore.context
-                tvButtonCore.text = data.title
-                (btnCore as MaterialButton).icon = ContextCompat.getDrawable(
-                    context,
-                    context.getResources()
-                        .getIdentifier(data.icon, "drawable", context.getPackageName())
-                );
+                val context = imgIlus.context
 
-                btnCore.setOnClickListener { onItemClickCallback.onItemClicked(data.title) }
+                imgIlus.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        context.getResources()
+                            .getIdentifier("ilus_banner_$number", "drawable", context.getPackageName())
+                    )
+                )
+                tvNumber.text = number.toString()
+
+
+
             }
         }
     }
@@ -42,7 +46,7 @@ class ButtonCoreFeaturesAdapter(private val list: List<ButtonCoreFeatures>) :
         viewType: Int
     ): ViewHolder {
         return ViewHolder(
-            ItemButtonHomeFeaturesBinding.inflate(
+            ItemBannerMateriPickerBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -53,13 +57,13 @@ class ButtonCoreFeaturesAdapter(private val list: List<ButtonCoreFeatures>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
 
-        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(list[holder.adapterPosition].title) }
+        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(list[holder.adapterPosition]) }
     }
 
     override fun getItemCount(): Int = list.size
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: String)
+        fun onItemClicked(data: Int)
     }
 
 }
