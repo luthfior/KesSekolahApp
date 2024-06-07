@@ -144,12 +144,14 @@
         tools:itemCount="1"
         tools:listitem="@layout/item_banner_materi_picker" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubmit"
+        style="@style/Theme.IniDesakuBeta.Button."
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="SUBMIT"
+        android:text="@string/submit"
+        app:cornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="@id/rvIlus"
         app:layout_constraintStart_toStartOf="@id/rvIlus"
         app:layout_constraintTop_toBottomOf="@id/rvIlus" />

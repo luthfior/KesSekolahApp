@@ -25,12 +25,12 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val listButton = listOf<ButtonCoreFeatures>(
-        ButtonCoreFeatures("@drawable/baseline_search_24", "Materi"),
-        ButtonCoreFeatures("@drawable/baseline_search_24", "Video"),
-        ButtonCoreFeatures("@drawable/baseline_search_24", "Tanya Jawab"),
-        ButtonCoreFeatures("@drawable/baseline_search_24", "Forum"),
-        ButtonCoreFeatures("@drawable/baseline_search_24", "Tanya Ahli"),
-        ButtonCoreFeatures("@drawable/baseline_search_24", "E-Book"),
+        ButtonCoreFeatures("@drawable/ic_book", "Materi"),
+        ButtonCoreFeatures("@drawable/ic_video", "Video"),
+        ButtonCoreFeatures("@drawable/ic_question", "Tanya Jawab"),
+        ButtonCoreFeatures("@drawable/ic_form", "Forum"),
+        ButtonCoreFeatures("@drawable/ic_professional", "Tanya Ahli"),
+        ButtonCoreFeatures("@drawable/ic_e_book", "E-Book"),
     )
 
     override fun onCreateView(

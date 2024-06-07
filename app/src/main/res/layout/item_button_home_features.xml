@@ -7,16 +7,29 @@
     android:orientation="vertical"
     android:layout_centerVertical="true">
 
-    <Button
+    <androidx.cardview.widget.CardView
         android:id="@+id/btnCore"
-        style="?attr/materialIconButtonFilledStyle"
-        android:elevation="10dp"
-        android:padding="16dp"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
         android:layout_height="wrap_content"
-        app:icon="@drawable/baseline_search_24"/>
+        app:cardCornerRadius="45dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/btnSrcCore"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:shapeAppearanceOverlay="@style/customImageViewCircle"
+            android:src="@drawable/ic_book"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
 
     <TextView
         android:id="@+id/tvButtonCore"

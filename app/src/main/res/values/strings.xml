@@ -413,4 +413,5 @@
     <string name="email_format_error">format email salah\n</string>
     <string name="email_has_space">email has space</string>
     <string name="error_register">error register</string>
+    <string name="submit">SUBMIT</string>
 </resources>

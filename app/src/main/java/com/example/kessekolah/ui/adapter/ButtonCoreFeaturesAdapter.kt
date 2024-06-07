@@ -26,11 +26,17 @@ class ButtonCoreFeaturesAdapter(private val list: List<ButtonCoreFeatures>) :
                 val nameIcon = data.icon
                 val context = btnCore.context
                 tvButtonCore.text = data.title
-                (btnCore as MaterialButton).icon = ContextCompat.getDrawable(
+//                (btnSrcCore as MaterialButton).icon = ContextCompat.getDrawable(
+//                    context,
+//                    context.getResources()
+//                        .getIdentifier(data.icon, "drawable", context.getPackageName())
+//                );
+
+                btnSrcCore.setImageDrawable(ContextCompat.getDrawable(
                     context,
                     context.getResources()
                         .getIdentifier(data.icon, "drawable", context.getPackageName())
-                );
+                ))
 
                 btnCore.setOnClickListener { onItemClickCallback.onItemClicked(data.title) }
             }
