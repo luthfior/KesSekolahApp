@@ -36,14 +36,14 @@ class SplashScreenFragment : Fragment() {
 
         Handler().postDelayed({
             lifecycleScope.launchWhenCreated {
-//                if (savedData.token?.isNotEmpty() == true && savedData.username?.isNotEmpty() == true) {
-//                    redirectUserToHomeScreen(savedData)
-//                } else {
-//                    redirectToLoginScreen()
-//                }
+                if (savedData.token?.isNotEmpty() == true && savedData.email?.isNotEmpty() == true) {
+                    redirectUserToHomeScreen(savedData)
+                } else {
+                    redirectToLoginScreen()
+                }
 
                 //test core page
-                findNavController().navigate(R.id.action_splashScreenFragment_to_homeActivity)
+//                findNavController().navigate(R.id.action_splashScreenFragment_to_homeActivity)
 
                 resetFullScreen()
             }

@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/textHi"
-        android:theme="@style/Theme.IniDesakuBeta.TextBold.Subtitle2"
+        android:theme="@style/Theme.IniDesakuBeta.TextBold.Subtitle2Black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
