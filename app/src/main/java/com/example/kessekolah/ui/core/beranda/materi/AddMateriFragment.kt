@@ -59,7 +59,7 @@ class AddMateriFragment : Fragment() {
         val listAdapter = IlusPickerAdapter(data)
 
         with(binding) {
-            rvIlus.layoutManager = GridLayoutManager(requireContext(), 2)
+            rvIlus.layoutManager = GridLayoutManager(requireContext(), 4)
             rvIlus.adapter = listAdapter
 
             listAdapter.setOnItemClickCallback(object: IlusPickerAdapter.OnItemClickCallback {
@@ -70,6 +70,10 @@ class AddMateriFragment : Fragment() {
                 }
 
             })
+
+            topAppBar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -118,7 +122,8 @@ class AddMateriFragment : Fragment() {
                         fileName = "$fileId.pdf",
                         fileUrl = uri.toString(),
                         timestamp = getCurrentDateTime(),
-                        uid = user.uid
+                        uid = user.uid,
+                        dataIlus = numberIlus
                     )
 
                     materiRef.child(fileId)

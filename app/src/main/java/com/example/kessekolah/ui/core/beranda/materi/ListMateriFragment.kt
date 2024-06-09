@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
+import com.example.kessekolah.data.database.MateriList
 import com.example.kessekolah.databinding.FragmentListMateriBinding
 import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.MateriListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 
 class ListMateriFragment : Fragment() {
     private var _binding: FragmentListMateriBinding? = null
@@ -33,7 +37,15 @@ class ListMateriFragment : Fragment() {
         binding.rvMateri.adapter = adapter
         binding.rvMateri.layoutManager = LinearLayoutManager(requireContext())
 
+        adapter.setOnItemClickCallback(object : MateriListAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: MateriList) {
+                showDialog(data)
+            }
+
+        })
+
         viewModel.materiList.observe(viewLifecycleOwner) { materiList ->
+            viewDataEmpty(materiList.isEmpty())
             materiList?.let {
                 adapter.submitList(it)
             }
@@ -49,9 +61,40 @@ class ListMateriFragment : Fragment() {
             }
         }
 
-        binding.btnTambahMateri.setOnClickListener {
-            // Handle button click
+       buttonCLick()
+    }
+
+    private fun buttonCLick() {
+        with(binding) {
+            topAppBar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            btnTambahMateri.setOnClickListener {
+                findNavController().navigate(R.id.action_listMateriFragment_to_addMateriFragment)
+            }
         }
+    }
+
+    //view handler when data empty
+    private fun viewDataEmpty(isEmpty: Boolean) {
+        with(binding) {
+            if (isEmpty) imgDataEmpty.visibility = View.VISIBLE  else imgDataEmpty.visibility = View.GONE
+
+        }
+    }
+
+    private fun showDialog(data: MateriList) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.title_dialog_delete))
+            .setMessage("Materi \"${data.title}\" akan dihapus dari database")
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                viewModel.deleteMateri(data)
+            }
+            .show()
     }
 
     override fun onDestroyView() {

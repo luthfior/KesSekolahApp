@@ -11,8 +11,10 @@ class LoginPreference(context: Context) {
     fun saveData(data: LoginData) {
         val editor = preference.edit()
         editor.putString("token", data.token)
-        editor.putString("name", data.email)
+        editor.putString("name", data.name)
         editor.putString("email", data.email)
+        editor.putString("email", data.role)
+        editor.putString("email", data.profilePicture)
         editor.apply()
     }
 

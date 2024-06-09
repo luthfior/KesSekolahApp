@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class MateriList(
     val title: String,
+    val fileUrl: String,
     val category: String,
     val timeStamp: String,
     val icon: Int

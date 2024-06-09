@@ -6,5 +6,6 @@ data class MateriData(
     val fileName: String,
     val fileUrl: String,
     val timestamp: String,
-    val uid: String
+    val uid: String,
+    val dataIlus: Int,
 )

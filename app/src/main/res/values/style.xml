@@ -20,7 +20,7 @@
 
     <style name="Theme.IniDesakuBeta.Text.Headline4Black" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/primary3</item>
         <item name="android:fontFamily">@font/fredoka_medium</item>
     </style>
 
@@ -51,7 +51,7 @@
 
     <style name="Theme.IniDesakuBeta.TextBold.Subtitle2Black" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:fontFamily">@font/fredoka_regular</item>
     </style>
 
@@ -79,8 +79,14 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="customImageView8dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8%</item>
+    </style>
+
     <style name="Theme.IniDesakuBeta.TextView.Medium11.500" parent="">
         <item name="android:textSize">11sp</item>
+        <item name="android:fontFamily">@font/fredoka_regular</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 

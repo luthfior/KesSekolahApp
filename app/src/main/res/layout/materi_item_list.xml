@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/materi_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,67 +12,84 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="10dp">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            card_view:layout_constraintTop_toTopOf="@id/iv_item_icon"
+            card_view:layout_constraintBottom_toBottomOf="@id/iv_item_icon"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            app:icon="@drawable/baseline_delete_outline_24"
+            card_view:iconSize="34dp"
+            android:paddingEnd="0dp"
+            android:gravity="end"
+            />
+
+        <ImageView
+            android:id="@+id/iv_item_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@id/btn_delete"
+            card_view:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars"/>
 
         <TextView
             android:id="@+id/tv_item_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:layout_toEndOf="@id/iv_item_icon"
             android:textColor="@color/primary3"
             android:textSize="14sp"
             android:fontFamily="@font/fredoka_semibold"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/iv_item_icon"
+            card_view:layout_constraintEnd_toStartOf="@id/iv_item_icon"
             card_view:layout_constraintTop_toTopOf="@+id/iv_item_icon"
             tools:text="@string/materi_title" />
 
         <TextView
             android:id="@+id/tv_item_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:textColor="@color/primary3"
-            android:textSize="12sp"
-            android:fontFamily="@font/fredoka_regular"
-            card_view:layout_constraintBottom_toBottomOf="@+id/iv_item_icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            style="@style/Theme.IniDesakuBeta.TextView.Regular12.400"
+            card_view:layout_constraintBottom_toTopOf="@id/tv_item_time"
             card_view:layout_constraintEnd_toEndOf="@+id/tv_item_title"
             card_view:layout_constraintStart_toStartOf="@+id/tv_item_title"
             card_view:layout_constraintTop_toBottomOf="@+id/tv_item_title"
-            card_view:layout_constraintVertical_bias="0.0"
             tools:text="@string/materi_category" />
+
+        <ImageView
+            android:id="@+id/iv_time"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            card_view:layout_constraintStart_toStartOf="@id/tv_item_category"
+            card_view:layout_constraintTop_toBottomOf="@id/tv_item_category"
+            card_view:layout_constraintBottom_toBottomOf="@id/iv_item_icon"
+            android:src="@drawable/ic_clock"/>
+
+
 
         <TextView
             android:id="@+id/tv_item_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:textColor="@color/primary3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textColor="@color/light4"
             android:textSize="12sp"
             android:fontFamily="@font/fredoka_medium"
+            android:layout_marginStart="4dp"
+            android:gravity="center_vertical"
             card_view:layout_constraintBottom_toBottomOf="@+id/iv_item_icon"
-            card_view:layout_constraintVertical_bias="0.0"
+            card_view:layout_constraintStart_toEndOf="@id/iv_time"
             card_view:layout_constraintEnd_toEndOf="@id/tv_item_category"
-            card_view:layout_constraintStart_toStartOf="@id/tv_item_category"
             card_view:layout_constraintTop_toBottomOf="@+id/tv_item_category"
             tools:text="@string/materi_date" />
 
-        <ImageView
-            android:id="@+id/iv_item_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="32dp"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

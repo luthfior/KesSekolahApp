@@ -7,21 +7,22 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kessekolah.R
 import com.example.kessekolah.data.database.MateriList
+import com.example.kessekolah.databinding.ItemBannerMateriBinding
 import com.example.kessekolah.databinding.MateriItemListBinding
 
-class MateriListAdapter :
-    ListAdapter<MateriList, MateriListAdapter.ListViewHolder>(MateriListDiffCallback()) {
+class MateriListAdapterCore:
+    ListAdapter<MateriList, MateriListAdapterCore.ListViewHolder>(MateriListDiffCallback()) {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    class ListViewHolder(var binding: MateriItemListBinding) : RecyclerView.ViewHolder(binding.root)
+    class ListViewHolder(var binding: ItemBannerMateriBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
-            MateriItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemBannerMateriBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
     }
 
@@ -29,13 +30,16 @@ class MateriListAdapter :
         val (title, fileUrl, category, timeStamp, icon) = getItem(position)
 
         with(holder.binding) {
-            ivItemIcon.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_book))
-            tvItemTitle.text = title
-            tvItemCategory.text = category
-            tvItemTime.text = timeStamp
-            btnDelete.setOnClickListener {
-                onItemClickCallback.onItemClicked(getItem(position))
-            }
+            ilusBanner.setImageDrawable(
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    holder.itemView.context.getResources()
+                        .getIdentifier("ilus_banner_$icon", "drawable", holder.itemView.context.getPackageName())
+                )
+            )
+            textNews.text = title
+
+            holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(getItem(position))}
 
         }
     }

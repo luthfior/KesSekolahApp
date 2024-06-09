@@ -133,4 +133,7 @@ dependencies {
 
     //file picker
     implementation("com.github.atwa:filepicker:1.0.7")
+
+    // Shimmer Effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

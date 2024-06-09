@@ -8,14 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
+import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentHome2Binding
 import com.example.kessekolah.databinding.FragmentHomeBinding
 import com.example.kessekolah.databinding.FragmentNotificationsBinding
 import com.example.kessekolah.model.ButtonCoreFeatures
 import com.example.kessekolah.ui.adapter.ButtonCoreFeaturesAdapter
+import com.example.kessekolah.ui.adapter.MateriListAdapterCore
+import com.example.kessekolah.utils.LoginPreference
 import kotlinx.parcelize.Parcelize
 
 class HomeFragment : Fragment() {
@@ -23,6 +28,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHome2Binding? = null
 
     private val binding get() = _binding!!
+    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var dataLogin: LoginData
 
     private val listButton = listOf<ButtonCoreFeatures>(
         ButtonCoreFeatures("@drawable/ic_book", "Materi"),
@@ -44,18 +51,34 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dataLogin = LoginPreference(requireContext()).getData()
+
 
         setupData(listButton)
+        loadingHandler()
     }
 
     private fun setupData(listData: List<ButtonCoreFeatures>) {
 
         val listAdapter = ButtonCoreFeaturesAdapter(listData)
-//        val listPreviewAdapter = ButtonCoreFeaturesAdapter(listData)
+        val listBannerMateriAdapter = MateriListAdapterCore()
+
+        viewModel.materiList.observe(viewLifecycleOwner) { materiList ->
+//            viewDataEmpty(materiList.isEmpty())
+            materiList?.let {
+                listBannerMateriAdapter.submitList(it)
+            }
+        }
 
         with(binding) {
-            rvButtonCore.layoutManager = GridLayoutManager(requireContext(), 3)
+            tvUserName.text = dataLogin.name
+
+            rvButtonCore.layoutManager = GridLayoutManager(requireContext(), 4)
             rvButtonCore.adapter = listAdapter
+
+            rvBannerMateri.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            rvBannerMateri.adapter = listBannerMateriAdapter
+
 
             listAdapter.setOnItemClickCallback(object : ButtonCoreFeaturesAdapter.OnItemClickCallback{
                 override fun onItemClicked(data: String) {
@@ -74,6 +97,21 @@ class HomeFragment : Fragment() {
         }
 
 
+    }
+
+    private fun loadingHandler() {
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            with(binding) {
+                if (loading) {
+                    shimmerMateri.visibility = View.VISIBLE
+                    layoutBannerMateri.visibility = View.GONE
+                } else {
+                    shimmerMateri.visibility = View.GONE
+                    layoutBannerMateri.visibility = View.VISIBLE
+                }
+
+            }
+        }
     }
 
 }
