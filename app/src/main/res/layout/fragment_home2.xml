@@ -86,7 +86,7 @@
 
                 <TextView
                     android:id="@+id/textNews"
-                    style="@style/Theme.IniDesakuBeta.Text.Headline2"
+                    style="@style/Theme.IniDesakuBeta.Text.Headline1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Materi Baru\nSetiap Hari!"
@@ -103,6 +103,7 @@
             android:id="@+id/rvButtonCore"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:foregroundGravity="center_horizontal"
@@ -121,9 +122,8 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="@id/rvButtonCore"
             app:layout_constraintTop_toBottomOf="@id/rvButtonCore"
-            app:layout_constraintEnd_toEndOf="@id/rvButtonCore">
-
-            <LinearLayout
+            app:layout_constraintEnd_toEndOf="parent">
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -141,7 +141,7 @@
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rvButtonCore"
-            app:layout_constraintEnd_toEndOf="@id/rvButtonCore"
+            app:layout_constraintEnd_toEndOf="parent"
             android:orientation="vertical">
 
             <TextView
@@ -155,7 +155,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBannerMateri"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:paddingHorizontal="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

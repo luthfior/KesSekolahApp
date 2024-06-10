@@ -1,10 +1,9 @@
-package com.example.kessekolah.ui.core.beranda.materi
+package com.example.kessekolah.ui.core.beranda.materi.listMateri
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,7 +14,6 @@ import com.example.kessekolah.databinding.FragmentListMateriBinding
 import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.MateriListAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
 
 class ListMateriFragment : Fragment() {
     private var _binding: FragmentListMateriBinding? = null

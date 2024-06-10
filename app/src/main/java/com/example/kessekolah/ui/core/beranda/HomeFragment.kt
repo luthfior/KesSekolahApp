@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
         with(binding) {
             tvUserName.text = dataLogin.name
 
-            rvButtonCore.layoutManager = GridLayoutManager(requireContext(), 4)
+            rvButtonCore.layoutManager = GridLayoutManager(requireContext(), 3)
             rvButtonCore.adapter = listAdapter
 
             rvBannerMateri.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

@@ -1,5 +1,6 @@
-package com.example.kessekolah.ui.core.beranda.materi
+package com.example.kessekolah.ui.core.beranda.materi.addMateri
 
+import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.atwa.filepicker.core.FilePicker
@@ -34,6 +36,9 @@ class AddMateriFragment : Fragment() {
     private var numberIlus = 0
     private var file: File? = null
     private val filePicker = FilePicker.getInstance(this)
+
+    private val viewModel: AddMateriViewModel by viewModels()
+
     private lateinit var auth: FirebaseAuth
     private val materiRef = FirebaseDatabase.getInstance().getReference("materi")
     private val storage = FirebaseStorage.getInstance().reference
@@ -53,12 +58,13 @@ class AddMateriFragment : Fragment() {
 
         setData(listIlus)
         buttonAction()
+        loadingHandler()
     }
 
     private fun setData(data: List<Int>) {
         val listAdapter = IlusPickerAdapter(data)
 
-        with(binding) {
+        with(binding.inForm) {
             rvIlus.layoutManager = GridLayoutManager(requireContext(), 4)
             rvIlus.adapter = listAdapter
 
@@ -71,19 +77,31 @@ class AddMateriFragment : Fragment() {
 
             })
 
-            topAppBar.setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
+            btnAddFile.setOnClickListener { pickPdf() }
+
+        }
+    }
+
+    private fun loadingHandler() {
+        val progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Uploading Data..")
+        progressDialog.setCancelable(false)
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            if (loading) progressDialog.show() else progressDialog.dismiss()
         }
     }
 
     private fun buttonAction() {
         with(binding) {
-            btnAddFile.setOnClickListener { pickPdf() }
+
+            topAppBar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
 
             btnSubmit.setOnClickListener {
-                val mJudul = textJudulMateri.text.toString().trim()
-                val mTahun = textTahun.text.toString().trim()
+
+                val mJudul = inForm.textJudulMateri.text.toString().trim()
+                val mTahun = inForm.textTahun.text.toString().trim()
 
                 if (mJudul.isEmpty() || mTahun.isEmpty() || numberIlus == 0 || file == null) {
                     Toast.makeText(
@@ -100,6 +118,8 @@ class AddMateriFragment : Fragment() {
     }
 
     private fun uploadData(judul: String, tahun: String, file: File) {
+        viewModel.setLoading(true)
+
         val user = auth.currentUser
         if (user == null) {
             Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
@@ -130,15 +150,18 @@ class AddMateriFragment : Fragment() {
                         .setValue(materiData)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
+                                viewModel.setLoading(false)
                                 Toast.makeText(requireContext(), "Materi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
                                 findNavController().navigateUp()
                             } else {
+                                viewModel.setLoading(false)
                                 Toast.makeText(requireContext(), "Gagal menambahkan materi", Toast.LENGTH_SHORT).show()
                             }
                         }
                 }
             }
             .addOnFailureListener { e ->
+                viewModel.setLoading(false)
                 Log.e("UploadData", "Gagal mengunggah file", e)
                 Toast.makeText(requireContext(), "Gagal mengunggah file", Toast.LENGTH_SHORT).show()
             }
@@ -157,7 +180,7 @@ class AddMateriFragment : Fragment() {
             val sizeKb: Int? = meta?.sizeKb
             val file: File? = meta?.file
 
-            binding.btnAddFile.text = meta?.name ?: "nama null"
+            binding.inForm.btnAddFile.text = meta?.name ?: "nama null"
             this.file = file
 
         }

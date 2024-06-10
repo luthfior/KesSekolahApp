@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/listMateriFragment"
-        android:name="com.example.kessekolah.ui.core.beranda.materi.ListMateriFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.listMateri.ListMateriFragment"
         android:label="fragment_list_materi"
         tools:layout="@layout/fragment_list_materi" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/addMateriFragment"
-        android:name="com.example.kessekolah.ui.core.beranda.materi.AddMateriFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.addMateri.AddMateriFragment"
         android:label="fragment_add_materi"
         tools:layout="@layout/fragment_add_materi" />
 </navigation>

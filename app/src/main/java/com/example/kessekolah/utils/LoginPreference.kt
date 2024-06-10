@@ -13,8 +13,9 @@ class LoginPreference(context: Context) {
         editor.putString("token", data.token)
         editor.putString("name", data.name)
         editor.putString("email", data.email)
-        editor.putString("email", data.role)
-        editor.putString("email", data.profilePicture)
+        editor.putString("role", data.role)
+        editor.putString("profilePicture", data.profilePicture)
+        editor.putBoolean("isLogin", true)
         editor.apply()
     }
 
@@ -24,7 +25,7 @@ class LoginPreference(context: Context) {
         val email = preference.getString("email", "")
         val role = preference.getString("role", "")
         val profilePicture = preference.getString("profilePicture", "")
-        val isLogin = preference.getBoolean("isLogin", true)
+        val isLogin = preference.getBoolean("isLogin", false)
 
         return LoginData(token, name, email, role, profilePicture, isLogin)
     }
