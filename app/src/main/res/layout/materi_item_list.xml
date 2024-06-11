@@ -24,7 +24,21 @@
             card_view:layout_constraintBottom_toBottomOf="@id/iv_item_icon"
             card_view:layout_constraintEnd_toEndOf="parent"
             app:icon="@drawable/baseline_delete_outline_24"
-            card_view:iconSize="34dp"
+            card_view:iconSize="24dp"
+            android:paddingEnd="0dp"
+            android:gravity="end"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_edit"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            card_view:layout_constraintTop_toTopOf="@id/iv_item_icon"
+            card_view:layout_constraintBottom_toBottomOf="@id/iv_item_icon"
+            card_view:layout_constraintEnd_toStartOf="@id/btn_delete"
+            app:icon="@drawable/ic_edit"
+            card_view:iconSize="24dp"
             android:paddingEnd="0dp"
             android:gravity="end"
             />
@@ -35,7 +49,7 @@
             android:layout_height="60dp"
             android:scaleType="centerCrop"
             card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toStartOf="@id/btn_delete"
+            card_view:layout_constraintEnd_toStartOf="@id/btn_edit"
             card_view:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars"/>
 

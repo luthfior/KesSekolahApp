@@ -36,8 +36,14 @@ class ListMateriFragment : Fragment() {
         binding.rvMateri.layoutManager = LinearLayoutManager(requireContext())
 
         adapter.setOnItemClickCallback(object : MateriListAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: MateriList) {
+            override fun onDeleteClicked(data: MateriList) {
                 showDialog(data)
+            }
+
+            override fun onEditClicked(data: MateriList) {
+                //navigate to edit materi
+                val action = ListMateriFragmentDirections.actionListMateriFragmentToEditMateriFragment(data)
+                findNavController().navigate(action)
             }
 
         })

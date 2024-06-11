@@ -27,14 +27,18 @@ class HomeViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = ArrayList<MateriList>()
                 for (fileSnapshot in snapshot.children) {
+                    val fileName = fileSnapshot.child("fileName").getValue(String::class.java) ?: ""
                     val judul = fileSnapshot.child("judul").getValue(String::class.java) ?: ""
                     val timeStamp =
                         fileSnapshot.child("timestamp").getValue(String::class.java) ?: ""
+                    val tahun = fileSnapshot.child("tahun").getValue(String::class.java) ?: ""
                     val fileUrl = fileSnapshot.child("fileUrl").getValue(String::class.java) ?: ""
                     val dataIcon = fileSnapshot.child("dataIlus").getValue(Int::class.java) ?: 0
                     val materi = MateriList(
+                        fileName = fileName,
                         title = judul,
                         fileUrl = fileUrl,
+                        tahun = tahun,
                         category = "Materi",
                         timeStamp = timeStamp,
                         icon = dataIcon

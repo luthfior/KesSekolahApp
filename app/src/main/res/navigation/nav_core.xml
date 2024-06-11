@@ -37,10 +37,25 @@
         <action
             android:id="@+id/action_listMateriFragment_to_addMateriFragment"
             app:destination="@id/addMateriFragment" />
+        <action
+            android:id="@+id/action_listMateriFragment_to_editMateriFragment"
+            app:destination="@id/editMateriFragment" />
+        <argument
+            android:name="data"
+            app:argType="com.example.kessekolah.data.database.MateriList" />
     </fragment>
     <fragment
         android:id="@+id/addMateriFragment"
         android:name="com.example.kessekolah.ui.core.beranda.materi.addMateri.AddMateriFragment"
         android:label="fragment_add_materi"
         tools:layout="@layout/fragment_add_materi" />
+    <fragment
+        android:id="@+id/editMateriFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.editMateri.EditMateriFragment"
+        android:label="fragment_edit_materi"
+        tools:layout="@layout/fragment_edit_materi" >
+        <argument
+            android:name="data"
+            app:argType="com.example.kessekolah.data.database.MateriList" />
+    </fragment>
 </navigation>

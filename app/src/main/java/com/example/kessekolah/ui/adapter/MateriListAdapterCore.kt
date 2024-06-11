@@ -28,16 +28,17 @@ class MateriListAdapterCore:
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val (title, fileUrl, category, timeStamp, icon) = getItem(position)
+        val data = getItem(position)
 
         with(holder.binding) {
             ilusBanner.setImageDrawable(
                 ContextCompat.getDrawable(
                     holder.itemView.context,
                     holder.itemView.context.getResources()
-                        .getIdentifier("ilus_banner_$icon", "drawable", holder.itemView.context.getPackageName())
+                        .getIdentifier("ilus_banner_${data.icon}", "drawable", holder.itemView.context.getPackageName())
                 )
             )
-            textNews.text = title
+            textNews.text = data.title
 
             holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(getItem(position))}
 

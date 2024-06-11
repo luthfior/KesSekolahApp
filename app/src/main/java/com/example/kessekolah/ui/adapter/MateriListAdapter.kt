@@ -26,21 +26,26 @@ class MateriListAdapter :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (title, fileUrl, category, timeStamp, icon) = getItem(position)
+        val (fileName, title, fileUrl, tahun, category, timeStamp, icon) = getItem(position)
+        val data = getItem(position)
 
         with(holder.binding) {
             ivItemIcon.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_book))
-            tvItemTitle.text = title
-            tvItemCategory.text = category
-            tvItemTime.text = timeStamp
+            tvItemTitle.text = data.title
+            tvItemCategory.text = data.category
+            tvItemTime.text = data.timeStamp
             btnDelete.setOnClickListener {
-                onItemClickCallback.onItemClicked(getItem(position))
+                onItemClickCallback.onDeleteClicked(data)
+            }
+            btnEdit.setOnClickListener {
+                onItemClickCallback.onEditClicked(data)
             }
 
         }
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: MateriList)
+        fun onDeleteClicked(data: MateriList)
+        fun onEditClicked(data: MateriList)
     }
 }
