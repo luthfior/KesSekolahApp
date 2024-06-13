@@ -157,7 +157,7 @@
     <string name="image_preview">Pratinjau Gambar</string>
     <string name="reupload_camera">Foto Ulang</string>
     <string name="apply_upload">Gunakan Foto</string>
-    <string name="password_wrong">*Kata sandi Kurang Dari 6 Karakter</string>
+    <string name="password_wrong">*Kata sandi Kurang Dari 8 Karakter</string>
     <string name="email_wrong">Email yang Anda masukan tidak valid</string>
     <string name="sedang_tayang">Sedang Tayang</string>
     <string name="populer_sekarang">Populer sekarang</string>

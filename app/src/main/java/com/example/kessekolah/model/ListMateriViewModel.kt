@@ -1,10 +1,12 @@
 package com.example.kessekolah.model
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kessekolah.data.database.MateriData
+import com.example.kessekolah.data.repo.MateriRepository
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -13,12 +15,14 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 
 
-class ListMateriViewModel : ViewModel() {
+class ListMateriViewModel(application: Application) : ViewModel() {
     private val materiRef = FirebaseDatabase.getInstance().getReference("materi")
     private val _materiList = MutableLiveData<List<MateriData>>()
     val materiList: LiveData<List<MateriData>> = _materiList
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
+
+    private val materiBookMarkRepository: MateriRepository = MateriRepository(application)
 
     init {
         fetchMateriList()
@@ -30,6 +34,7 @@ class ListMateriViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = ArrayList<MateriData>()
                 for (fileSnapshot in snapshot.children) {
+                    val id = fileSnapshot.child("id").getValue(Int::class.java) ?: 0
                     val fileName = fileSnapshot.child("fileName").getValue(String::class.java) ?: ""
                     val judul = fileSnapshot.child("judul").getValue(String::class.java) ?: ""
                     val timeStamp = fileSnapshot.child("timestamp").getValue(String::class.java) ?: ""
@@ -38,6 +43,7 @@ class ListMateriViewModel : ViewModel() {
                     val backColorBanner = fileSnapshot.child("backColorBanner").getValue(String::class.java) ?: ""
                     val dataIcon = fileSnapshot.child("dataIlus").getValue(Int::class.java) ?: 0
                     val materi = MateriData(
+                        id = id,
                         judul = judul,
                         tahun = tahun,
                         category = "Materi",
@@ -91,6 +97,17 @@ class ListMateriViewModel : ViewModel() {
             }
         })
     }
+
+    fun insertMateriBookMark(materiBookMark: MateriData) {
+        materiBookMarkRepository.insertMateriBookMark(materiBookMark)
+    }
+
+    fun deleteMateriBookMark(id: Int) {
+        materiBookMarkRepository.deleteMateriBookMark(id)
+    }
+
+    fun getFavoriteData(): LiveData<List<MateriData>> = materiBookMarkRepository.getAllFavorite()
+
 }
 
 

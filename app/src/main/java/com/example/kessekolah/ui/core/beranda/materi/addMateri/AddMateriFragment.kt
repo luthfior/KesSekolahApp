@@ -127,51 +127,79 @@ class AddMateriFragment : Fragment() {
             return
         }
 
-        val fileId = UUID.randomUUID().toString()
-        val fileRef = storage.child("materi/${user.uid}/$fileId.pdf")
-
-        val metadata = storageMetadata {
-            setCustomMetadata("owner", user.uid)
-        }
-
-        fileRef.putFile(Uri.fromFile(file), metadata)
-            .addOnSuccessListener {
-                fileRef.downloadUrl.addOnSuccessListener { uri ->
-
-                    val backColorBanner = getBackColor(numberIlus)
-
-                    val materiData = MateriData(
-                        judul = judul,
-                        tahun = tahun,
-                        category = "Materi",
-                        fileName = "$fileId.pdf",
-                        fileUrl = uri.toString(),
-                        timestamp = getCurrentDateTime(),
-                        uid = user.uid,
-                        dataIlus = numberIlus,
-                        backColorBanner = backColorBanner
-                    )
-
-                    materiRef.child(fileId)
-                        .setValue(materiData)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                viewModel.setLoading(false)
-                                Toast.makeText(requireContext(), "Materi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
-                                findNavController().navigateUp()
-                            } else {
-                                viewModel.setLoading(false)
-                                Toast.makeText(requireContext(), "Gagal menambahkan materi", Toast.LENGTH_SHORT).show()
-                            }
+        // Step 1: Ambil semua data dari `materi` untuk menemukan ID tertinggi
+        materiRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                var highestId = 0
+                for (childSnapshot in task.result.children) {
+                    val id = childSnapshot.key // Key adalah ID Firebase
+                    if (id != null) {
+                        val currentId = id.toIntOrNull() ?: continue // Convert ID ke Int, lanjut jika gagal
+                        if (currentId > highestId) {
+                            highestId = currentId
                         }
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
+
+                // Step 2: Tambahkan 1 ke ID tertinggi
+                val newId = highestId + 1
+
+                // Step 3: Upload file dan simpan data dengan ID baru
+                val fileId = UUID.randomUUID().toString()
+                val fileRef = storage.child("materi/${user.uid}/$fileId.pdf")
+
+                val metadata = storageMetadata {
+                    setCustomMetadata("owner", user.uid)
+                }
+
+                fileRef.putFile(Uri.fromFile(file), metadata)
+                    .addOnSuccessListener {
+                        fileRef.downloadUrl.addOnSuccessListener { uri ->
+
+                            val backColorBanner = getBackColor(numberIlus)
+
+                            // Buat Map untuk menyimpan data
+                            val materiDataMap = mapOf(
+                                "id" to newId,
+                                "judul" to judul,
+                                "tahun" to tahun,
+                                "category" to "Materi",
+                                "fileName" to "$fileId.pdf",
+                                "fileUrl" to uri.toString(),
+                                "timestamp" to getCurrentDateTime(),
+                                "uid" to user.uid,
+                                "dataIlus" to numberIlus,
+                                "backColorBanner" to backColorBanner
+                            )
+
+                            // Simpan data menggunakan ID baru
+                            materiRef.child(fileId)
+                                .setValue(materiDataMap)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        viewModel.setLoading(false)
+                                        Toast.makeText(requireContext(), "Materi berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+                                        findNavController().navigateUp()
+                                    } else {
+                                        viewModel.setLoading(false)
+                                        Toast.makeText(requireContext(), "Gagal menambahkan materi", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        viewModel.setLoading(false)
+                        Log.e("UploadData", "Gagal mengunggah file", e)
+                        Toast.makeText(requireContext(), "Gagal mengunggah file", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
                 viewModel.setLoading(false)
-                Log.e("UploadData", "Gagal mengunggah file", e)
-                Toast.makeText(requireContext(), "Gagal mengunggah file", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Gagal mendapatkan data materi", Toast.LENGTH_SHORT).show()
             }
+        }
     }
+
+
 
     private fun getBackColor(ilusNumber: Int): String {
         return colorsIlus.getOrElse(ilusNumber - 1) { "#3C87F8" } // Default to white if out of bounds

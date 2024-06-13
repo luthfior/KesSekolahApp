@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kessekolah.data.database.MateriData
-import com.example.kessekolah.data.database.MateriList
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -28,6 +27,7 @@ class HomeViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = ArrayList<MateriData>()
                 for (fileSnapshot in snapshot.children) {
+                    val id = fileSnapshot.child("id").getValue(Int::class.java) ?: 0
                     val fileName = fileSnapshot.child("fileName").getValue(String::class.java) ?: ""
                     val judul = fileSnapshot.child("judul").getValue(String::class.java) ?: ""
                     val timeStamp =
@@ -37,6 +37,7 @@ class HomeViewModel : ViewModel() {
                     val backColorBanner = fileSnapshot.child("backColorBanner").getValue(String::class.java) ?: ""
                     val dataIcon = fileSnapshot.child("dataIlus").getValue(Int::class.java) ?: 0
                     val materi = MateriData(
+                        id = id,
                         judul = judul,
                         tahun = tahun,
                         category = "Materi",

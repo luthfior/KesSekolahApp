@@ -2,7 +2,6 @@ package com.example.kessekolah.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.kessekolah.data.database.MateriData
-import com.example.kessekolah.data.database.MateriList
 
 class MateriListDiffCallback : DiffUtil.ItemCallback<MateriData>() {
     override fun areItemsTheSame(oldItem: MateriData, newItem: MateriData): Boolean {
