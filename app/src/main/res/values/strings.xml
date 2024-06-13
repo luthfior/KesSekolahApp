@@ -47,7 +47,7 @@
     <string name="atau">Atau</string>
     <string name="pendaftaran_akun">Pendaftaran Akun</string>
     <string name="username">Username</string>
-    <string name="sudah_mempunya_akun">Sudah mempunya akun?</string>
+    <string name="sudah_mempunya_akun">Sudah Punya Akun?</string>
     <string name="selanjutnya">Selanjutnya</string>
     <string name="pilih_wilayah_anda">Pilih Wilayah Anda</string>
     <string name="province">Provinsi</string>
@@ -157,7 +157,7 @@
     <string name="image_preview">Pratinjau Gambar</string>
     <string name="reupload_camera">Foto Ulang</string>
     <string name="apply_upload">Gunakan Foto</string>
-    <string name="password_wrong">Kata sandi yang Anda masukan kurang dari 6 karakter</string>
+    <string name="password_wrong">*Kata sandi Kurang Dari 6 Karakter</string>
     <string name="email_wrong">Email yang Anda masukan tidak valid</string>
     <string name="sedang_tayang">Sedang Tayang</string>
     <string name="populer_sekarang">Populer sekarang</string>
@@ -327,7 +327,6 @@
     <string name="rekomendasi_produk">Rekomendasi Produk</string>
     <string name="caption_pembayaran_barang_berhasil">Pemesanan berhasil diterima dan akan segera dikirimkan ke alamat rumah Anda</string>
     <string name="format_phone_wrong">*Nomor yang Anda masukkan tidak sesuai</string>
-    <string name="username_empty">*Username yang Anda masukkan tidak boleh kosong</string>
     <string name="format_phone_emtpy">*Nomor yang Anda masukkan tidak boleh kosong</string>
     <string name="format_phone_used">*Nomor yang sudah digunakan orang lain</string>
     <string name="plus_enam_dua">+62</string>
@@ -409,10 +408,13 @@
     <string name="judul_materi">Judul Materi</string>
     <string name="masukan_judul_materi">Masukan Judul Materi</string>
     <string name="masukan_tahun">Masukan Tahun</string>
-    <string name="email_has_used">email sudah digunakan</string>
-    <string name="email_format_error">format email salah\n</string>
-    <string name="email_has_space">email has space</string>
+    <string name="email_has_used">*Email Sudah Digunakan</string>
+    <string name="email_format_error">*Format Email Salah</string>
+    <string name="email_has_space">*Email Mengandung Spasi</string>
+    <string name="username_empty">*Username Tidak Boleh Kosong</string>
+    <string name="role_empty">*Peran Tidak Boleh Kosong</string>
     <string name="error_register">error register</string>
+    <string name="cannot_register">Gagal Membuat Akun</string>
     <string name="submit">SUBMIT</string>
     <string name="materi_title">Materi List</string>
     <string name="materi_category">Kategori</string>

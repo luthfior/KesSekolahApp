@@ -6,24 +6,17 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kessekolah.R
 import com.example.kessekolah.data.database.MateriData
-import com.example.kessekolah.databinding.ItemBannerMateriBinding
-import com.example.kessekolah.databinding.MateriItemListBinding
+import com.example.kessekolah.databinding.BannerDetailMateriBinding
 
-class MateriListAdapterCore:
-    ListAdapter<MateriData, MateriListAdapterCore.ListViewHolder>(MateriListDiffCallback()) {
-    private lateinit var onItemClickCallback: OnItemClickCallback
+class BannerDetailMateriAdapter:
+    ListAdapter<MateriData, BannerDetailMateriAdapter.ListViewHolder>(MateriListDiffCallback()) {
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
-
-    class ListViewHolder(var binding: ItemBannerMateriBinding) : RecyclerView.ViewHolder(binding.root)
+    class ListViewHolder(var binding: BannerDetailMateriBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
-            ItemBannerMateriBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            BannerDetailMateriBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
     }
 
@@ -44,10 +37,9 @@ class MateriListAdapterCore:
             )
             textNews.text = data.judul
 
-            holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(getItem(position))}
-
         }
     }
+
 
     interface OnItemClickCallback {
         fun onItemClicked(data: MateriData)

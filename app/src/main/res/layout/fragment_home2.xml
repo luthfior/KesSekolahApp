@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/tvUserName"
-            android:theme="@style/Theme.IniDesakuBeta.Text.Headline4"
+            android:theme="@style/Theme.IniDesakuBeta.Text.Headlinee4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/dummt_name"
@@ -53,7 +53,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvUserName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:backgroundTint="?attr/colorPrimary">
+            android:backgroundTint="@color/secondary_colors">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,7 +65,7 @@
 
                 <TextView
                     android:id="@+id/textTitle"
-                    style="@style/Theme.IniDesakuBeta.Text.Headline6"
+                    style="@style/Theme.IniDesakuBeta.Text.Headlinee6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
@@ -78,6 +78,8 @@
                     android:id="@+id/ilusBanner"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="-18dp"
                     app:layout_constraintStart_toStartOf="@id/textTitle"
                     app:layout_constraintTop_toBottomOf="@id/textTitle"
                     app:layout_constraintEnd_toStartOf="@id/textNews"
@@ -86,9 +88,11 @@
 
                 <TextView
                     android:id="@+id/textNews"
-                    style="@style/Theme.IniDesakuBeta.Text.Headline1"
+                    style="@style/Theme.IniDesakuBeta.Text.Headlinee1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="-18dp"
+                    android:layout_marginTop="-12dp"
                     android:text="Materi Baru\nSetiap Hari!"
                     app:layout_constraintTop_toTopOf="@id/textTitle"
                     app:layout_constraintStart_toEndOf="@id/ilusBanner"

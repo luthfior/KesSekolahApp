@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -39,8 +40,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-
+import java.util.regex.Pattern
 
 class SignUpFragment : Fragment() {
 
@@ -51,9 +51,14 @@ class SignUpFragment : Fragment() {
     private lateinit var signUpViewModel: SignUpViewModel
     private val USERS_NODE = "users"
     private val USER_ID_COUNTER_NODE = "user_id_counter"
+    private var selectedRole: String = ""
+    private lateinit var roleItems: Array<String>
 
     private var emailErrorData by Delegates.notNull<Boolean>()
+    private var usernameErrorData by Delegates.notNull<Boolean>()
+    private var peranErrorData by Delegates.notNull<Boolean>()
     private var passwordErrorData by Delegates.notNull<Boolean>()
+    private var isEmailExist = false
 
     private lateinit var successDialog: Dialog
     private lateinit var progressBar: ProgressBar
@@ -62,13 +67,15 @@ class SignUpFragment : Fragment() {
 
     init {
         emailErrorData = true
+        usernameErrorData = true
+        peranErrorData = true
         passwordErrorData = true
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -76,11 +83,14 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        roleItems = resources.getStringArray(R.array.role_items)
         val application = requireActivity().application
         val firebaseAuth = FirebaseAuth.getInstance()
         val authPreference = LoginPreference(requireContext())
         val authRepository = AuthRepository(application, authPreference, firebaseAuth)
         val vmFactory = ViewModelFactorySign.getInstance(application, authRepository, firebaseAuth)
+        val adapterProvinsi = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, roleItems)
+        binding.inForm.spinPeran.setAdapter(adapterProvinsi)
 
         signUpViewModel = ViewModelProvider(
             requireActivity(),
@@ -93,19 +103,32 @@ class SignUpFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        textListener()
-        buttonClick()
-
-        binding.btnLoginPage.setOnClickListener {
+        binding.inForm.btnLoginPage.setOnClickListener {
             findNavController().navigate(
                 R.id.action_signUpFragment_to_loginFragment
             )
         }
+        binding.inForm.btnSignUp.isEnabled = false
+
+        textListener()
+        buttonClick()
+        roleSpin()
+    }
+
+    private fun roleSpin() {
+        with(binding.inForm) {
+            spinPeran.setOnItemClickListener { _, _, position, _ ->
+                selectedRole = roleItems[position]
+                peranErrorData = selectedRole.isEmpty()
+                roleEmpty.alpha = if (peranErrorData) 1F else 0F
+                btnSignUp.isEnabled = !(emailErrorData || usernameErrorData || passwordErrorData || peranErrorData)
+            }
+        }
     }
 
     private fun textListener() {
-        with(binding) {
-            textUsername.addTextChangedListener(object : TextWatcher{
+        with(binding.inForm) {
+            textEmail.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -114,20 +137,45 @@ class SignUpFragment : Fragment() {
                 ) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    emailErrorData = s.toString().trim().isEmpty()
-                    binding.emailEmpty.alpha = if (emailErrorData) 1F else 0F
-                    binding.emailHasSpace.alpha = if (s?.contains(" ") == true) 1F else 0F
-                    if (!emailErrorData) {
-                        binding.emailHasUsed.alpha = 0F
-                        binding.emailFormatError.alpha = 0F
+                    val emailPattern = Pattern.compile(
+                        "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+                    )
+                    val email = s.toString().trim()
+
+                    emailErrorData = when {
+                        email.isEmpty() -> {
+                            emailEmpty.alpha = 1F
+                            emailFormatError.alpha = 0F
+                            emailHasSpace.alpha = 0F
+                            true
+                        }
+                        email.contains(" ") -> {
+                            emailEmpty.alpha = 0F
+                            emailFormatError.alpha = 0F
+                            emailHasSpace.alpha = 1F
+                            true
+                        }
+                        !emailPattern.matcher(email).matches() -> {
+                            emailEmpty.alpha = 0F
+                            emailFormatError.alpha = 1F
+                            emailHasSpace.alpha = 0F
+                            true
+                        }
+                        else -> {
+                            emailEmpty.alpha = 0F
+                            emailFormatError.alpha = 0F
+                            emailHasSpace.alpha = 0F
+                            false
+                        }
                     }
-                    btnSignUp.isEnabled = !(emailErrorData || passwordErrorData)
+
+                    btnSignUp.isEnabled = !(emailErrorData || usernameErrorData || passwordErrorData || peranErrorData || isEmailExist)
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
             })
 
-            textPassword.addTextChangedListener(object: TextWatcher{
+            textUsername.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -136,9 +184,26 @@ class SignUpFragment : Fragment() {
                 ) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    passwordErrorData = s.toString().length < 6 || s.toString().trim().isEmpty()
-                    binding.passwordError.alpha = if (passwordErrorData) 1F else 0F
-                    btnSignUp.isEnabled = !(emailErrorData || passwordErrorData)
+                    usernameErrorData = s.toString().trim().isEmpty()
+                    binding.inForm.usernameEmpty.alpha = if (usernameErrorData) 1F else 0F
+                    btnSignUp.isEnabled = !(emailErrorData || usernameErrorData || passwordErrorData || peranErrorData)
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            textPassword.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    passwordErrorData = s.toString().length < 8 || s.toString().trim().isEmpty()
+                    binding.inForm.passwordError.alpha = if (passwordErrorData) 1F else 0F
+                    btnSignUp.isEnabled = !(emailErrorData || usernameErrorData || passwordErrorData || peranErrorData)
                 }
 
                 override fun afterTextChanged(s: Editable?) {}
@@ -147,17 +212,21 @@ class SignUpFragment : Fragment() {
     }
 
     private fun buttonClick() {
-        with(binding) {
+        with(binding.inForm) {
             btnSignUp.setOnClickListener {
-                val email = textUsername.text.toString().trim()
+
+                val email = textEmail.text.toString().trim()
+                val username = textUsername.text.toString().trim()
                 val password = textPassword.text.toString().trim()
 
                 setupSuccessDialog()
                 signUpViewModel.checkEmailExists(email) { isEmailExists ->
                     if (isEmailExists) {
-                        binding.emailHasUsed.alpha = 1F
-                        btnSignUp.post { btnSignUp.isEnabled = false }
+                        emailHasUsed.alpha = 1F
+                        btnSignUp.isEnabled = false
+                        setupSuccessDialog(true, getString(R.string.email_has_used))
                     } else {
+                        isEmailExist = false
                         signUpViewModel.insertUser(email, password).observe(viewLifecycleOwner) { response ->
                             when(response) {
                                 is ResponseMessage.Loading -> {
@@ -172,11 +241,11 @@ class SignUpFragment : Fragment() {
                                             val currentUserUid = auth.currentUser?.uid
                                             if (currentUserUid != null) {
                                                 val user = User(
-                                                    id = newUserId.toInt(), // Assign the new ID to the user
-                                                    name = email,
+                                                    id = newUserId.toInt(),
+                                                    name = username,
                                                     email = email,
                                                     userProfilePicture = "",
-                                                    role = "",
+                                                    role = selectedRole,
                                                     uid = currentUserUid,
                                                     createdAt = getCurrentDateTime()
                                                 )
@@ -203,10 +272,12 @@ class SignUpFragment : Fragment() {
                                     })
                                 }
                                 is ResponseMessage.Error -> {
+                                    successDialog.dismiss()
+                                    setupSuccessDialog(true, getString(R.string.cannot_register))
                                     Log.d("OnErrorRegister: ", "response: ${response.message}")
                                     when (response.message) {
-                                        "The email address is badly formatted" -> binding.emailFormatError.alpha = 1F
-                                        "The email address is already in use by another account." -> binding.emailHasUsed.alpha = 1F
+                                        "The email address is badly formatted" -> binding.inForm.emailFormatError.alpha = 1F
+                                        "The email address is already in use by another account." -> binding.inForm.emailHasUsed.alpha = 1F
                                         else -> Toast.makeText(requireContext(), R.string.error_register, Toast.LENGTH_SHORT).show()
                                     }
                                 }
@@ -222,7 +293,7 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun setupSuccessDialog() {
+    private fun setupSuccessDialog(isError: Boolean = false, errorMessage: String? = null) {
         successDialog = Dialog(requireContext())
         successDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         successDialog.setContentView(R.layout.loading_effect_layout)
@@ -232,15 +303,26 @@ class SignUpFragment : Fragment() {
         successTextView = successDialog.findViewById(R.id.successTextView)
 
         successDialog.setCancelable(false)
+
+        if (isError) {
+            progressBar.visibility = View.GONE
+            doneLogo.setImageResource(R.drawable.baseline_report_gmailerrorred_24)
+            successTextView.text = errorMessage ?: getString(R.string.cannot_register)
+        } else {
+            progressBar.visibility = View.VISIBLE
+            doneLogo.visibility = View.GONE
+            successTextView.visibility = View.GONE
+        }
+
         successDialog.show()
 
-        // Atur dimensi dan posisi dialog
         val window = successDialog.window
         if (window != null) {
             window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
             window.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.pop_out_message))
         }
     }
+
 
     private fun showLoading() {
         progressBar.visibility = View.VISIBLE
@@ -259,7 +341,6 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
         }
     }
-
 
     private fun getCurrentDateTime(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())

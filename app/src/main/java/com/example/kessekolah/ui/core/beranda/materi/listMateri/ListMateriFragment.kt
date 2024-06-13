@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
-import com.example.kessekolah.data.database.MateriList
+import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.FragmentListMateriBinding
 import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.MateriListAdapter
@@ -36,13 +36,18 @@ class ListMateriFragment : Fragment() {
         binding.rvMateri.layoutManager = LinearLayoutManager(requireContext())
 
         adapter.setOnItemClickCallback(object : MateriListAdapter.OnItemClickCallback {
-            override fun onDeleteClicked(data: MateriList) {
+
+            override fun onDeleteClicked(data: MateriData) {
                 showDialog(data)
             }
 
-            override fun onEditClicked(data: MateriList) {
-                //navigate to edit materi
+            override fun onEditClicked(data: MateriData) {
                 val action = ListMateriFragmentDirections.actionListMateriFragmentToEditMateriFragment(data)
+                findNavController().navigate(action)
+            }
+
+            override fun onItemClicked(data: MateriData) {
+                val action = ListMateriFragmentDirections.actionListMateriFragmentToDetailMateriFragment(data)
                 findNavController().navigate(action)
             }
 
@@ -88,14 +93,14 @@ class ListMateriFragment : Fragment() {
         }
     }
 
-    private fun showDialog(data: MateriList) {
+    private fun showDialog(data: MateriData) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.title_dialog_delete))
-            .setMessage("Materi \"${data.title}\" akan dihapus dari database")
-            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+            .setMessage("Materi \"${data.judul}\" akan dihapus dari database")
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+            .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
                 viewModel.deleteMateri(data)
             }
             .show()

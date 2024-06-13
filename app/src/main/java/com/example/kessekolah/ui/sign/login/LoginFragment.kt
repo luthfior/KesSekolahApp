@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.regex.Pattern
 import kotlin.properties.Delegates
 
 
@@ -54,7 +55,7 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -76,17 +77,19 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         pref = LoginPreference(requireContext())
 
-        binding.btnDaftar.setOnClickListener {
+        binding.inForm.btnDaftar.setOnClickListener {
             findNavController().navigate(
                 R.id.action_loginFragment_to_signUpFragment
             )
         }
+
+        binding.inForm.btnLogin.isEnabled = false
         textListener()
         buttonCLick()
     }
 
     private fun textListener() {
-        with(binding) {
+        with(binding.inForm) {
             textUsername.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -98,17 +101,31 @@ class LoginFragment : Fragment() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    usernameErrorData = textUsername.text.toString().trim().isEmpty()
-                    if (textUsername.toString().trim().isNullOrEmpty()) {
-                        binding.usernameError.alpha = 1F
+                    val emailPattern = Pattern.compile(
+                        "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+                    )
+                    if (!emailPattern.matcher(s).matches()) {
+                        usernameError.text = getString(R.string.email_format_error)
+                        usernameError.alpha = 1F
+                        usernameErrorData = true
                     } else {
-                        binding.usernameError.alpha = 0F
+                        usernameError.alpha = 0F
+                        usernameErrorData = false
+                    }
+                    if (textUsername.toString().trim().isNullOrEmpty()) {
+                        usernameError.alpha = 1F
+                        usernameErrorData = true
+                    } else {
+                        usernameError.alpha = 0F
+                        usernameErrorData = false
                     }
                     if (s?.contains(" ") == true) {
-                        binding.usernameError.text = getString(R.string.username_space)
-                        binding.usernameError.alpha = 1F
+                        usernameError.text = getString(R.string.username_space)
+                        usernameError.alpha = 1F
+                        usernameErrorData = true
                     } else {
-                        binding.usernameError.alpha = 0F
+                        usernameError.alpha = 0F
+                        usernameErrorData = false
                     }
                     btnLogin.isEnabled = !(usernameErrorData || passwordErrorData)
                 }
@@ -129,11 +146,11 @@ class LoginFragment : Fragment() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    passwordErrorData = s.toString().length < 6 || s.toString().trim().isEmpty()
+                    passwordErrorData = s.toString().length < 8 || s.toString().trim().isEmpty()
                     if (passwordErrorData) {
-                        binding.passwordError.alpha = 1F
+                        binding.inForm.passwordError.alpha = 1F
                     } else {
-                        binding.passwordError.alpha = 0F
+                        binding.inForm.passwordError.alpha = 0F
                     }
                     btnLogin.isEnabled = !(usernameErrorData || passwordErrorData)
                 }
@@ -147,9 +164,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun buttonCLick() {
-        binding.btnLogin.setOnClickListener {
-            val email = binding.textUsername.text.toString().trim()
-            val password = binding.textPassword.text.toString().trim()
+        binding.inForm.btnLogin.setOnClickListener {
+            val email = binding.inForm.textUsername.text.toString().trim()
+            val password = binding.inForm.textPassword.text.toString().trim()
 
             loginViewModel.userLogin(email, password).observe(viewLifecycleOwner) { response ->
                 when (response) {

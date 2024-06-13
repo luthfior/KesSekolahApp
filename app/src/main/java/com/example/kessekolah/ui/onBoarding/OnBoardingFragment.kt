@@ -2,17 +2,15 @@ package com.example.kessekolah.ui.onBoarding
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.kessekolah.R
-import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentOnBoardingBinding
 import com.example.kessekolah.utils.LoginPreference
-import com.google.android.material.tabs.TabLayoutMediator
 
 class OnBoardingFragment : Fragment() {
 
@@ -24,7 +22,7 @@ class OnBoardingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentOnBoardingBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -46,16 +44,11 @@ class OnBoardingFragment : Fragment() {
         }
     }
 
-    private fun generateToken(length: Int): String {
-        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
-        return (1..length)
-            .map { allowedChars.random() }
-            .joinToString("")
-    }
 
     private fun setStatusBarTextColorGray() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val decor = activity?.window?.decorView
+            @Suppress("DEPRECATION")
             decor?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
     }

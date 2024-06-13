@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kessekolah.databinding.ItemButtonHomeFeaturesBinding
 import com.example.kessekolah.model.ButtonCoreFeatures
-import com.google.android.material.button.MaterialButton
 
 class ButtonCoreFeaturesAdapter(private val list: List<ButtonCoreFeatures>) :
     RecyclerView.Adapter<ButtonCoreFeaturesAdapter.ViewHolder>() {
@@ -16,7 +15,6 @@ class ButtonCoreFeaturesAdapter(private val list: List<ButtonCoreFeatures>) :
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
-
 
     inner class ViewHolder(val view: ItemButtonHomeFeaturesBinding) :
         RecyclerView.ViewHolder(view.root) {

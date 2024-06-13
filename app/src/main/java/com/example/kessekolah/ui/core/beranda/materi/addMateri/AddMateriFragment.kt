@@ -36,6 +36,7 @@ class AddMateriFragment : Fragment() {
     private var numberIlus = 0
     private var file: File? = null
     private val filePicker = FilePicker.getInstance(this)
+    private val colorsIlus = arrayOf("#328F5A", "#FF6500", "#3C87F8", "#3C87F8", "#3C87F8", "#FF6500", "#3C87F8", "#328F5A")
 
     private val viewModel: AddMateriViewModel by viewModels()
 
@@ -136,14 +137,19 @@ class AddMateriFragment : Fragment() {
         fileRef.putFile(Uri.fromFile(file), metadata)
             .addOnSuccessListener {
                 fileRef.downloadUrl.addOnSuccessListener { uri ->
+
+                    val backColorBanner = getBackColor(numberIlus)
+
                     val materiData = MateriData(
                         judul = judul,
                         tahun = tahun,
+                        category = "Materi",
                         fileName = "$fileId.pdf",
                         fileUrl = uri.toString(),
                         timestamp = getCurrentDateTime(),
                         uid = user.uid,
-                        dataIlus = numberIlus
+                        dataIlus = numberIlus,
+                        backColorBanner = backColorBanner
                     )
 
                     materiRef.child(fileId)
@@ -165,6 +171,10 @@ class AddMateriFragment : Fragment() {
                 Log.e("UploadData", "Gagal mengunggah file", e)
                 Toast.makeText(requireContext(), "Gagal mengunggah file", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun getBackColor(ilusNumber: Int): String {
+        return colorsIlus.getOrElse(ilusNumber - 1) { "#3C87F8" } // Default to white if out of bounds
     }
 
 

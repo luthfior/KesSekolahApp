@@ -136,4 +136,8 @@ dependencies {
 
     // Shimmer Effect
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // PDF Viewer
+    implementation("io.github.afreakyelf:Pdf-Viewer:2.1.1")
+
 }

@@ -2,20 +2,19 @@ package com.example.kessekolah.ui.core.beranda.materi.editMateri
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.kessekolah.R
-import com.example.kessekolah.data.database.MateriList
-import com.example.kessekolah.databinding.FragmentAddMateriBinding
+import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.FragmentEditMateriBinding
+import com.example.kessekolah.model.EditMateriViewModel
 import com.example.kessekolah.ui.adapter.IlusPickerAdapter
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
@@ -29,7 +28,7 @@ class EditMateriFragment : Fragment() {
     private val viewModel: EditMateriViewModel by viewModels()
     private val args : EditMateriFragmentArgs by navArgs()
 
-    private lateinit var data: MateriList
+    private lateinit var data: MateriData
     private val listIlus = listOf(1, 2, 3, 4, 5, 6, 7, 8)
     private var numberIlus by Delegates.notNull<Int>()
 
@@ -46,7 +45,7 @@ class EditMateriFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         data = args.data
-        numberIlus = data.icon
+        numberIlus = data.dataIlus
 
 
         setupData()
@@ -55,9 +54,9 @@ class EditMateriFragment : Fragment() {
     }
 
     private fun setupData() = with(binding.inForm) {
-        textJudulMateri.setText(data.title)
+        textJudulMateri.setText(data.judul)
         textTahun.setText(data.tahun)
-        tvPilihIlustrasi.setText("Ilustrasi ${data.icon} dipilih!")
+        tvPilihIlustrasi.setText("Ilustrasi ${data.dataIlus} dipilih!")
         btnAddFile.setText(data.fileName)
 
         val listAdapter = IlusPickerAdapter(listIlus)
@@ -87,7 +86,6 @@ class EditMateriFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                // edit data firebase
                 viewLifecycleOwner.lifecycleScope.launch {
                     val isError = viewModel.editMateri(mJudul, mTahun, numberIlus, data.fileName.removeSuffix(".pdf"))
                     responseHandler(isError)

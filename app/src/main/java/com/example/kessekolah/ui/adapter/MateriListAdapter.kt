@@ -6,11 +6,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kessekolah.R
-import com.example.kessekolah.data.database.MateriList
+import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.MateriItemListBinding
 
 class MateriListAdapter :
-    ListAdapter<MateriList, MateriListAdapter.ListViewHolder>(MateriListDiffCallback()) {
+    ListAdapter<MateriData, MateriListAdapter.ListViewHolder>(MateriListDiffCallback()) {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -31,9 +31,9 @@ class MateriListAdapter :
 
         with(holder.binding) {
             ivItemIcon.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_book))
-            tvItemTitle.text = data.title
+            tvItemTitle.text = data.judul
             tvItemCategory.text = data.category
-            tvItemTime.text = data.timeStamp
+            tvItemTime.text = data.timestamp
             btnDelete.setOnClickListener {
                 onItemClickCallback.onDeleteClicked(data)
             }
@@ -41,11 +41,14 @@ class MateriListAdapter :
                 onItemClickCallback.onEditClicked(data)
             }
 
+            holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(getItem(position))}
         }
     }
 
     interface OnItemClickCallback {
-        fun onDeleteClicked(data: MateriList)
-        fun onEditClicked(data: MateriList)
+        fun onDeleteClicked(data: MateriData)
+        fun onEditClicked(data: MateriData)
+
+        fun onItemClicked(data: MateriData)
     }
 }

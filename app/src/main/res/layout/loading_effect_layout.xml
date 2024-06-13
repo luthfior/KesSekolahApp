@@ -31,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/progressBar"
-        android:text="Akun berhasil dibuat"
         android:textColor="@color/primary3"
         android:fontFamily="@font/fredoka_regular"
         android:textFontWeight="800"

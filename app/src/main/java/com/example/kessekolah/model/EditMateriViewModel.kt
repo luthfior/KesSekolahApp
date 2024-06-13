@@ -1,10 +1,9 @@
-package com.example.kessekolah.ui.core.beranda.materi.editMateri
+package com.example.kessekolah.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.kessekolah.data.database.MateriList
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume

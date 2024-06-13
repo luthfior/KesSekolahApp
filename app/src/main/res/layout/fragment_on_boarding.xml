@@ -11,8 +11,8 @@
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
         android:layout_marginBottom="30dp"
-        android:layout_above="@id/layout_info"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -26,7 +26,7 @@
             android:id="@+id/onBoardingAppName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-10dp"
+            android:layout_marginTop="0dp"
             android:gravity="center"
             android:text="KesSekolah"
             android:textColor="@color/primary3"
@@ -38,7 +38,7 @@
             android:id="@+id/onBoardingDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="Edukasi Kesehatan Untuk Sekolah"
             android:textColor="@color/primary3"
@@ -50,7 +50,7 @@
             android:id="@+id/onBoardingImageContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-50dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/image_onboarding" />
 
     </LinearLayout>
@@ -60,10 +60,11 @@
         android:id="@+id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/layout_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="29dp"
+        android:paddingHorizontal="30dp"
+        android:layout_marginTop="64dp"
         android:weightSum="16">
 
         <com.google.android.material.button.MaterialButton
@@ -71,7 +72,6 @@
             style="@style/Theme.IniDesakuBeta.Button."
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginBottom="80dp"
             android:backgroundTint="@color/primary3"
             android:text="Yuk Belajar!"
             android:textColor="@color/accent1"

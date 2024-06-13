@@ -1,27 +1,24 @@
 package com.example.kessekolah.ui.core.beranda
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
+import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentHome2Binding
-import com.example.kessekolah.databinding.FragmentHomeBinding
-import com.example.kessekolah.databinding.FragmentNotificationsBinding
 import com.example.kessekolah.model.ButtonCoreFeatures
 import com.example.kessekolah.ui.adapter.ButtonCoreFeaturesAdapter
 import com.example.kessekolah.ui.adapter.MateriListAdapterCore
+import com.example.kessekolah.ui.core.beranda.materi.listMateri.ListMateriFragmentDirections
 import com.example.kessekolah.utils.LoginPreference
-import kotlinx.parcelize.Parcelize
 
 class HomeFragment : Fragment() {
 
@@ -70,6 +67,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+        listBannerMateriAdapter.setOnItemClickCallback(object : MateriListAdapterCore.OnItemClickCallback {
+            override fun onItemClicked(data: MateriData) {
+                val action = HomeFragmentDirections.actionHomeFragment2ToDetailMateriFragment(data)
+                findNavController().navigate(action)
+            }
+
+        })
+
         with(binding) {
             tvUserName.text = dataLogin.name
 
@@ -83,8 +88,6 @@ class HomeFragment : Fragment() {
             listAdapter.setOnItemClickCallback(object : ButtonCoreFeaturesAdapter.OnItemClickCallback{
                 override fun onItemClicked(data: String) {
                     Log.i("BUTTON CLICK out when", data)
-                    Toast.makeText(requireContext(), data,
-                        Toast.LENGTH_LONG).show()
                     when (data) {
                         "Materi" -> {
                             findNavController().navigate(R.id.action_homeFragment2_to_listMateriFragment)

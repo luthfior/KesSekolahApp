@@ -18,11 +18,11 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorSecondaryContainer"
+            android:background="@color/light2"
             app:navigationIcon="@drawable/baseline_arrow_back_ios_24"
             app:title="@string/add_materi"
             app:titleCentered="true"
-            app:titleTextAppearance="@style/Theme.IniDesakuBeta.Text.Headline5">
+            app:titleTextAppearance="@style/Theme.IniDesakuBeta.Text.NavbarTitlee">
 
         </com.google.android.material.appbar.MaterialToolbar>
 

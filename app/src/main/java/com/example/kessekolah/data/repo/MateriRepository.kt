@@ -1,31 +1,45 @@
-package com.example.kessekolah.model
+package com.example.kessekolah.data.repo
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.kessekolah.data.database.MateriData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageMetadata
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
+import java.io.File
+import java.util.Calendar
+import java.util.UUID
+import kotlin.coroutines.resume
 
+class MateriRepository {
 
-class ListMateriViewModel : ViewModel() {
     private val materiRef = FirebaseDatabase.getInstance().getReference("materi")
+
     private val _materiList = MutableLiveData<List<MateriData>>()
     val materiList: LiveData<List<MateriData>> = _materiList
+
+    private val storage = FirebaseStorage.getInstance().reference
+
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
+
+    fun setLoading(isLoading: Boolean) {
+        _loading.value = isLoading
+    }
 
     init {
         fetchMateriList()
     }
 
-    private fun fetchMateriList() {
-        _loading.value = true
+    fun fetchMateriList() {
+        setLoading(true)
         materiRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = ArrayList<MateriData>()
@@ -35,8 +49,8 @@ class ListMateriViewModel : ViewModel() {
                     val timeStamp = fileSnapshot.child("timestamp").getValue(String::class.java) ?: ""
                     val tahun = fileSnapshot.child("tahun").getValue(String::class.java) ?: ""
                     val fileUrl = fileSnapshot.child("fileUrl").getValue(String::class.java) ?: ""
-                    val backColorBanner = fileSnapshot.child("backColorBanner").getValue(String::class.java) ?: ""
                     val dataIcon = fileSnapshot.child("dataIlus").getValue(Int::class.java) ?: 0
+                    val backColorBanner = fileSnapshot.child("backColorBanner").getValue(String::class.java) ?: ""
                     val materi = MateriData(
                         judul = judul,
                         tahun = tahun,
@@ -51,19 +65,46 @@ class ListMateriViewModel : ViewModel() {
                     list.add(materi)
                 }
                 _materiList.value = list
-                _loading.value = false
+                setLoading(false)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                _loading.value = false
+                setLoading(false)
                 Log.e("ListMateriFragment", "Failed to read database", error.toException())
             }
         })
     }
 
+    suspend fun uploadMateri(judul: String, tahun: String, file: File, numberIlus: Int, uid: String, backColorBanner: String) {
+        val fileId = UUID.randomUUID().toString()
+        val fileRef = storage.child("materi/$uid/$fileId.pdf")
+
+        val metadata = StorageMetadata.Builder()
+            .setCustomMetadata("owner", uid)
+            .build()
+
+        val uri = Uri.fromFile(file)
+        fileRef.putFile(uri, metadata).await()
+        val downloadUrl = fileRef.downloadUrl.await()
+
+        val materiData = MateriData(
+            judul = judul,
+            tahun = tahun,
+            category = "Materi",
+            fileName = "$fileId.pdf",
+            fileUrl = downloadUrl.toString(),
+            timestamp = getCurrentDateTime(),
+            uid = uid,
+            dataIlus = numberIlus,
+            backColorBanner = backColorBanner
+        )
+
+        materiRef.child(fileId).setValue(materiData).await()
+    }
+
     fun deleteMateri(data: MateriData) {
-        _loading.value = true
-        val materiQuery: Query = materiRef.orderByChild("judul").equalTo(data.judul)
+        setLoading(true)
+        val materiQuery = materiRef.orderByChild("judul").equalTo(data.judul)
 
         materiQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -82,15 +123,41 @@ class ListMateriViewModel : ViewModel() {
                         }
                     }
                 }
-                _loading.value = false
+                setLoading(false)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                _loading.value = false
+                setLoading(false)
                 Log.e("ViewModelListMateri", "onCancelled", databaseError.toException())
             }
         })
     }
+
+    suspend fun editMateri(newTitle: String, newYear: String, newIcon: Int, fileName: String): Boolean {
+        setLoading(true)
+        Log.d("EditMateriViewModel", fileName)
+        val updates = mapOf(
+            "judul" to newTitle,
+            "tahun" to newYear,
+            "icon" to newIcon,
+        )
+
+        return suspendCancellableCoroutine { continuation ->
+            materiRef.child(fileName).updateChildren(updates)
+                .addOnSuccessListener {
+                    setLoading(false)
+                    Log.d("EditMateriViewModel", "Materi berhasil diperbarui.")
+                    continuation.resume(false) // Ubah menjadi `resume(false)` jika berhasil
+                }
+                .addOnFailureListener { e ->
+                    setLoading(false)
+                    Log.e("EditMateriViewModel", "Gagal memperbarui materi", e)
+                    continuation.resume(true) // Ubah menjadi `resume(true)` jika gagal
+                }
+        }
+    }
+
+    private fun getCurrentDateTime(): String {
+        return Calendar.getInstance().time.toString()
+    }
 }
-
-
