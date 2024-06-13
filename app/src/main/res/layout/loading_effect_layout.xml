@@ -33,7 +33,7 @@
         android:textColor="@color/primary3"
         android:fontFamily="@font/fredoka_regular"
         android:textFontWeight="800"
-        android:textSize="21sp"
+        android:textSize="18sp"
         android:visibility="gone"
         android:paddingTop="8dp"
         app:layout_constraintStart_toStartOf="parent"

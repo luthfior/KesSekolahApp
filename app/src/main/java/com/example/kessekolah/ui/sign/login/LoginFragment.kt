@@ -234,25 +234,15 @@ class LoginFragment : Fragment() {
                         }
                     }
                     is ResponseMessage.Error -> {
-                        Log.d(
-                            "OnErrorLogin: ",
-                            "response: ${response.message.toString()}"
-                        )
+                        Log.d("OnErrorLogin: ", "response: ${response.message.toString()}")
                         when (response.message) {
-                            "There is no user record corresponding to this identifier. The user may have been deleted" ->
-//                                Toast.makeText(requireContext(), "Akun Tidak ditemukan", Toast.LENGTH_SHORT).show()
+                            "Invalid credentials" ->
                                 showErrorDialog(getString(R.string.user_has_not_found))
-                            "The password is invalid or the user does not have a password" ->
-//                                Toast.makeText(requireContext(), "Email atau password salah", Toast.LENGTH_SHORT).show()
+                            "We have blocked all requests from this device due to unusual activity. Try again later. [ Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. ]" ->
                                 showErrorDialog(getString(R.string.user_password_not_sync))
                             "The email address is badly formatted" ->
-//                                Toast.makeText(requireContext(), "Email atau password salah", Toast.LENGTH_SHORT).show()
                                 showErrorDialog(getString(R.string.email_format_error))
-                            else ->
-//                                Toast.makeText(requireContext(), "Akun tidak terdaftar", Toast.LENGTH_SHORT).show()
-                                showErrorDialog(getString(R.string.user_has_not_found))
                         }
-                        showErrorDialog(response.message.toString())
                     }
                 }
             }
