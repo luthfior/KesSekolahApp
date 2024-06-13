@@ -413,8 +413,12 @@
     <string name="email_has_space">*Email Mengandung Spasi</string>
     <string name="username_empty">*Username Tidak Boleh Kosong</string>
     <string name="role_empty">*Peran Tidak Boleh Kosong</string>
-    <string name="error_register">error register</string>
+    <string name="error_register">Error Register</string>
+    <string name="error_login">Error Login</string>
+    <string name="user_has_not_found">Akun Tidak Ditemukan</string>
+    <string name="user_password_not_sync">Email atu Password Salah</string>
     <string name="cannot_register">Gagal Membuat Akun</string>
+    <string name="success_create_account">Berhasil Membuat Akun</string>
     <string name="submit">SUBMIT</string>
     <string name="materi_title">Materi List</string>
     <string name="materi_category">Kategori</string>

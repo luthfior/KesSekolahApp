@@ -214,29 +214,27 @@ class SignUpFragment : Fragment() {
     private fun buttonClick() {
         with(binding.inForm) {
             btnSignUp.setOnClickListener {
-
                 val email = textEmail.text.toString().trim()
                 val username = textUsername.text.toString().trim()
                 val password = textPassword.text.toString().trim()
 
-                setupSuccessDialog()
+                showLoadingDialog()
                 signUpViewModel.checkEmailExists(email) { isEmailExists ->
                     if (isEmailExists) {
+                        showErrorDialog(getString(R.string.email_has_used))
                         emailHasUsed.alpha = 1F
                         btnSignUp.isEnabled = false
-                        setupSuccessDialog(true, getString(R.string.email_has_used))
                     } else {
                         isEmailExist = false
                         signUpViewModel.insertUser(email, password).observe(viewLifecycleOwner) { response ->
-                            when(response) {
+                            when (response) {
                                 is ResponseMessage.Loading -> {
                                     showLoading()
                                 }
                                 is ResponseMessage.Success -> {
                                     database.child(USER_ID_COUNTER_NODE).child("counter").addListenerForSingleValueEvent(object : ValueEventListener {
                                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                            val counter =
-                                                dataSnapshot.getValue(Long::class.java) ?: 0
+                                            val counter = dataSnapshot.getValue(Long::class.java) ?: 0
                                             val newUserId = counter + 1
                                             val currentUserUid = auth.currentUser?.uid
                                             if (currentUserUid != null) {
@@ -254,32 +252,27 @@ class SignUpFragment : Fragment() {
                                                         if (task.isSuccessful) {
                                                             database.child(USER_ID_COUNTER_NODE).child("counter")
                                                                 .setValue(newUserId)
-                                                            showSuccess()
+                                                            showSuccessDialog(getString(R.string.success_create_account))
                                                         } else {
-                                                            Toast.makeText(
-                                                                requireContext(),
-                                                                "Failed to create account",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
+                                                            showErrorDialog(getString(R.string.error_register))
                                                         }
                                                     }
                                             }
                                         }
 
                                         override fun onCancelled(databaseError: DatabaseError) {
-                                            // Handle error
+                                            showErrorDialog(getString(R.string.error_register))
                                         }
                                     })
                                 }
                                 is ResponseMessage.Error -> {
-                                    successDialog.dismiss()
-                                    setupSuccessDialog(true, getString(R.string.cannot_register))
-                                    Log.d("OnErrorRegister: ", "response: ${response.message}")
-                                    when (response.message) {
-                                        "The email address is badly formatted" -> binding.inForm.emailFormatError.alpha = 1F
-                                        "The email address is already in use by another account." -> binding.inForm.emailHasUsed.alpha = 1F
-                                        else -> Toast.makeText(requireContext(), R.string.error_register, Toast.LENGTH_SHORT).show()
+                                    val errorMessage = when (response.message) {
+                                        "The email address is badly formatted" -> getString(R.string.email_format_error)
+                                        "The email address is already in use by another account." -> getString(R.string.email_has_used)
+                                        else -> getString(R.string.error_register)
                                     }
+                                    showErrorDialog(errorMessage)
+                                    Log.d("OnErrorRegister: ", "response: ${response.message}")
                                 }
                             }
                         }
@@ -293,36 +286,100 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun setupSuccessDialog(isError: Boolean = false, errorMessage: String? = null) {
-        successDialog = Dialog(requireContext())
-        successDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        successDialog.setContentView(R.layout.loading_effect_layout)
+    private fun showLoadingDialog() {
+        successDialog = Dialog(requireContext()).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.loading_effect_layout)
+            setCancelable(false)
 
-        progressBar = successDialog.findViewById(R.id.progressBar)
-        doneLogo = successDialog.findViewById(R.id.done_logo)
-        successTextView = successDialog.findViewById(R.id.successTextView)
+            progressBar = findViewById(R.id.progressBar)
+            doneLogo = findViewById(R.id.done_logo)
+            successTextView = findViewById(R.id.successTextView)
 
-        successDialog.setCancelable(false)
-
-        if (isError) {
-            progressBar.visibility = View.GONE
-            doneLogo.setImageResource(R.drawable.baseline_report_gmailerrorred_24)
-            successTextView.text = errorMessage ?: getString(R.string.cannot_register)
-        } else {
             progressBar.visibility = View.VISIBLE
             doneLogo.visibility = View.GONE
             successTextView.visibility = View.GONE
-        }
 
-        successDialog.show()
+            show()
 
-        val window = successDialog.window
-        if (window != null) {
-            window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            window.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.pop_out_message))
+            window?.setLayout(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            window?.setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.pop_out_message)
+            )
         }
     }
 
+    private fun showErrorDialog(message: String) {
+        successDialog.dismiss()
+        successDialog = Dialog(requireContext()).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.loading_effect_layout)
+            setCancelable(false)
+
+            progressBar = findViewById(R.id.progressBar)
+            doneLogo = findViewById(R.id.done_logo)
+            successTextView = findViewById(R.id.successTextView)
+
+            progressBar.visibility = View.GONE
+            doneLogo.setImageResource(R.drawable.baseline_report_gmailerrorred_24)
+            successTextView.text = message
+            doneLogo.visibility = View.VISIBLE
+            successTextView.visibility = View.VISIBLE
+
+            show()
+
+            window?.setLayout(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            window?.setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.pop_out_message)
+            )
+        }
+
+        lifecycleScope.launch {
+            delay(3000)
+            successDialog.dismiss()
+        }
+    }
+
+    private fun showSuccessDialog(message: String) {
+        successDialog.dismiss()
+        successDialog = Dialog(requireContext()).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.loading_effect_layout)
+            setCancelable(false)
+
+            progressBar = findViewById(R.id.progressBar)
+            doneLogo = findViewById(R.id.done_logo)
+            successTextView = findViewById(R.id.successTextView)
+
+            progressBar.visibility = View.GONE
+            doneLogo.setImageResource(R.drawable.baseline_done_all_24)
+            successTextView.text = message
+            doneLogo.visibility = View.VISIBLE
+            successTextView.visibility = View.VISIBLE
+
+            show()
+
+            window?.setLayout(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            window?.setBackgroundDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.pop_out_message)
+            )
+        }
+
+        lifecycleScope.launch {
+            delay(3000)
+            successDialog.dismiss()
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        }
+    }
 
     private fun showLoading() {
         progressBar.visibility = View.VISIBLE
@@ -331,20 +388,14 @@ class SignUpFragment : Fragment() {
         successDialog.show()
     }
 
-    private fun showSuccess() {
-        progressBar.visibility = View.GONE
-        doneLogo.visibility = View.VISIBLE
-        successTextView.visibility = View.VISIBLE
-        lifecycleScope.launch {
-            delay(3000)
-            successDialog.dismiss()
-            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
-        }
-    }
-
     private fun getCurrentDateTime(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val date = Date()
         return dateFormat.format(date)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
