@@ -37,6 +37,9 @@
         <argument
             android:name="data"
             app:argType="com.example.kessekolah.data.database.MateriData" />
+        <action
+            android:id="@+id/action_homeFragment2_to_flipBookTestFragment"
+            app:destination="@id/flipBookTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/listMateriFragment"
@@ -55,6 +58,9 @@
         <argument
             android:name="data"
             app:argType="com.example.kessekolah.data.database.MateriData" />
+        <action
+            android:id="@+id/action_listMateriFragment_to_flipBookTestFragment"
+            app:destination="@id/flipBookTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailMateriFragment"
@@ -78,6 +84,15 @@
         tools:layout="@layout/fragment_edit_materi" >
         <argument
             android:name="data"
+            app:argType="com.example.kessekolah.data.database.MateriData" />
+    </fragment>
+    <fragment
+        android:id="@+id/flipBookTestFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.detailMateri.FlipBookTestFragment"
+        android:label="fragment_flip_book_test"
+        tools:layout="@layout/fragment_flip_book_test" >
+        <argument
+            android:name="materi"
             app:argType="com.example.kessekolah.data.database.MateriData" />
     </fragment>
 </navigation>

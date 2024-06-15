@@ -27,6 +27,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var dataLogin: LoginData
+    private lateinit var dataFirst: MateriData
 
     private val listButton = listOf<ButtonCoreFeatures>(
         ButtonCoreFeatures("@drawable/ic_book", "Materi"),
@@ -62,6 +63,7 @@ class HomeFragment : Fragment() {
 
         viewModel.materiList.observe(viewLifecycleOwner) { materiList ->
 //            viewDataEmpty(materiList.isEmpty())
+            dataFirst = materiList[0]
             materiList?.let {
                 listBannerMateriAdapter.submitList(it)
             }
@@ -69,7 +71,7 @@ class HomeFragment : Fragment() {
 
         listBannerMateriAdapter.setOnItemClickCallback(object : MateriListAdapterCore.OnItemClickCallback {
             override fun onItemClicked(data: MateriData) {
-                val action = HomeFragmentDirections.actionHomeFragment2ToDetailMateriFragment(data)
+                val action = HomeFragmentDirections.actionHomeFragment2ToFlipBookTestFragment(data)
                 findNavController().navigate(action)
             }
 
@@ -91,6 +93,11 @@ class HomeFragment : Fragment() {
                     when (data) {
                         "Materi" -> {
                             findNavController().navigate(R.id.action_homeFragment2_to_listMateriFragment)
+                            Log.i("BUTTON CLICK", data)
+                        }
+                        "Video" -> {
+                            val action = HomeFragmentDirections.actionHomeFragment2ToFlipBookTestFragment(dataFirst)
+                            findNavController().navigate(action)
                             Log.i("BUTTON CLICK", data)
                         }
                     }

@@ -140,4 +140,7 @@ dependencies {
     // PDF Viewer
     implementation("io.github.afreakyelf:Pdf-Viewer:2.1.1")
 
+    //flip view pager
+    implementation ("com.wajahatkarim:easyflipviewpager:2.0.1")
+
 }
