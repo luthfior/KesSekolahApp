@@ -21,7 +21,7 @@ class BannerDetailMateriAdapter:
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (title, fileUrl, category, timeStamp, icon) = getItem(position)
+        val (id, title, fileUrl, category, timeStamp, icon) = getItem(position)
         val data = getItem(position)
 
         with(holder.binding) {

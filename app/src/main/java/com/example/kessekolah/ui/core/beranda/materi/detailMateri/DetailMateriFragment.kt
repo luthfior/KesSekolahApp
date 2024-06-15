@@ -2,20 +2,23 @@ package com.example.kessekolah.ui.core.beranda.materi.detailMateri
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
 import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.FragmentDetailMateriBinding
+import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.BannerDetailMateriAdapter
-import com.example.kessekolah.ui.adapter.ButtonCoreFeaturesAdapter
-import com.example.kessekolah.ui.adapter.MateriListAdapterCore
+import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
 import com.rajat.pdfviewer.PdfRendererView
 
 class DetailMateriFragment : Fragment() {
@@ -23,6 +26,10 @@ class DetailMateriFragment : Fragment() {
     private var _binding: FragmentDetailMateriBinding? = null
     private val binding get() = _binding!!
     private lateinit var materiListAdapterCore: BannerDetailMateriAdapter
+    private lateinit var viewModel: ListMateriViewModel
+
+    private var materiBookMark: MateriData? = null
+    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,15 +46,50 @@ class DetailMateriFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        val materiData = arguments?.getParcelable<MateriData>("data")
+        val vmFactory = ViewModelFactoryBookMark.getInstance(requireActivity().application)
 
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            vmFactory
+        )[ListMateriViewModel::class.java]
+
+        val materiData = arguments?.getParcelable<MateriData>("data")
         if (materiData != null) {
-            Log.d("Detail Materi", materiData.toString())
+            materiBookMark = materiData
             setupBanner(materiData)
             displayPdf(materiData.fileUrl)
         } else {
             Toast.makeText(requireContext(), "Data tidak tersedia", Toast.LENGTH_SHORT).show()
         }
+
+        viewModel.getFavoriteData().observe(viewLifecycleOwner) { materiBM ->
+            if (materiBM != null) {
+                isFavorite = materiBM.any { it.judul == materiData?.judul }
+                val bookmarkMenuItem = binding.topAppBar.menu.findItem(R.id.bookmark_bar)
+                bookmarkMenuItem.setIcon(if (isFavorite) R.drawable.baseline_bookmark_24 else R.drawable.baseline_bookmark_border_24)
+            }
+        }
+
+        binding.topAppBar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.bookmark_bar -> {
+                    if (!isFavorite) {
+                        isFavorite = true
+                        item.setIcon(R.drawable.baseline_bookmark_24)
+                        viewModel.insertMateriBookMark(materiBookMark!!)
+                        Toast.makeText(requireContext(), "Berhasil menambahkan ke Bookmark", Toast.LENGTH_SHORT).show()
+                    } else {
+                        isFavorite = false
+                        item.setIcon(R.drawable.baseline_bookmark_border_24)
+                        viewModel.deleteMateriBookMark(materiBookMark!!.id)
+                        Toast.makeText(requireContext(), "Menghapus dari Bookmark", Toast.LENGTH_SHORT).show()
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
     private fun setupBanner(materiData: MateriData) {
@@ -61,8 +103,9 @@ class DetailMateriFragment : Fragment() {
     private fun displayPdf(fileUrl: String) {
         binding.pdfView.statusListener = object : PdfRendererView.StatusCallBack {
             override fun onPdfLoadStart() {
-                Log.i("statusCallBack","onPdfLoadStart")
+                Log.i("statusCallBack", "onPdfLoadStart")
             }
+
             override fun onPdfLoadProgress(
                 progress: Int,
                 downloadedBytes: Long,
@@ -72,11 +115,11 @@ class DetailMateriFragment : Fragment() {
             }
 
             override fun onPdfLoadSuccess(absolutePath: String) {
-                Log.i("statusCallBack","onPdfLoadSuccess")
+                Log.i("statusCallBack", "onPdfLoadSuccess")
             }
 
             override fun onError(error: Throwable) {
-                Log.i("statusCallBack","onError")
+                Log.i("statusCallBack", "onError")
             }
 
             override fun onPageChanged(currentPage: Int, totalPage: Int) {
@@ -88,8 +131,13 @@ class DetailMateriFragment : Fragment() {
             lifecycleCoroutineScope = lifecycleScope,
             lifecycle = lifecycle
         )
-        binding.pdfView.jumpToPage(3)
+        binding.pdfView.jumpToPage(1)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.nav_bar_bookmark, menu)
     }
 
     override fun onDestroyView() {
@@ -98,3 +146,4 @@ class DetailMateriFragment : Fragment() {
     }
 
 }
+

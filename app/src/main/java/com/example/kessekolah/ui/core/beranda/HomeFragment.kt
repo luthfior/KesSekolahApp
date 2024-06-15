@@ -17,7 +17,6 @@ import com.example.kessekolah.databinding.FragmentHome2Binding
 import com.example.kessekolah.model.ButtonCoreFeatures
 import com.example.kessekolah.ui.adapter.ButtonCoreFeaturesAdapter
 import com.example.kessekolah.ui.adapter.MateriListAdapterCore
-import com.example.kessekolah.ui.core.beranda.materi.listMateri.ListMateriFragmentDirections
 import com.example.kessekolah.utils.LoginPreference
 
 class HomeFragment : Fragment() {
@@ -78,7 +77,7 @@ class HomeFragment : Fragment() {
         })
 
         with(binding) {
-            tvUserName.text = dataLogin.name
+            tvUsername.text = dataLogin.name
 
             rvButtonCore.layoutManager = GridLayoutManager(requireContext(), 3)
             rvButtonCore.adapter = listAdapter

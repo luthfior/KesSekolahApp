@@ -1,9 +1,12 @@
 package com.example.kessekolah.data.repo
 
+import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.kessekolah.data.database.DatabaseProvider
+import com.example.kessekolah.data.database.MateriBookMarkDao
 import com.example.kessekolah.data.database.MateriData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,19 +19,20 @@ import kotlinx.coroutines.tasks.await
 import java.io.File
 import java.util.Calendar
 import java.util.UUID
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 
-class MateriRepository {
+class MateriRepository(application: Application) {
 
     private val materiRef = FirebaseDatabase.getInstance().getReference("materi")
-
     private val _materiList = MutableLiveData<List<MateriData>>()
     val materiList: LiveData<List<MateriData>> = _materiList
-
     private val storage = FirebaseStorage.getInstance().reference
-
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
+    private val materiBookMarkDao: MateriBookMarkDao
+    private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
     fun setLoading(isLoading: Boolean) {
         _loading.value = isLoading
@@ -36,6 +40,8 @@ class MateriRepository {
 
     init {
         fetchMateriList()
+        val db = DatabaseProvider.getDatabase(application)
+        materiBookMarkDao = db.materiBookMarkDao()
     }
 
     fun fetchMateriList() {
@@ -44,6 +50,7 @@ class MateriRepository {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = ArrayList<MateriData>()
                 for (fileSnapshot in snapshot.children) {
+                    val id = fileSnapshot.child("id").getValue(Int::class.java) ?: 0
                     val fileName = fileSnapshot.child("fileName").getValue(String::class.java) ?: ""
                     val judul = fileSnapshot.child("judul").getValue(String::class.java) ?: ""
                     val timeStamp = fileSnapshot.child("timestamp").getValue(String::class.java) ?: ""
@@ -52,6 +59,7 @@ class MateriRepository {
                     val dataIcon = fileSnapshot.child("dataIlus").getValue(Int::class.java) ?: 0
                     val backColorBanner = fileSnapshot.child("backColorBanner").getValue(String::class.java) ?: ""
                     val materi = MateriData(
+                        id = id,
                         judul = judul,
                         tahun = tahun,
                         category = "Materi",
@@ -75,7 +83,7 @@ class MateriRepository {
         })
     }
 
-    suspend fun uploadMateri(judul: String, tahun: String, file: File, numberIlus: Int, uid: String, backColorBanner: String) {
+    suspend fun uploadMateri(id: Int,judul: String, tahun: String, file: File, numberIlus: Int, uid: String, backColorBanner: String) {
         val fileId = UUID.randomUUID().toString()
         val fileRef = storage.child("materi/$uid/$fileId.pdf")
 
@@ -88,6 +96,7 @@ class MateriRepository {
         val downloadUrl = fileRef.downloadUrl.await()
 
         val materiData = MateriData(
+            id = id,
             judul = judul,
             tahun = tahun,
             category = "Materi",
@@ -155,6 +164,23 @@ class MateriRepository {
                     continuation.resume(true) // Ubah menjadi `resume(true)` jika gagal
                 }
         }
+    }
+
+    fun insertMateriBookMark(newMateri: MateriData) {
+        executorService.execute {
+            Log.d("MateriRepository", "Adding new materi: $newMateri")
+            materiBookMarkDao.insert(newMateri)
+        }
+    }
+
+    fun deleteMateriBookMark(id: Int) {
+        executorService.execute { materiBookMarkDao.delete(id) }
+    }
+
+    fun getAllFavorite(): LiveData<List<MateriData>> {
+        val favorites = materiBookMarkDao.getAllFavorite()
+        Log.d("MateriRepository", "Current favorites: $favorites")
+        return favorites
     }
 
     private fun getCurrentDateTime(): String {

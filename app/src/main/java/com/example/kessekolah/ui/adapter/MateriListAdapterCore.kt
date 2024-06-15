@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kessekolah.R
 import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.ItemBannerMateriBinding
-import com.example.kessekolah.databinding.MateriItemListBinding
 
 class MateriListAdapterCore:
     ListAdapter<MateriData, MateriListAdapterCore.ListViewHolder>(MateriListDiffCallback()) {
@@ -28,7 +26,7 @@ class MateriListAdapterCore:
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (title, fileUrl, category, timeStamp, icon) = getItem(position)
+        val (id, title, fileUrl, category, timeStamp, icon) = getItem(position)
         val data = getItem(position)
 
         with(holder.binding) {

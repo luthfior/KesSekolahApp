@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
@@ -13,12 +13,13 @@ import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.FragmentListMateriBinding
 import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.MateriListAdapter
+import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ListMateriFragment : Fragment() {
     private var _binding: FragmentListMateriBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ListMateriViewModel by viewModels()
+    private lateinit var viewModel: ListMateriViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +31,13 @@ class ListMateriFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val vmFactory = ViewModelFactoryBookMark.getInstance(requireActivity().application)
+
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            vmFactory
+        )[ListMateriViewModel::class.java]
 
         val adapter = MateriListAdapter()
         binding.rvMateri.adapter = adapter

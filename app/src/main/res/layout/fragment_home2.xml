@@ -25,7 +25,7 @@
             />
 
         <TextView
-            android:id="@+id/tvUserName"
+            android:id="@+id/tvUsername"
             android:theme="@style/Theme.IniDesakuBeta.Text.Headlinee4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/tvUserName"
+            app:layout_constraintTop_toBottomOf="@id/tvUsername"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:backgroundTint="@color/secondary_colors">

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/search_bar"
-        android:icon="@drawable/search"
+        android:icon="@drawable/baseline_search_24"
         android:title="@string/shop_cart"
         app:showAsAction="always" />
 

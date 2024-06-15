@@ -26,7 +26,7 @@ class MateriListAdapter :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (fileName, title, fileUrl, tahun, category, timeStamp, icon) = getItem(position)
+        val (id, fileName, title, fileUrl, tahun, category, timeStamp, icon) = getItem(position)
         val data = getItem(position)
 
         with(holder.binding) {
