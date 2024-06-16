@@ -1,7 +1,13 @@
 package com.example.kessekolah.ui.onBoarding
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +36,52 @@ class OnBoardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonClick()
-
         setStatusBarTextColorGray()
         setStatusBarBackgroundColorWhite()
 
         pref = LoginPreference(requireContext())
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Internet Permission Required")
+            .setMessage("This app requires permission to use the internet. Please allow internet access to continue.")
+            .setPositiveButton("Allow") { _, _ ->
+                checkInternetPermission()
+            }
+            .setNegativeButton("Exit") { _, _ ->
+                requireActivity().finish()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    private fun checkInternetPermission() {
+        if (!isInternetAvailable(requireContext())) {
+            showInternetPermissionDialog()
+        } else {
+            buttonClick()
+        }
+    }
+
+    private fun showInternetPermissionDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Internet Permission Required")
+            .setMessage("This app requires an active internet connection. Please enable mobile data or Wi-Fi.")
+            .setPositiveButton("Settings") { _, _ ->
+                startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+                buttonClick()
+            }
+            .setNegativeButton("Exit") { _, _ ->
+                requireActivity().finish()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     private fun buttonClick() {

@@ -12,6 +12,10 @@
         tools:layout="@layout/fragment_book_mark">
 
         <action
+            android:id="@+id/action_homeFragment_to_addMateriFragment"
+            app:destination="@id/addMateriFragment" />
+
+        <action
             android:id="@+id/action_bookMarkFragment_to_detailMateriFragment"
             app:destination="@id/detailMateriFragment" />
 
@@ -32,6 +36,10 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_tentangSekolahFragment"
+            app:destination="@id/tentangSekolahFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment2"
@@ -42,6 +50,10 @@
         <action
             android:id="@+id/action_homeFragment2_to_listMateriFragment"
             app:destination="@id/listMateriFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment2_to_addMateriFragment"
+            app:destination="@id/addMateriFragment" />
 
         <action
             android:id="@+id/action_homeFragment2_to_detailMateriFragment"
@@ -113,4 +125,14 @@
         android:name="com.example.kessekolah.ui.core.profile.editProfile.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/tentangSekolahFragment"
+        android:name="com.example.kessekolah.ui.about.TentangSekolahFragment"
+        android:label="fragment_tentang_sekolah"
+        tools:layout="@layout/fragment_tentang_sekolah">
+
+        <action
+            android:id="@+id/action_tentangSekolahFragment_to_profilFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

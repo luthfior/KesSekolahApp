@@ -16,7 +16,9 @@ import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentHome2Binding
 import com.example.kessekolah.model.ButtonCoreFeatures
 import com.example.kessekolah.ui.adapter.ButtonCoreFeaturesAdapter
+import com.example.kessekolah.ui.adapter.EbookListAdapterCore
 import com.example.kessekolah.ui.adapter.MateriListAdapterCore
+import com.example.kessekolah.ui.adapter.VideoListAdapterCore
 import com.example.kessekolah.utils.LoginPreference
 
 class HomeFragment : Fragment() {
@@ -37,6 +39,16 @@ class HomeFragment : Fragment() {
         ButtonCoreFeatures("@drawable/ic_e_book", "E-Book"),
     )
 
+    private val videoList = listOf(
+        R.drawable.image_card_video_1,
+        R.drawable.image_card_video_2
+    )
+
+    private val eBookList = listOf(
+        R.drawable.image_card_ebook_1,
+        R.drawable.image_card_ebook_2
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,8 +64,11 @@ class HomeFragment : Fragment() {
 
 
         setupData(listButton)
+        setupVideoBanner(videoList)
+        setupEbookBanner(eBookList)
         loadingHandler()
     }
+
 
     private fun setupData(listData: List<ButtonCoreFeatures>) {
 
@@ -61,10 +76,18 @@ class HomeFragment : Fragment() {
         val listBannerMateriAdapter = MateriListAdapterCore()
 
         viewModel.materiList.observe(viewLifecycleOwner) { materiList ->
-//            viewDataEmpty(materiList.isEmpty())
-            dataFirst = materiList[0]
-            materiList?.let {
-                listBannerMateriAdapter.submitList(it)
+            if (materiList.isNotEmpty()) {
+                dataFirst = materiList[0]
+                listBannerMateriAdapter.submitList(materiList)
+            } else {
+                binding.imgDataEmpty.visibility = View.VISIBLE
+                binding.rvBannerMateri.visibility = View.GONE
+                if (dataLogin.role == "Guru") {
+                    binding.imgDataEmpty.setOnClickListener {
+                        findNavController().navigate(R.id.action_homeFragment2_to_addMateriFragment)
+                    }
+                }
+                Log.i("HomeFragment", "Materi list is empty")
             }
         }
 
@@ -85,7 +108,6 @@ class HomeFragment : Fragment() {
             rvBannerMateri.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             rvBannerMateri.adapter = listBannerMateriAdapter
 
-
             listAdapter.setOnItemClickCallback(object : ButtonCoreFeaturesAdapter.OnItemClickCallback{
                 override fun onItemClicked(data: String) {
                     Log.i("BUTTON CLICK out when", data)
@@ -105,7 +127,24 @@ class HomeFragment : Fragment() {
             })
         }
 
+    }
 
+    private fun setupVideoBanner(videoList: List<Int>) {
+        val listBannerVideoAdapter = VideoListAdapterCore()
+
+        binding.rvBannerVideo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvBannerVideo.adapter = listBannerVideoAdapter
+
+        listBannerVideoAdapter.submitList(videoList)
+    }
+
+    private fun setupEbookBanner(videoList: List<Int>) {
+        val listBannerEbookAdapter = EbookListAdapterCore()
+
+        binding.rvBannerEbook.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvBannerEbook.adapter = listBannerEbookAdapter
+
+        listBannerEbookAdapter.submitList(videoList)
     }
 
     private fun loadingHandler() {

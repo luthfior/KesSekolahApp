@@ -78,12 +78,13 @@
                     android:id="@+id/ilusBanner"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
-                    android:layout_marginStart="64dp"
+                    android:layout_marginStart="56dp"
                     android:layout_marginTop="-18dp"
                     app:layout_constraintStart_toStartOf="@id/textTitle"
                     app:layout_constraintTop_toBottomOf="@id/textTitle"
                     app:layout_constraintEnd_toStartOf="@id/textNews"
                     android:src="@drawable/ilus_banner"
+                    android:contentDescription="@string/image_preview"
                     />
 
                 <TextView
@@ -91,7 +92,7 @@
                     style="@style/Theme.IniDesakuBeta.Text.Headlinee1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="-18dp"
+                    android:layout_marginStart="-32dp"
                     android:layout_marginTop="-12dp"
                     android:text="Materi Baru\nSetiap Hari!"
                     app:layout_constraintTop_toTopOf="@id/textTitle"
@@ -105,6 +106,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvButtonCore"
+            android:paddingStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -142,7 +144,7 @@
             android:id="@+id/layoutBannerMateri"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rvButtonCore"
             app:layout_constraintEnd_toEndOf="parent"
@@ -156,6 +158,16 @@
                 android:text="@string/materi"
                 android:theme="@style/Theme.IniDesakuBeta.Text.Headline4Black"
                 />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/imgDataEmpty"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:visibility="gone"
+                android:layout_gravity="start"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/no_data" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBannerMateri"
@@ -171,12 +183,72 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutBannerVideo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutBannerMateri"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvVideo"
+                android:layout_marginStart="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Video"
+                android:theme="@style/Theme.IniDesakuBeta.Text.Headline4Black"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBannerVideo"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center_horizontal"
+                tools:listitem="@layout/item_banner_video"
+                android:orientation="horizontal"
+                tools:itemCount="1"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutBannerEbook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutBannerVideo"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvEbook"
+                android:layout_marginStart="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ebook"
+                android:theme="@style/Theme.IniDesakuBeta.Text.Headline4Black"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBannerEbook"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center_horizontal"
+                tools:listitem="@layout/item_banner_materi"
+                android:orientation="horizontal"
+                tools:itemCount="1"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 
 </ScrollView>

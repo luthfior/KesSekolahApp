@@ -10,9 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
 import com.example.kessekolah.data.database.MateriData
+import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentListMateriBinding
 import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.MateriListAdapter
+import com.example.kessekolah.ui.adapter.MateriListSiswaAdapter
+import com.example.kessekolah.utils.LoginPreference
 import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -20,6 +23,7 @@ class ListMateriFragment : Fragment() {
     private var _binding: FragmentListMateriBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ListMateriViewModel
+    private lateinit var dataLogin: LoginData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +36,27 @@ class ListMateriFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dataLogin = LoginPreference(requireContext()).getData()
         val vmFactory = ViewModelFactoryBookMark.getInstance(requireActivity().application)
+
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
 
         viewModel = ViewModelProvider(
             requireActivity(),
             vmFactory
         )[ListMateriViewModel::class.java]
 
+        if (dataLogin.role == "Guru") {
+            itemListGuru()
+        } else {
+            itemListSiswa()
+            binding.btnTambahMateri.visibility = View.GONE
+        }
+    }
+
+    private fun itemListGuru() {
         val adapter = MateriListAdapter()
         binding.rvMateri.adapter = adapter
         binding.rvMateri.layoutManager = LinearLayoutManager(requireContext())
@@ -78,15 +96,43 @@ class ListMateriFragment : Fragment() {
             }
         }
 
-       buttonCLick()
+        buttonCLick()
+    }
+
+    private fun itemListSiswa() {
+        val adapter = MateriListSiswaAdapter()
+        binding.rvMateri.adapter = adapter
+        binding.rvMateri.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter.setOnItemClickCallback(object : MateriListSiswaAdapter.OnItemClickCallback {
+
+            override fun onItemClicked(data: MateriData) {
+                val action = ListMateriFragmentDirections.actionListMateriFragmentToDetailMateriFragment(data)
+                findNavController().navigate(action)
+            }
+
+        })
+
+        viewModel.materiList.observe(viewLifecycleOwner) { materiList ->
+            viewDataEmpty(materiList.isEmpty())
+            materiList?.let {
+                adapter.submitList(it)
+            }
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            if (loading) {
+                binding.loadingIndicator.visibility = View.VISIBLE
+                binding.rvMateri.visibility = View.GONE
+            } else {
+                binding.loadingIndicator.visibility = View.GONE
+                binding.rvMateri.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun buttonCLick() {
         with(binding) {
-            topAppBar.setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
-
             btnTambahMateri.setOnClickListener {
                 findNavController().navigate(R.id.action_listMateriFragment_to_addMateriFragment)
             }
