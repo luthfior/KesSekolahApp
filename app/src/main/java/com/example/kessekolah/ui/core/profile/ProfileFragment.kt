@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.kessekolah.MainActivity
+import com.example.kessekolah.R
 import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentProfileBinding
 import com.example.kessekolah.utils.LoginPreference
@@ -46,6 +48,11 @@ class ProfileFragment : Fragment() {
 
 
     private fun buttonClick() = with(binding) {
+        btnEditProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+        }
+
+
         btnKeluar.setOnClickListener {
 
             //add dialog to make sure action log out
