@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_flipBookTestFragment"
             app:destination="@id/flipBookTestFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_searchMateriFragment"
+            app:destination="@id/searchMateriFragment" />
     </fragment>
     <fragment
         android:id="@+id/listMateriFragment"
@@ -113,4 +116,16 @@
         android:name="com.example.kessekolah.ui.core.profile.editProfile.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/searchMateriFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.searchMateri.SearchMateriFragment"
+        android:label="fragment_search_materi"
+        tools:layout="@layout/fragment_search_materi" >
+        <action
+            android:id="@+id/action_searchMateriFragment_to_detailMateriFragment"
+            app:destination="@id/detailMateriFragment" />
+        <action
+            android:id="@+id/action_searchMateriFragment_to_editMateriFragment"
+            app:destination="@id/editMateriFragment" />
+    </fragment>
 </navigation>
