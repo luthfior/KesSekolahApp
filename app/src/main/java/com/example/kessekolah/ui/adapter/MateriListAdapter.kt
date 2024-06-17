@@ -25,6 +25,11 @@ class MateriListAdapter :
         return ListViewHolder(binding)
     }
 
+    fun filterList(filterlist: ArrayList<MateriData>) {
+        this.submitList(filterlist)
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val (id, fileName, title, fileUrl, tahun, category, timeStamp, icon) = getItem(position)
         val data = getItem(position)

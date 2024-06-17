@@ -140,6 +140,10 @@ class HomeFragment : Fragment() {
                 }
 
             })
+
+            btnSearch.setOnClickListener {
+                findNavController().navigate(R.id.action_homeFragment2_to_searchMateriFragment)
+            }
         }
 
     }

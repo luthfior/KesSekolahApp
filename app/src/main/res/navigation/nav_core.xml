@@ -79,7 +79,6 @@
         <action
             android:id="@+id/action_homeFragment2_to_flipBookTestFragment"
             app:destination="@id/flipBookTestFragment" />
-
     </fragment>
     <fragment
         android:id="@+id/listMateriFragment"
@@ -155,10 +154,4 @@
         android:name="com.example.kessekolah.ui.sign.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login"/>
-
-    <fragment
-        android:id="@+id/noServiceFragment"
-        android:name="com.example.kessekolah.ui.NoServiceFragment"
-        android:label="fragment_no_service"
-        tools:layout="@layout/fragment_no_service"/>
 </navigation>

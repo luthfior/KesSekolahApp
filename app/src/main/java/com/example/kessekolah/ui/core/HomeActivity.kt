@@ -21,6 +21,7 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val navHostController = supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
         navController = navHostController.navController
 
@@ -33,7 +34,9 @@ class HomeActivity : AppCompatActivity() {
                 R.id.bookMarkFragment,
                 R.id.profileFragment -> binding.bottomNavigation.visibility = View.VISIBLE
 
-                else -> binding.bottomNavigation.visibility = View.GONE
+                else -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
             }
         }
 
