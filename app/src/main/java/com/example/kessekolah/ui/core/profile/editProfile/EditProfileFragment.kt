@@ -18,10 +18,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
+import androidx.navigation.fragment.findNavController
+import com.example.kessekolah.R
 import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentEditProfileBinding
 import com.example.kessekolah.utils.LoginPreference
+import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
 
 class EditProfileFragment : Fragment() {
@@ -53,14 +55,23 @@ class EditProfileFragment : Fragment() {
         preference = LoginPreference(requireContext())
         dataLogin = preference.getData()
 
+
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         checkPermissions()
         buttonClick()
         setupData(dataLogin)
     }
 
     private fun setupData(data: LoginData) = with(binding) {
-//        Glide.with(requireContext()).load(data.profilePicture).into(imgProfile)
         textName.setText(data.name)
+        if (data.profilePicture?.isNotEmpty() == true) {
+            Picasso.get().load(dataLogin.profilePicture).into(imgProfile)
+        } else {
+            imgProfile.setImageResource(R.drawable.logo_app)
+        }
     }
 
     private fun buttonClick() = with(binding) {
@@ -82,6 +93,13 @@ class EditProfileFragment : Fragment() {
                             "Profile updated successfully",
                             Toast.LENGTH_SHORT
                         ).show()
+                        // Pass back the updated data to ProfileFragment
+                        val result = Bundle().apply {
+                            putString("updatedName", newName)
+                            putString("updatedProfilePicture", imageUri?.toString())
+                        }
+                        parentFragmentManager.setFragmentResult("editProfileResult", result)
+                        findNavController().popBackStack()
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -131,11 +149,10 @@ class EditProfileFragment : Fragment() {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     imageUri = getImageUriFromBitmap(imageBitmap)
                     binding.imgProfile.setImageBitmap(imageBitmap)
-
                 }
 
                 REQUEST_IMAGE_PICK -> {
-                    val imageUri: Uri? = data?.data
+                    imageUri = data?.data
                     imageUri?.let {
                         binding.imgProfile.setImageURI(it)
                     }
@@ -196,6 +213,4 @@ class EditProfileFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

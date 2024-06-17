@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.FragmentEditMateriBinding
+import com.example.kessekolah.model.BookMarkViewModel
 import com.example.kessekolah.model.EditMateriViewModel
 import com.example.kessekolah.ui.adapter.IlusPickerAdapter
+import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
@@ -31,6 +34,7 @@ class EditMateriFragment : Fragment() {
     private lateinit var data: MateriData
     private val listIlus = listOf(1, 2, 3, 4, 5, 6, 7, 8)
     private var numberIlus by Delegates.notNull<Int>()
+    private lateinit var materiBookMarkViewModel: BookMarkViewModel
 
 
     override fun onCreateView(
@@ -44,9 +48,14 @@ class EditMateriFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val vmFactory = ViewModelFactoryBookMark.getInstance(requireActivity().application)
+        materiBookMarkViewModel = ViewModelProvider(
+            requireActivity(),
+            vmFactory
+        )[BookMarkViewModel::class.java]
+
         data = args.data
         numberIlus = data.dataIlus
-
 
         setupData()
         buttonClick()
@@ -100,6 +109,9 @@ class EditMateriFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Data materi berhasil dirubah", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
+            findNavController().previousBackStackEntry?.also {
+                it.savedStateHandle.set("updateBookmarks", true)
+            }
         }
     }
 

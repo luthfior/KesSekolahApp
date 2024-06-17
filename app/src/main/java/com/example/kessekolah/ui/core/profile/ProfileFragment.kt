@@ -1,6 +1,5 @@
 package com.example.kessekolah.ui.core.profile
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +12,8 @@ import com.example.kessekolah.R
 import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentProfileBinding
 import com.example.kessekolah.utils.LoginPreference
-
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -21,6 +21,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var preference: LoginPreference
     private lateinit var dataLogin: LoginData
+    private lateinit var storage: FirebaseStorage
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,15 +36,32 @@ class ProfileFragment : Fragment() {
 
         preference = LoginPreference(requireContext())
         dataLogin = preference.getData()
+        storage = FirebaseStorage.getInstance()
 
         setupData()
         buttonClick()
+
+        parentFragmentManager.setFragmentResultListener("editProfileResult", viewLifecycleOwner) { _, result ->
+            val updatedName = result.getString("updatedName")
+            val updatedProfilePicture = result.getString("updatedProfilePicture")
+
+            updatedName?.let { dataLogin.name = it }
+            updatedProfilePicture?.let { dataLogin.profilePicture = it }
+
+            setupData()
+        }
     }
 
     private fun setupData() = with(binding) {
         tvName.text = dataLogin.name
         tvEmail.text = dataLogin.email
         tvProfesi.text = dataLogin.role
+
+        if (dataLogin.profilePicture?.isNotEmpty() == true) {
+            Picasso.get().load(dataLogin.profilePicture).into(imgAvatar)
+        } else {
+            imgAvatar.setImageResource(R.drawable.logo_app)
+        }
     }
 
 
@@ -52,19 +70,19 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
+        btnTentangSekolah.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_tentangSekolahFragment)
+        }
 
         btnKeluar.setOnClickListener {
-
-            //add dialog to make sure action log out
             preference.removeData()
 
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-
-            requireActivity().finish()
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPassword" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -80,6 +83,16 @@
         tools:layout="@layout/fragment_materi" >
         <action
             android:id="@+id/action_materiFragment_to_homeFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPassword"
+        android:name="com.example.kessekolah.ui.sign.ForgetPasswordFragment"
+        android:label="fragment_forgetPassword"
+        tools:layout="@layout/fragment_forget_password">
+
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true"  />

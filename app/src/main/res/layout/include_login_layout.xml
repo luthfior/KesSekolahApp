@@ -13,7 +13,8 @@
         android:text="Email"
         android:textSize="16sp"
         android:paddingStart="26sp"
-        android:layout_marginTop="32dp"/>
+        android:layout_marginTop="32dp"
+        android:textColor="@color/accent1"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutLogin"
@@ -32,7 +33,8 @@
             style="@style/Theme.IniDesakuBeta.TextView.Regular14.400"
             android:inputType="textEmailAddress"
             android:hint="Masukkan Email"
-            android:textColorHint="@color/accent1" />
+            android:textColorHint="@color/accent1"
+            android:textColor="@color/accent1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
@@ -54,6 +56,7 @@
         android:fontFamily="@font/fredoka_medium"
         android:text="Password"
         android:textSize="16sp"
+        android:textColor="@color/accent1"
         android:paddingStart="26sp"
         android:layout_marginTop="4dp"/>
 
@@ -64,6 +67,7 @@
         android:layout_marginTop="8dp"
         app:hintEnabled="false"
         app:endIconMode="password_toggle"
+        app:endIconTint="@color/accent1"
         android:paddingHorizontal="24dp">
 
         <com.example.kessekolah.ui.customView.CustomInputEditText
@@ -74,6 +78,7 @@
             android:inputType="textPassword"
             android:hint="Masukan Password"
             android:textColorHint="@color/accent1"
+            android:textColor="@color/accent1"
             android:background="@drawable/input_layout"
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -105,7 +110,8 @@
             android:layout_height="wrap_content"
             android:text="@string/ingat_saya"
             android:textSize="16sp"
-            android:fontFamily="@font/fredoka_medium"/>
+            android:textColor="@color/accent1"
+            android:fontFamily="@font/fredoka_medium" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnForgotPassword"

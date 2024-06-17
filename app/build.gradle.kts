@@ -143,4 +143,5 @@ dependencies {
     //flip view pager
     implementation ("com.wajahatkarim:easyflipviewpager:2.0.1")
 
+    implementation("com.squareup.picasso:picasso:2.8")
 }
