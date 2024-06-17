@@ -73,7 +73,7 @@ class SearchMateriFragment : Fragment() {
             }
 
             override fun onItemClicked(data: MateriData) {
-                val action = SearchMateriFragmentDirections.actionSearchMateriFragmentToDetailMateriFragment(data)
+                val action = SearchMateriFragmentDirections.actionSearchMateriFragmentToFlipBookTestFragment(data)
                 findNavController().navigate(action)
             }
 
@@ -132,25 +132,18 @@ class SearchMateriFragment : Fragment() {
 
 
     private fun filter(text: String) {
-        // creating a new array list to filter our data.
         val filteredlist: ArrayList<MateriData> = ArrayList()
 
-        // running a for loop to compare elements.
         for (item in materiList) {
-            // checking if the entered string matched with any item of our recycler view.
+
             if (item.judul.toLowerCase().contains(text.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
+
                 filteredlist.add(item)
             }
         }
         if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
             Toast.makeText(requireContext(), "No Data Found..", Toast.LENGTH_SHORT).show()
         } else {
-            // at last we are passing that filtered
-            // list to our adapter class.
             adapter.filterList(filteredlist)
         }
     }
