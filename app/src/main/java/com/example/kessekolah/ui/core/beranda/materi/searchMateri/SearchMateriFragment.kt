@@ -23,6 +23,7 @@ import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.MateriListAdapter
 import com.example.kessekolah.ui.core.beranda.materi.listMateri.ListMateriFragmentDirections
 import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class SearchMateriFragment : Fragment() {
@@ -64,7 +65,7 @@ class SearchMateriFragment : Fragment() {
         adapter.setOnItemClickCallback(object : MateriListAdapter.OnItemClickCallback {
 
             override fun onDeleteClicked(data: MateriData) {
-//                showDialog(data)
+                showDialog(data)
             }
 
             override fun onEditClicked(data: MateriData) {
@@ -122,6 +123,19 @@ class SearchMateriFragment : Fragment() {
         })
     }
 
+    private fun showDialog(data: MateriData) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.title_dialog_delete))
+            .setMessage("Materi \"${data.judul}\" akan dihapus dari database")
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
+                viewModel.deleteMateri(data)
+            }
+            .show()
+    }
+
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        when (item.itemId) {
 //            R.id.actionSearch -> return true
@@ -142,7 +156,7 @@ class SearchMateriFragment : Fragment() {
             }
         }
         if (filteredlist.isEmpty()) {
-            Toast.makeText(requireContext(), "No Data Found..", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), "No Data Found..", Toast.LENGTH_SHORT).show()
         } else {
             adapter.filterList(filteredlist)
         }
