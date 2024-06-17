@@ -8,7 +8,7 @@
         android:id="@+id/imgIlus"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/logo_app"
+        android:src="@drawable/logo_app_splash_screen"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="@id/imgIlus"
         app:layout_constraintEnd_toEndOf="@id/imgIlus"
         android:text="Service Not Available"
+        android:textColor="@color/primary3"
         android:theme="@style/Theme.IniDesakuBeta.Text.Headline4"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

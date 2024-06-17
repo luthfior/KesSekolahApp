@@ -51,7 +51,7 @@
             android:text="Materi Baru\nSetiap Hari!"
             android:textAlignment="textStart"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="18dp"
             android:maxLines="3"
             app:layout_constraintTop_toTopOf="@id/textTitle"
             app:layout_constraintStart_toEndOf="@id/ilusBanner"

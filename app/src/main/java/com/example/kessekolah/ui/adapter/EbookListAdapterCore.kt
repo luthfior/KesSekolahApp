@@ -1,13 +1,18 @@
 package com.example.kessekolah.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kessekolah.R
+import com.example.kessekolah.data.database.MateriData
 import com.example.kessekolah.databinding.ItemBannerVideoBinding
 
-class EbookListAdapterCore :
+class EbookListAdapterCore(private val fragment: Fragment) :
     ListAdapter<Int, EbookListAdapterCore.ListViewHolder>(EbookListDiffCallback()) {
 
     class ListViewHolder(var binding: ItemBannerVideoBinding) : RecyclerView.ViewHolder(binding.root)
@@ -25,6 +30,10 @@ class EbookListAdapterCore :
             backColorBanner.setBackgroundResource(drawableRes)
             textNews.text = ""
             ilusBanner.setImageDrawable(null)
+
+            holder.itemView.setOnClickListener {
+                fragment.findNavController().navigate(R.id.action_homeFragment2_to_noServiceFragment)
+            }
         }
     }
 }

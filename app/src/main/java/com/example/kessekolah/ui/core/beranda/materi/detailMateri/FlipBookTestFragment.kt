@@ -128,6 +128,7 @@ class FlipBookTestFragment : Fragment() {
     }
 
     private fun pdfToBitmap(data: MateriData) {
+        binding.loadingProgressBar.visibility = View.VISIBLE
         lifecycleScope.launch {
             try {
                 // Unduh file PDF di latar belakang
@@ -168,6 +169,8 @@ class FlipBookTestFragment : Fragment() {
             } catch (ex: Exception) {
                 // Tangani error
                 Log.e("PDF TO BITMAP", ex.toString())
+            } finally {
+                binding.loadingProgressBar.visibility = View.GONE
             }
         }
     }

@@ -45,7 +45,6 @@
             android:visibility="gone"
             tools:listitem="@layout/materi_item_list" />
 
-
     </ScrollView>
 
     <com.airbnb.lottie.LottieAnimationView

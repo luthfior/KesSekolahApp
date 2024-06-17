@@ -15,6 +15,7 @@ import com.example.kessekolah.databinding.FragmentListMateriBinding
 import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.MateriListAdapter
 import com.example.kessekolah.ui.adapter.MateriListSiswaAdapter
+import com.example.kessekolah.ui.core.beranda.HomeFragmentDirections
 import com.example.kessekolah.utils.LoginPreference
 import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -73,7 +74,7 @@ class ListMateriFragment : Fragment() {
             }
 
             override fun onItemClicked(data: MateriData) {
-                val action = ListMateriFragmentDirections.actionListMateriFragmentToDetailMateriFragment(data)
+                val action = ListMateriFragmentDirections.actionListMateriFragmentToFlipBookTestFragment(data)
                 findNavController().navigate(action)
             }
 
@@ -107,8 +108,9 @@ class ListMateriFragment : Fragment() {
         adapter.setOnItemClickCallback(object : MateriListSiswaAdapter.OnItemClickCallback {
 
             override fun onItemClicked(data: MateriData) {
-                val action = ListMateriFragmentDirections.actionListMateriFragmentToDetailMateriFragment(data)
+                val action = ListMateriFragmentDirections.actionListMateriFragmentToFlipBookTestFragment(data)
                 findNavController().navigate(action)
+
             }
 
         })

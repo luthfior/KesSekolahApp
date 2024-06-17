@@ -42,6 +42,10 @@
             app:destination="@id/tentangSekolahFragment" />
 
         <action
+            android:id="@+id/action_profileFragment_to_noServiceFragment"
+            app:destination="@id/noServiceFragment" />
+
+        <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/splashScreenFragment"
@@ -65,12 +69,17 @@
             android:id="@+id/action_homeFragment2_to_detailMateriFragment"
             app:destination="@id/detailMateriFragment" />
 
+        <action
+            android:id="@+id/action_homeFragment2_to_noServiceFragment"
+            app:destination="@id/noServiceFragment" />
+
         <argument
             android:name="data"
             app:argType="com.example.kessekolah.data.database.MateriData" />
         <action
             android:id="@+id/action_homeFragment2_to_flipBookTestFragment"
             app:destination="@id/flipBookTestFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/listMateriFragment"
@@ -86,12 +95,12 @@
         <action
             android:id="@+id/action_listMateriFragment_to_detailMateriFragment"
             app:destination="@id/detailMateriFragment" />
-        <argument
-            android:name="data"
-            app:argType="com.example.kessekolah.data.database.MateriData" />
         <action
             android:id="@+id/action_listMateriFragment_to_flipBookTestFragment"
             app:destination="@id/flipBookTestFragment" />
+        <argument
+            android:name="data"
+            app:argType="com.example.kessekolah.data.database.MateriData" />
     </fragment>
     <fragment
         android:id="@+id/detailMateriFragment"
@@ -146,4 +155,10 @@
         android:name="com.example.kessekolah.ui.sign.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login"/>
+
+    <fragment
+        android:id="@+id/noServiceFragment"
+        android:name="com.example.kessekolah.ui.NoServiceFragment"
+        android:label="fragment_no_service"
+        tools:layout="@layout/fragment_no_service"/>
 </navigation>

@@ -38,7 +38,7 @@
 
     <style name="Theme.IniDesakuBeta.Text.Headline4" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/light2</item>
+        <item name="android:textColor">?attr/colorSurface</item>
         <item name="android:fontFamily">@font/fredoka_bold</item>
     </style>
 

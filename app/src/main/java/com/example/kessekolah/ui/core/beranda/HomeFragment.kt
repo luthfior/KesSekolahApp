@@ -117,8 +117,23 @@ class HomeFragment : Fragment() {
                             Log.i("BUTTON CLICK", data)
                         }
                         "Video" -> {
-                            val action = HomeFragmentDirections.actionHomeFragment2ToFlipBookTestFragment(dataFirst)
-                            findNavController().navigate(action)
+                            findNavController().navigate(R.id.action_homeFragment2_to_noServiceFragment)
+                            Log.i("BUTTON CLICK", data)
+                        }
+                        "Tanya Jawab" -> {
+                            findNavController().navigate(R.id.action_homeFragment2_to_noServiceFragment)
+                            Log.i("BUTTON CLICK", data)
+                        }
+                        "Forum" -> {
+                            findNavController().navigate(R.id.action_homeFragment2_to_noServiceFragment)
+                            Log.i("BUTTON CLICK", data)
+                        }
+                        "Tanya Ahli" -> {
+                            findNavController().navigate(R.id.action_homeFragment2_to_noServiceFragment)
+                            Log.i("BUTTON CLICK", data)
+                        }
+                        "E-Book" -> {
+                            findNavController().navigate(R.id.action_homeFragment2_to_noServiceFragment)
                             Log.i("BUTTON CLICK", data)
                         }
                     }
@@ -130,7 +145,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupVideoBanner(videoList: List<Int>) {
-        val listBannerVideoAdapter = VideoListAdapterCore()
+        val listBannerVideoAdapter = VideoListAdapterCore(this)
 
         binding.rvBannerVideo.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvBannerVideo.adapter = listBannerVideoAdapter
@@ -139,7 +154,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupEbookBanner(videoList: List<Int>) {
-        val listBannerEbookAdapter = EbookListAdapterCore()
+        val listBannerEbookAdapter = EbookListAdapterCore(this)
 
         binding.rvBannerEbook.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvBannerEbook.adapter = listBannerEbookAdapter

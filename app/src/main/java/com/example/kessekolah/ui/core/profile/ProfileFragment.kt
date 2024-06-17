@@ -74,9 +74,20 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_tentangSekolahFragment)
         }
 
+        btnChangePassword.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_noServiceFragment)
+        }
+
+        btnVerifikasiEmail.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_noServiceFragment)
+        }
+
+        btnPusatBantuan.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_noServiceFragment)
+        }
+
         btnKeluar.setOnClickListener {
             preference.removeData()
-
             findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
     }

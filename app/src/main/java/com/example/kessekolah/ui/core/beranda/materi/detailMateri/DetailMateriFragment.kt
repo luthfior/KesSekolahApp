@@ -101,9 +101,12 @@ class DetailMateriFragment : Fragment() {
     }
 
     private fun displayPdf(fileUrl: String) {
+        binding.loadingProgressBar.visibility = View.VISIBLE
+
         binding.pdfView.statusListener = object : PdfRendererView.StatusCallBack {
             override fun onPdfLoadStart() {
                 Log.i("statusCallBack", "onPdfLoadStart")
+                binding.loadingProgressBar.visibility = View.VISIBLE
             }
 
             override fun onPdfLoadProgress(
@@ -116,10 +119,13 @@ class DetailMateriFragment : Fragment() {
 
             override fun onPdfLoadSuccess(absolutePath: String) {
                 Log.i("statusCallBack", "onPdfLoadSuccess")
+                binding.loadingProgressBar.visibility = View.GONE
             }
 
             override fun onError(error: Throwable) {
                 Log.i("statusCallBack", "onError")
+                binding.loadingProgressBar.visibility = View.GONE
+                Toast.makeText(requireContext(), "Failed to load PDF", Toast.LENGTH_SHORT).show()
             }
 
             override fun onPageChanged(currentPage: Int, totalPage: Int) {

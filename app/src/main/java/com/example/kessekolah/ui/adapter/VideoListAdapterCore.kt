@@ -2,12 +2,15 @@ package com.example.kessekolah.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kessekolah.R
 import com.example.kessekolah.databinding.ItemBannerVideoBinding
 
-class VideoListAdapterCore :
+class VideoListAdapterCore(private val fragment: Fragment) :
     ListAdapter<Int, VideoListAdapterCore.ListViewHolder>(VideoListDiffCallback()) {
 
     class ListViewHolder(var binding: ItemBannerVideoBinding) : RecyclerView.ViewHolder(binding.root)
@@ -25,6 +28,10 @@ class VideoListAdapterCore :
             backColorBanner.setBackgroundResource(drawableRes)
              textNews.text = ""
              ilusBanner.setImageDrawable(null)
+
+            holder.itemView.setOnClickListener {
+                fragment.findNavController().navigate(R.id.action_homeFragment2_to_noServiceFragment)
+            }
         }
     }
 }
