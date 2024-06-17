@@ -79,6 +79,10 @@
         <action
             android:id="@+id/action_homeFragment2_to_flipBookTestFragment"
             app:destination="@id/flipBookTestFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment2_to_searchMateriFragment"
+            app:destination="@id/searchMateriFragment" />
     </fragment>
     <fragment
         android:id="@+id/listMateriFragment"
@@ -130,6 +134,7 @@
         android:name="com.example.kessekolah.ui.core.beranda.materi.detailMateri.FlipBookTestFragment"
         android:label="fragment_flip_book_test"
         tools:layout="@layout/fragment_flip_book_test" >
+
         <argument
             android:name="materi"
             app:argType="com.example.kessekolah.data.database.MateriData" />
@@ -154,4 +159,23 @@
         android:name="com.example.kessekolah.ui.sign.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login"/>
+
+    <fragment
+        android:id="@+id/noServiceFragment"
+        android:name="com.example.kessekolah.ui.NoServiceFragment"
+        android:label="fragment_no_service"
+        tools:layout="@layout/fragment_no_service"/>
+
+    <fragment
+        android:id="@+id/searchMateriFragment"
+        android:name="com.example.kessekolah.ui.core.beranda.materi.searchMateri.SearchMateriFragment"
+        android:label="fragment_search_materi"
+        tools:layout="@layout/fragment_search_materi" >
+        <action
+            android:id="@+id/action_searchMateriFragment_to_flipBookTestFragment"
+            app:destination="@id/flipBookTestFragment" />
+        <action
+            android:id="@+id/action_searchMateriFragment_to_editMateriFragment"
+            app:destination="@id/editMateriFragment" />
+    </fragment>
 </navigation>
