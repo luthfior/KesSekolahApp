@@ -6,9 +6,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class LoginData(
     val token: String?,
-    val name: String?,
+    var name: String?,
     val email: String?,
     val role: String?,
-    val profilePicture: String?,
+    var profilePicture: String?,
     val isLogin: Boolean
 ):Parcelable

@@ -18,16 +18,14 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light2"
+            android:background="?attr/colorSurface"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/baseline_arrow_back_ios_24"
             app:title="List Materi"
             app:titleTextAppearance="@style/Theme.IniDesakuBeta.Text.NavbarTitlee"
             app:titleCentered="true">
 
-
         </com.google.android.material.appbar.MaterialToolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView

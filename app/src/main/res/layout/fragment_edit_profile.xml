@@ -18,7 +18,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light2"
+            android:background="?attr/colorSurface"
             app:navigationIcon="@drawable/baseline_arrow_back_ios_24"
             app:title="Edit Profile"
             app:titleTextAppearance="@style/Theme.IniDesakuBeta.Text.NavbarTitlee"
@@ -39,7 +39,8 @@
         android:layout_marginTop="32dp"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/customImageViewCircle"
-        tools:src="@tools:sample/avatars"/>
+        tools:src="@tools:sample/avatars"
+        android:contentDescription="@string/image_preview"/>
 
     <TextView
         android:id="@+id/tvKlickToUpload"
@@ -60,7 +61,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
         android:textAlignment="center"
-        android:hint="@string/dummy_nama"
         app:boxCornerRadiusBottomEnd="8dp"
         app:layout_constraintEnd_toEndOf="@id/tvKlickToUpload"
         app:layout_constraintStart_toStartOf="@id/tvKlickToUpload"

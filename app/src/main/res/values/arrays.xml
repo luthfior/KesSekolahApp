@@ -20,4 +20,12 @@
             Dengan menggunakan basis mobile, KesSekolah menawarkan pembelajaran yang fleksibel. Hal ini membuat proses pembelajaran lebih mudah diakses di mana saja dan kapan saja oleh guru, siswa, dan petugas UKS. Ini menjadi inovasi dalam teknologi pendidikan dengan mengembangkan sistem informasi terkait UKS sebagai upaya menurunkan angka kesakitan pada siswa sejak dini serta mendukung program pemerintah.
         </item>
     </string-array>
+    <string-array name="onboarding_deskripsi">
+        <item>
+            Selamat Datang!
+        </item>
+        <item>
+            KesSekolah adalah pembelajaran kesehatan yang bisa diakses kapan pun dan di mana pun!
+        </item>
+    </string-array>
 </resources>

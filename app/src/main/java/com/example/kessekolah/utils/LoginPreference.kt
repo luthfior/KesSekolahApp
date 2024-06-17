@@ -42,4 +42,23 @@ class LoginPreference(context: Context) {
         editor.apply()
     }
 
+    fun getRememberMeStatus(): Boolean {
+        return preference.getBoolean("rememberMe", false)
+    }
+
+    fun setRememberMeStatus(status: Boolean) {
+        val editor = preference.edit()
+        editor.putBoolean("rememberMe", status)
+        editor.apply()
+    }
+
+    fun setUserEmail(email: String) {
+        val editor = preference.edit()
+        editor.putString("emailRememberMe", email)
+        editor.apply()
+    }
+
+    fun getUserEmail(): String {
+        return preference.getString("emailRememberMe", "") ?: ""
+    }
 }

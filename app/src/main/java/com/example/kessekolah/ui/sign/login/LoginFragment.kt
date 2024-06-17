@@ -41,15 +41,13 @@ import kotlin.properties.Delegates
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
-
+    private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
     private val database = FirebaseDatabase.getInstance().getReference("users")
-
-    private val binding get() = _binding!!
-
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var pref: LoginPreference
+    private var rememberMeStatus: Boolean = false
     private lateinit var getUserEmail: String
     private lateinit var getUserName: String
     private lateinit var getUserRole: String
@@ -91,6 +89,14 @@ class LoginFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
         pref = LoginPreference(requireContext())
+        rememberMeStatus = pref.getRememberMeStatus()
+        binding.inForm.checkBoxRemember.isChecked = rememberMeStatus
+
+        if (rememberMeStatus) {
+            getUserEmail = pref.getUserEmail()
+            binding.inForm.textUsername.setText(getUserEmail)
+            usernameErrorData = false
+        }
 
         binding.inForm.btnDaftar.setOnClickListener {
             findNavController().navigate(
@@ -102,6 +108,7 @@ class LoginFragment : Fragment() {
         textListener()
         buttonCLick()
     }
+
 
     private fun textListener() {
         with(binding.inForm) {
@@ -214,9 +221,11 @@ class LoginFragment : Fragment() {
 
                                         saveUserData(loginData)
 
-                                        findNavController().navigate(
-                                            R.id.action_loginFragment_to_homeActivity
-                                        )
+                                        if (::successDialog.isInitialized && successDialog.isShowing) {
+                                            successDialog.dismiss()
+                                        }
+
+                                        findNavController().navigate(R.id.action_loginFragment_to_homeActivity)
 
                                         requireActivity().finish()
                                     }
@@ -230,7 +239,6 @@ class LoginFragment : Fragment() {
                         } else {
                             showErrorDialog(getString(R.string.user_has_not_found))
                             Log.d("LoginFragment", "User tidak ditemukan")
-//                            Toast.makeText(requireContext(), "User tidak ditemukan", Toast.LENGTH_SHORT).show()
                         }
                     }
                     is ResponseMessage.Error -> {
@@ -246,6 +254,17 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+            val isChecked = binding.inForm.checkBoxRemember.isChecked
+            pref.setRememberMeStatus(isChecked)
+            if (isChecked) {
+                pref.setUserEmail(email)
+            } else {
+                pref.setUserEmail("")
+            }
+        }
+
+        binding.inForm.btnForgotPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_forgetPasswordFragment)
         }
     }
 
@@ -276,7 +295,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun showErrorDialog(message: String) {
-        successDialog.dismiss()
+        if (::successDialog.isInitialized && successDialog.isShowing) {
+            successDialog.dismiss()
+        }
         successDialog = Dialog(requireContext()).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(R.layout.loading_effect_layout)
@@ -305,9 +326,12 @@ class LoginFragment : Fragment() {
 
         lifecycleScope.launch {
             delay(3000)
-            successDialog.dismiss()
+            if (::successDialog.isInitialized && successDialog.isShowing) {
+                successDialog.dismiss()
+            }
         }
     }
+
 
     private fun showLoading() {
         progressBar.visibility = View.VISIBLE
@@ -320,5 +344,13 @@ class LoginFragment : Fragment() {
     private fun saveUserData(user: LoginData) {
         loginViewModel.saveUser(user)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::successDialog.isInitialized && successDialog.isShowing) {
+            successDialog.dismiss()
+        }
+    }
+
 
 }

@@ -14,16 +14,16 @@
             android:id="@+id/bannerProfile"
             android:layout_width="0dp"
             android:layout_height="216dp"
-            android:background="@color/font100"
+            android:background="?attr/colorSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgAvatar"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="40dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="48dp"
                 android:layout_marginTop="76dp"
                 android:background="@color/grey"
                 android:src="@drawable/logo_app"
@@ -71,6 +71,26 @@
                 android:theme="@style/Theme.IniDesakuBeta.Text.Subtitle1Black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgBottomLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo_app_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="-64dp"
+                android:layout_marginStart="-16dp"/>
+
+            <ImageView
+                android:id="@+id/imgTopRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo_app_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="-69dp"
+                android:layout_marginTop="-90dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

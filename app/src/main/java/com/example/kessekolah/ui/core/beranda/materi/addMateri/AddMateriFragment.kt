@@ -132,19 +132,17 @@ class AddMateriFragment : Fragment() {
             if (task.isSuccessful) {
                 var highestId = 0
                 for (childSnapshot in task.result.children) {
-                    val id = childSnapshot.key // Key adalah ID Firebase
+                    val id = childSnapshot.key
                     if (id != null) {
-                        val currentId = id.toIntOrNull() ?: continue // Convert ID ke Int, lanjut jika gagal
+                        val currentId = id.toIntOrNull() ?: continue
                         if (currentId > highestId) {
                             highestId = currentId
                         }
                     }
                 }
 
-                // Step 2: Tambahkan 1 ke ID tertinggi
                 val newId = highestId + 1
 
-                // Step 3: Upload file dan simpan data dengan ID baru
                 val fileId = UUID.randomUUID().toString()
                 val fileRef = storage.child("materi/${user.uid}/$fileId.pdf")
 

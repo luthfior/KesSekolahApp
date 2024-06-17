@@ -11,7 +11,7 @@
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="30dp"
         android:orientation="vertical"
         android:gravity="center">
@@ -23,7 +23,7 @@
             android:background="@drawable/logo_app" />
 
         <TextView
-            android:id="@+id/onBoardingAppName"
+            android:id="@+id/onBoardingHeader1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
@@ -35,7 +35,7 @@
             android:lineHeight="30sp"/>
 
         <TextView
-            android:id="@+id/onBoardingDescription"
+            android:id="@+id/onBoardingHeader2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -51,7 +51,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:background="@drawable/image_onboarding" />
+            android:src="@drawable/image_onboarding2" />
+
+        <TextView
+            android:id="@+id/onBoardingDescription"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:text="Selamat Datang!"
+            android:textAlignment="center"
+            android:textColor="#C8611D"
+            android:textSize="31sp"
+            android:fontFamily="@font/fredoka_bold"
+            android:layout_marginTop="28dp"/>
 
     </LinearLayout>
 
@@ -64,7 +75,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:paddingHorizontal="30dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="36dp"
         android:weightSum="16">
 
         <com.google.android.material.button.MaterialButton
@@ -73,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:backgroundTint="@color/primary3"
-            android:text="Yuk Belajar!"
+            android:text="Lanjut"
             android:textColor="@color/accent1"
             android:textAllCaps="false"
             app:cornerRadius="5dp"

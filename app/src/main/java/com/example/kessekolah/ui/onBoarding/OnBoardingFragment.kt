@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -24,6 +25,8 @@ class OnBoardingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var pref: LoginPreference
+    private var currentPage = 1
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +44,17 @@ class OnBoardingFragment : Fragment() {
 
         pref = LoginPreference(requireContext())
 
+        binding.btnNext.setOnClickListener {
+            if (currentPage < 2) {
+                currentPage++
+                setupOnBoardingPage(currentPage)
+            } else {
+                showPermissionDialog()
+            }
+        }
+    }
+
+    private fun showPermissionDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Internet Permission Required")
             .setMessage("This app requires permission to use the internet. Please allow internet access to continue.")
@@ -65,7 +79,7 @@ class OnBoardingFragment : Fragment() {
         if (!isInternetAvailable(requireContext())) {
             showInternetPermissionDialog()
         } else {
-            buttonClick()
+            navigateToLogin()
         }
     }
 
@@ -75,7 +89,6 @@ class OnBoardingFragment : Fragment() {
             .setMessage("This app requires an active internet connection. Please enable mobile data or Wi-Fi.")
             .setPositiveButton("Settings") { _, _ ->
                 startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-                buttonClick()
             }
             .setNegativeButton("Exit") { _, _ ->
                 requireActivity().finish()
@@ -84,12 +97,58 @@ class OnBoardingFragment : Fragment() {
             .show()
     }
 
-    private fun buttonClick() {
-        binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
+    private fun navigateToLogin() {
+        findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
+    }
+
+    private fun setupOnBoardingPage(page: Int) {
+        when (page) {
+            1 -> {
+                binding.onBoardingImageContent.setImageResource(R.drawable.image_onboarding2)
+                binding.onBoardingImageContent.invalidate() // Invalidate the view
+                binding.onBoardingDescription.text = "Selamat Datang!"
+                binding.onBoardingDescription.apply {
+                    textSize = 31f
+                    typeface = null
+                }
+            }
+            2 -> {
+                binding.btnNext.text = "Yuk Belajar!"
+                binding.onBoardingImageContent.setImageResource(R.drawable.image_onboarding)
+                binding.onBoardingDescription.text = "KesSekolah adalah pembelajaran kesehatan yang bisa diakses kapan pun dan di mana pun!"
+                binding.onBoardingDescription.apply {
+                    textSize = 16f
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val customFont = resources.getFont(R.font.fredoka_regular)
+                        typeface = customFont
+                    }
+                }
+            }
+            else -> {
+                binding.onBoardingImageContent.setImageResource(R.drawable.image_onboarding2)
+                binding.onBoardingDescription.text = "Selamat Datang!"
+                binding.onBoardingDescription.apply {
+                    textSize = 31f
+                    typeface = null
+                }
+            }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (currentPage > 1) {
+                    currentPage--
+                    setupOnBoardingPage(currentPage)
+                } else {
+                    requireActivity().finish()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+    }
 
     private fun setStatusBarTextColorGray() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -102,11 +161,9 @@ class OnBoardingFragment : Fragment() {
     private fun setStatusBarBackgroundColorWhite() {
         activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), android.R.color.white)
     }
+
     override fun onDestroy() {
         super.onDestroy()
-
         _binding = null
     }
-
-
 }
