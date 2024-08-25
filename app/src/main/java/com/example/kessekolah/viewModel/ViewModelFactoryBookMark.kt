@@ -26,7 +26,7 @@ class ViewModelFactoryBookMark(private val application: Application) : ViewModel
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(BookMarkViewModel::class.java)) {
-            return BookMarkViewModel(application) as T
+            return BookMarkViewModel() as T
         } else if (modelClass.isAssignableFrom(DetailMateriViewModel::class.java)) {
             return DetailMateriViewModel(application) as T
         }

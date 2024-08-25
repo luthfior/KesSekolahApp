@@ -87,7 +87,7 @@
 
     <style name="Theme.IniDesakuBeta.TextBold.Subtitle2Black" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/light4</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:fontFamily">@font/fredoka_regular</item>
     </style>
 

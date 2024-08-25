@@ -15,9 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kessekolah.R
 import com.example.kessekolah.data.database.MateriData
+import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentDetailMateriBinding
 import com.example.kessekolah.model.ListMateriViewModel
 import com.example.kessekolah.ui.adapter.BannerDetailMateriAdapter
+import com.example.kessekolah.utils.LoginPreference
 import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
 import com.rajat.pdfviewer.PdfRendererView
 
@@ -30,6 +32,7 @@ class DetailMateriFragment : Fragment() {
 
     private var materiBookMark: MateriData? = null
     private var isFavorite: Boolean = false
+    private lateinit var dataLogin: LoginData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +50,8 @@ class DetailMateriFragment : Fragment() {
         }
 
         val vmFactory = ViewModelFactoryBookMark.getInstance(requireActivity().application)
+
+        dataLogin = LoginPreference(requireContext()).getData()
 
         viewModel = ViewModelProvider(
             requireActivity(),
@@ -76,12 +81,13 @@ class DetailMateriFragment : Fragment() {
                     if (!isFavorite) {
                         isFavorite = true
                         item.setIcon(R.drawable.baseline_bookmark_24)
-                        viewModel.insertMateriBookMark(materiBookMark!!)
+//                        viewModel.insertMateriBookMark(materiBookMark!!)
+                        viewModel.addBookmarkToFirebase(dataLogin.token!!, materiBookMark!!)
                         Toast.makeText(requireContext(), "Berhasil menambahkan ke Bookmark", Toast.LENGTH_SHORT).show()
                     } else {
                         isFavorite = false
                         item.setIcon(R.drawable.baseline_bookmark_border_24)
-                        viewModel.deleteMateriBookMark(materiBookMark!!.id)
+//                        viewModel.deleteMateriBookMark(materiBookMark!!.id)
                         Toast.makeText(requireContext(), "Menghapus dari Bookmark", Toast.LENGTH_SHORT).show()
                     }
                     true

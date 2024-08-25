@@ -6,24 +6,6 @@
     app:startDestination="@id/homeFragment2">
 
     <fragment
-        android:id="@+id/bookMarkFragment"
-        android:name="com.example.kessekolah.ui.core.bookmark.BookMarkFragment"
-        android:label="fragment_book_mark"
-        tools:layout="@layout/fragment_book_mark">
-
-        <action
-            android:id="@+id/action_homeFragment_to_addMateriFragment"
-            app:destination="@id/addMateriFragment" />
-
-        <action
-            android:id="@+id/action_bookMarkFragment_to_detailMateriFragment"
-            app:destination="@id/detailMateriFragment" />
-
-        <argument
-            android:name="data"
-            app:argType="com.example.kessekolah.data.database.MateriData" />
-    </fragment>
-    <fragment
         android:id="@+id/notifFragment"
         android:name="com.example.kessekolah.ui.core.notif.NotifFragment"
         android:label="fragment_notif"
@@ -66,16 +48,9 @@
             app:destination="@id/addMateriFragment" />
 
         <action
-            android:id="@+id/action_homeFragment2_to_detailMateriFragment"
-            app:destination="@id/detailMateriFragment" />
-
-        <action
             android:id="@+id/action_homeFragment2_to_noServiceFragment"
             app:destination="@id/noServiceFragment" />
 
-        <argument
-            android:name="data"
-            app:argType="com.example.kessekolah.data.database.MateriData" />
         <action
             android:id="@+id/action_homeFragment2_to_flipBookTestFragment"
             app:destination="@id/flipBookTestFragment" />
@@ -83,6 +58,10 @@
         <action
             android:id="@+id/action_homeFragment2_to_searchMateriFragment"
             app:destination="@id/searchMateriFragment" />
+
+        <argument
+            android:name="data"
+            app:argType="com.example.kessekolah.data.database.MateriData" />
     </fragment>
     <fragment
         android:id="@+id/listMateriFragment"
@@ -96,9 +75,6 @@
             android:id="@+id/action_listMateriFragment_to_editMateriFragment"
             app:destination="@id/editMateriFragment" />
         <action
-            android:id="@+id/action_listMateriFragment_to_detailMateriFragment"
-            app:destination="@id/detailMateriFragment" />
-        <action
             android:id="@+id/action_listMateriFragment_to_flipBookTestFragment"
             app:destination="@id/flipBookTestFragment" />
         <argument
@@ -106,10 +82,18 @@
             app:argType="com.example.kessekolah.data.database.MateriData" />
     </fragment>
     <fragment
-        android:id="@+id/detailMateriFragment"
-        android:name="com.example.kessekolah.ui.core.beranda.materi.detailMateri.DetailMateriFragment"
-        android:label="fragment_detail_materi"
-        tools:layout="@layout/fragment_detail_materi" >
+        android:id="@+id/bookMarkFragment"
+        android:name="com.example.kessekolah.ui.core.bookmark.BookMarkFragment"
+        android:label="fragment_book_mark"
+        tools:layout="@layout/fragment_book_mark">
+
+        <action
+            android:id="@+id/action_bookMarkFragment_to_flipBookTestFragment"
+            app:destination="@id/flipBookTestFragment" />
+
+        <action
+            android:id="@+id/action_bookMarkFragment_to_searchFragment"
+            app:destination="@id/searchMateriFragment" />
 
         <argument
             android:name="data"

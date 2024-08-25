@@ -7,14 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,12 +22,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.kessekolah.R
 import com.example.kessekolah.data.database.MateriData
+import com.example.kessekolah.data.remote.LoginData
 import com.example.kessekolah.databinding.FragmentFlipBookTestBinding
+import com.example.kessekolah.model.BookMarkViewModel
 import com.example.kessekolah.model.ListMateriViewModel
-import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer2
 import com.example.kessekolah.ui.adapter.ScreenSlideRecyclerAdapter
-import com.example.kessekolah.ui.core.beranda.materi.editMateri.EditMateriFragmentArgs
+import com.example.kessekolah.utils.LoginPreference
 import com.example.kessekolah.viewModel.ViewModelFactoryBookMark
+import com.wajahatkarim3.easyflipviewpager.BookFlipPageTransformer2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -46,9 +48,11 @@ class FlipBookTestFragment : Fragment() {
     private lateinit var data: MateriData
 
     private lateinit var viewModel: ListMateriViewModel
+    private lateinit var bookMarkViewModel: BookMarkViewModel
 
     private var materiBookMark: MateriData? = null
-    private var isFavorite: Boolean = false
+    private var isBookMarked = false
+    private lateinit var dataLogin: LoginData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +66,7 @@ class FlipBookTestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         data = args.materi
+        dataLogin = LoginPreference(requireContext()).getData()
 
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -74,33 +79,32 @@ class FlipBookTestFragment : Fragment() {
             vmFactory
         )[ListMateriViewModel::class.java]
 
+        bookMarkViewModel = ViewModelProvider(
+            requireActivity(),
+            vmFactory
+        )[BookMarkViewModel::class.java]
+
         if (data != null) {
             materiBookMark = data
         } else {
             Toast.makeText(requireContext(), "Data tidak tersedia", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.getFavoriteData().observe(viewLifecycleOwner) { materiBM ->
-            if (materiBM != null) {
-                isFavorite = materiBM.any { it.judul == data?.judul }
-                val bookmarkMenuItem = binding.topAppBar.menu.findItem(R.id.bookmark_bar)
-                bookmarkMenuItem.setIcon(if (isFavorite) R.drawable.baseline_bookmark_24 else R.drawable.baseline_bookmark_border_24)
-            }
-        }
+//        viewModel.getFavoriteData().observe(viewLifecycleOwner) { materiBM ->
+//            if (materiBM != null) {
+//                isFavorite = materiBM.any { it.judul == data?.judul }
+//                val bookmarkMenuItem = binding.topAppBar.menu.findItem(R.id.bookmark_bar)
+//                bookmarkMenuItem.setIcon(if (isFavorite) R.drawable.baseline_bookmark_24 else R.drawable.baseline_bookmark_border_24)
+//            }
+//        }
 
         binding.topAppBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.bookmark_bar -> {
-                    if (!isFavorite) {
-                        isFavorite = true
-                        item.setIcon(R.drawable.baseline_bookmark_24)
-                        viewModel.insertMateriBookMark(materiBookMark!!)
-                        Toast.makeText(requireContext(), "Berhasil menambahkan ke Bookmark", Toast.LENGTH_SHORT).show()
+                    if (isBookMarked) {
+                        removeBookmark()
                     } else {
-                        isFavorite = false
-                        item.setIcon(R.drawable.baseline_bookmark_border_24)
-                        viewModel.deleteMateriBookMark(materiBookMark!!.id)
-                        Toast.makeText(requireContext(), "Menghapus dari Bookmark", Toast.LENGTH_SHORT).show()
+                        addBookmark()
                     }
                     true
                 }
@@ -108,9 +112,11 @@ class FlipBookTestFragment : Fragment() {
             }
         }
 
+        checkIfBookmarked()
+
 //        bookFLip()
-        pdfToBitmap(data)
         setData()
+        pdfToBitmap(data)
     }
 
     private fun setData() = with(binding.bannerMateri) {
@@ -128,9 +134,9 @@ class FlipBookTestFragment : Fragment() {
     }
 
     private fun pdfToBitmap(data: MateriData) {
-        binding.loadingProgressBar.visibility = View.VISIBLE
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
+                binding.loadingProgressBar.visibility = View.VISIBLE
                 // Unduh file PDF di latar belakang
                 val pdfFile = withContext(Dispatchers.IO) {
                     downloadPdfFile(data.fileUrl)
@@ -163,14 +169,15 @@ class FlipBookTestFragment : Fragment() {
 
                 pdfRenderer.close()
 
+                binding.loadingProgressBar.visibility = View.GONE
+
                 // Gunakan bitmapList sesuai kebutuhan
-                bookFlip(bitmapList)
+                withContext(Dispatchers.Main) {
+                    bookFlip(bitmapList)
+                }
 
             } catch (ex: Exception) {
-                // Tangani error
                 Log.e("PDF TO BITMAP", ex.toString())
-            } finally {
-                binding.loadingProgressBar.visibility = View.GONE
             }
         }
     }
@@ -204,6 +211,43 @@ class FlipBookTestFragment : Fragment() {
         flipViewPager.setPageTransformer(bookTransformer)
         flipViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
+    }
+
+    private fun addBookmark() {
+        viewModel.addBookmarkToFirebase(dataLogin.token!!, data)
+        isBookMarked = true
+        updateBookmarkIcon()
+        Toast.makeText(requireContext(), "Bookmark added", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun removeBookmark() {
+        viewModel.removeBookmarkFromFirebase(dataLogin.token!!, data.judul)
+        isBookMarked = false
+        updateBookmarkIcon()
+        Toast.makeText(requireContext(), "Bookmark removed", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun checkIfBookmarked() {
+        bookMarkViewModel.getAllBookmarks(dataLogin.token!!)
+        bookMarkViewModel.bookmarks.observe(viewLifecycleOwner) { bookmarks ->
+            isBookMarked = bookmarks.any { it.judul == data.judul }
+            updateBookmarkIcon()
+        }
+    }
+
+    private fun updateBookmarkIcon() {
+        val bookmarkIcon = if (isBookMarked) R.drawable.baseline_bookmark_24 else R.drawable.baseline_bookmark_border_24
+        binding.topAppBar.menu.findItem(R.id.bookmark_bar)?.icon = ContextCompat.getDrawable(requireContext(), bookmarkIcon)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.nav_bar_bookmark, menu)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

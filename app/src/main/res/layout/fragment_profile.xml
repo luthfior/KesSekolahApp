@@ -283,6 +283,43 @@
             app:layout_constraintTop_toBottomOf="@id/dividerPusatBantuan" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutDarkMode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="24dp"
+            app:layout_constraintEnd_toEndOf="@id/btnPusatBantuan"
+            app:layout_constraintStart_toStartOf="@id/btnPusatBantuan"
+            app:layout_constraintTop_toBottomOf="@id/tvLainnya">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dark Mode"
+                android:theme="@style/Theme.IniDesakuBeta.Text.Headline6" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Switch
+                android:id="@+id/btnDarkMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:src="@drawable/ic_log_out" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dividerDarkMode"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/layoutDarkMode"
+            app:layout_constraintStart_toStartOf="@id/layoutDarkMode"
+            app:layout_constraintEnd_toEndOf="@id/layoutDarkMode"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/btnKeluar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -290,8 +327,8 @@
             android:paddingVertical="24dp"
             android:layout_marginBottom="180dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/dividerPusatBantuan"
-            app:layout_constraintTop_toBottomOf="@id/tvLainnya">
+            app:layout_constraintStart_toStartOf="@id/dividerDarkMode"
+            app:layout_constraintTop_toBottomOf="@id/dividerDarkMode">
 
             <TextView
                 android:layout_width="wrap_content"

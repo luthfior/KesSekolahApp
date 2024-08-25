@@ -145,7 +145,6 @@ class ListMateriFragment : Fragment() {
     private fun viewDataEmpty(isEmpty: Boolean) {
         with(binding) {
             if (isEmpty) imgDataEmpty.visibility = View.VISIBLE  else imgDataEmpty.visibility = View.GONE
-
         }
     }
 

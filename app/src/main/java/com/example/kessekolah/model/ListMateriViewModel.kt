@@ -21,6 +21,7 @@ class ListMateriViewModel(application: Application) : ViewModel() {
     val materiList: LiveData<List<MateriData>> = _materiList
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
+    private val dbUsers = FirebaseDatabase.getInstance().getReference("users")
 
     private val materiBookMarkRepository: MateriRepository = MateriRepository(application)
 
@@ -39,6 +40,8 @@ class ListMateriViewModel(application: Application) : ViewModel() {
                     val judul = fileSnapshot.child("judul").getValue(String::class.java) ?: ""
                     val timeStamp = fileSnapshot.child("timestamp").getValue(String::class.java) ?: ""
                     val tahun = fileSnapshot.child("tahun").getValue(String::class.java) ?: ""
+                    val category = fileSnapshot.child("category").getValue(String::class.java) ?: ""
+                    val uid = fileSnapshot.child("uid").getValue(String::class.java) ?: ""
                     val fileUrl = fileSnapshot.child("fileUrl").getValue(String::class.java) ?: ""
                     val backColorBanner = fileSnapshot.child("backColorBanner").getValue(String::class.java) ?: ""
                     val dataIcon = fileSnapshot.child("dataIlus").getValue(Int::class.java) ?: 0
@@ -46,11 +49,11 @@ class ListMateriViewModel(application: Application) : ViewModel() {
                         id = id,
                         judul = judul,
                         tahun = tahun,
-                        category = "Materi",
+                        category = category,
                         fileName = fileName,
                         fileUrl = fileUrl,
                         timestamp = timeStamp,
-                        uid = "",
+                        uid = uid,
                         dataIlus = dataIcon,
                         backColorBanner = backColorBanner
                     )
@@ -98,15 +101,42 @@ class ListMateriViewModel(application: Application) : ViewModel() {
         })
     }
 
-    fun insertMateriBookMark(materiBookMark: MateriData) {
-        materiBookMarkRepository.insertMateriBookMark(materiBookMark)
-    }
-
-    fun deleteMateriBookMark(id: Int) {
-        materiBookMarkRepository.deleteMateriBookMark(id)
-    }
-
+//    fun insertMateriBookMark(materiBookMark: MateriData) {
+//        materiBookMarkRepository.insertMateriBookMark(materiBookMark)
+//    }
+//
+//    fun deleteMateriBookMark(id: Int) {
+//        materiBookMarkRepository.deleteMateriBookMark(id)
+//    }
+//
     fun getFavoriteData(): LiveData<List<MateriData>> = materiBookMarkRepository.getAllFavorite()
+
+    fun addBookmarkToFirebase(userId: String, materiData: MateriData) {
+        dbUsers.child(userId).child("userBookmarkMateri").push()
+            .setValue(materiData)
+            .addOnSuccessListener {
+                Log.d("ListMateriViewModel", "Bookmark added to Firebase Database")
+            }
+            .addOnFailureListener { e ->
+                Log.e("ListMateriViewModel", "Error adding bookmark to Firebase Database", e)
+            }
+    }
+
+    fun removeBookmarkFromFirebase(userId: String, judul: String) {
+        dbUsers.child(userId).child("userBookmarkMateri")
+            .orderByChild("judul").equalTo(judul)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (bookmarkSnapshot in snapshot.children) {
+                        bookmarkSnapshot.ref.removeValue()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("ListMateriViewModel", "Error removing bookmark from Firebase Database", error.toException())
+                }
+            })
+    }
 
 }
 
