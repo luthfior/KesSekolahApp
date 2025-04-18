@@ -8,14 +8,6 @@ A mobile task management application built with:
 
 ---
 
-## 🔗 Demo Video
-
-[![Demo Video](https://img.youtube.com/vi/Mzo8fVJfrs4/0.jpg)](https://www.youtube.com/watch?v=Mzo8fVJfrs4)
-
-Click the thumbnail above to watch the demo on YouTube.
-
----
-
 ## 📸 Interface
 
 ![Image](https://github.com/abdulmajidrefindo/KesSekolah/blob/main/app/src/main/res/drawable/kes_sekolah_interface.png)
